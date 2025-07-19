@@ -75,22 +75,14 @@ static int assembly_assemble(lua_State* L) {
 		}
 	}
 
-	ZyanU8 encoded_instruction[ZYDIS_MAX_INSTRUCTION_LENGTH];
-	ZyanUSize encoded_length = sizeof(encoded_instruction);
+	ZyanUSize encoded_length;
 
-	if (ZYAN_FAILED(ZydisEncoderEncodeInstruction(&req, encoded_instruction, &encoded_length))) {
-		puts("Failed to encode instruction");
+	if (ZYAN_FAILED(ZydisEncoderEncodeInstruction(&req, dst, &encoded_length))) {
+		lua_pushnil(L);
 		return 1;
 	}
 
-	for (ZyanUSize i = 0; i < encoded_length; ++i) {
-		*(dst + i) = encoded_instruction[i];
-		//printf("%02X ", encoded_instruction[i]);
-	}
-	printf("\n");
-
 	lua_pushinteger(L, encoded_length);
-
 	return 1;
 }
 
