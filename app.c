@@ -43,6 +43,9 @@ lua_State* newvm()
 	luaopen_memory(L);
 	lua_setglobal(L, "memory");
 
+	luaopen_heap(L);
+	lua_setglobal(L, "heap");
+
 	luaopen_image(L);
 	lua_setglobal(L, "image");
 

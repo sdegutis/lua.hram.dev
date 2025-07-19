@@ -29,7 +29,7 @@ print('done in main')
 --]=]
 
 
-local h = memory.newheap(100, 1000)
+local h = heap.create(100, 1000)
 
 
 local m = memory.alloc(3*3*4, h)
