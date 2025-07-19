@@ -38,25 +38,6 @@ static lua_State* mvm;
 
 lua_State* newvm() {
 
-	// 4kb pages, 10mb reserved for user, starting at 0x10000
-	void* mem = VirtualAlloc(0x10000, 0x10000000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-
-	printf("reserved = %p\n", mem);
-
-	int i = 0;
-	*(PUINT)(0x10000 + i++) = 0x48;
-	*(PUINT)(0x10000 + i++) = 0x89;
-	*(PUINT)(0x10000 + i++) = 0xc8;
-	*(PUINT)(0x10000 + i++) = 0x48;
-	*(PUINT)(0x10000 + i++) = 0xff;
-	*(PUINT)(0x10000 + i++) = 0xc0;
-	*(PUINT)(0x10000 + i++) = 0xc3;
-
-	int res = ((int(*)(int))0x10000)(213);
-	printf("res = %d\n", res);
-
-
-
 	lua_State* L = luaL_newstate();
 
 	luaL_openlibs(L);
@@ -81,6 +62,23 @@ lua_State* newvm() {
 
 void boot() {
 	openConsole();
+
+	// 4kb pages, 10mb reserved for user, starting at 0x10000
+	void* mem = VirtualAlloc(0x10000, 0x10000000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+
+	printf("reserved = %p\n", mem);
+
+	int i = 0;
+	*(PUINT)(0x10000 + i++) = 0x48;
+	*(PUINT)(0x10000 + i++) = 0x89;
+	*(PUINT)(0x10000 + i++) = 0xc8;
+	*(PUINT)(0x10000 + i++) = 0x48;
+	*(PUINT)(0x10000 + i++) = 0xff;
+	*(PUINT)(0x10000 + i++) = 0xc0;
+	*(PUINT)(0x10000 + i++) = 0xc3;
+
+	int res = ((int(*)(int))0x10000)(213);
+	printf("res = %d\n", res);
 
 	//printf("s = %d\n", sizeof(Bit));
 	//printf("s = %d\n", sizeof(State));
