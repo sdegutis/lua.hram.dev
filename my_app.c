@@ -14,8 +14,6 @@
 #include "my_mutex.h"
 #include "my_assembly.h"
 
-#include <zydis/Zydis.h>
-
 int luaopen_lpeg(lua_State* L);
 
 static lua_State* mvm;
@@ -58,8 +56,6 @@ lua_State* newvm() {
 
 	return L;
 }
-
-#include <inttypes.h>
 
 void boot() {
 	openConsole();
@@ -109,7 +105,7 @@ void boot() {
 	DWORD size = SizeofResource(handle, rc);
 	const char* data = LockResource(rcData);
 
-	luaL_loadbuffer(mvm, data, size, "boot");
+	luaL_loadbuffer(mvm, data, size, "<boot>");
 	lua_pcallk(mvm, 0, 0, 0, 0, NULL);
 
 	PUINT8 bytes = 0x40000;
@@ -119,35 +115,6 @@ void boot() {
 
 	int res = ((int(*)(int))0x40000)(213);
 	printf("res = %d\n", res);
-
-
-
-	{
-		ZyanU8* data = 0x40000;
-
-		// The runtime address (instruction pointer) was chosen arbitrarily here in order to better 
-		// visualize relative addressing. In your actual program, set this to e.g. the memory address 
-		// that the code being disassembled was read from. 
-		ZyanU64 runtime_address = 0x40000;
-
-		// Loop over the instructions in our buffer. 
-		ZyanUSize offset = 0;
-		ZydisDisassembledInstruction instruction;
-		while (ZYAN_SUCCESS(ZydisDisassembleIntel(
-			/* machine_mode:    */ ZYDIS_MACHINE_MODE_LONG_64,
-			/* runtime_address: */ runtime_address,
-			/* buffer:          */ data + offset,
-			/* length:          */ sizeof(data) - offset,
-			/* instruction:     */ &instruction
-		))) {
-			printf("%016" PRIX64 "  %s\n", runtime_address, instruction.text);
-			offset += instruction.info.length;
-			runtime_address += instruction.info.length;
-		}
-	}
-
-
-
 
 }
 

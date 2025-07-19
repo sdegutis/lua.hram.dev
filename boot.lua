@@ -10,6 +10,13 @@ memory.copy(0x40000, 0x30000, 7)
 local res = assembly.exec(0x40000, 41)
 print("res = "..res)
 
+
+print('DISASM')
+local got = assembly.disassemble(0x40000, 7)
+print('START')
+print(got)
+print('END')
+
 --[=[
 m = mutex.create()
 
