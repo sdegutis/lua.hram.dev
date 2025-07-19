@@ -1796,6 +1796,13 @@ void addops(lua_State* L) {
 	lua_pushinteger(L, ZYDIS_MNEMONIC_XTEST); lua_setfield(L, -2, "xtest");
 }
 
+void addtypes(lua_State* L) {
+	lua_pushinteger(L, ZYDIS_OPERAND_TYPE_REGISTER); lua_setfield(L, -2, "reg");
+	lua_pushinteger(L, ZYDIS_OPERAND_TYPE_MEMORY); lua_setfield(L, -2, "mem");
+	lua_pushinteger(L, ZYDIS_OPERAND_TYPE_POINTER); lua_setfield(L, -2, "ptr");
+	lua_pushinteger(L, ZYDIS_OPERAND_TYPE_IMMEDIATE); lua_setfield(L, -2, "imm");
+}
+
 void addregs(lua_State* L) {
 	// General purpose registers  8-bit
 	lua_pushinteger(L, ZYDIS_REGISTER_AL); lua_setfield(L, -2, "al");
