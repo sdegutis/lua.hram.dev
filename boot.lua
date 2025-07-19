@@ -3,19 +3,19 @@ print(pcall(function()
 memory.copy(0x30000, "\x48\x89\xC8\x48\xFF\xC0\xC3")
 memory.copy(0x40000, 0x30000, 7)
 
-print("ops", assembly.ops)
-print("mov", assembly.ops.mov)
-print("regs", assembly.regs)
-print("rax", assembly.regs.rax)
-print("types", assembly.types)
-print("reg", assembly.types.reg)
-print("mem", assembly.types.mem)
-print("ptr", assembly.types.ptr)
-print("imm", assembly.types.imm)
+-- print("ops", assembly.ops)
+-- print("mov", assembly.ops.mov)
+-- print("regs", assembly.regs)
+-- print("rax", assembly.regs.rax)
+-- print("types", assembly.types)
+-- print("reg", assembly.types.reg)
+-- print("mem", assembly.types.mem)
+-- print("ptr", assembly.types.ptr)
+-- print("imm", assembly.types.imm)
 
-print('LICENSE START')
-print(memory.tostr(0x70000, 5))
-print('LICENSE END')
+-- print('LICENSE START')
+-- print(memory.tostr(0x70000, 5))
+-- print('LICENSE END')
 
 
 local len = assembly.assemble(
@@ -24,6 +24,21 @@ local len = assembly.assemble(
 	{assembly.types.reg, assembly.regs.rax},
 	{assembly.types.imm, 234}
 )
+print('LEN', len)
+print('LEN', 0x50000)
+
+---[[
+local len2 = assembly.assemble(
+	0x50000 + len,
+	assembly.ops.ret
+)
+print('LEN2', len2)
+
+for i=1,(len+len2) do
+	print('last',i, memory.read(0x50000+(i-1), 8))
+end
+
+--]]
 
 --local res = assembly.exec(0x40000, 41)
 --print("res = "..res)
@@ -33,7 +48,7 @@ print()
 print('DISASM')
 --local len = memory.read(0x60000, 64)
 print('len', len)
-local got = assembly.disassemble(0x50000, len)
+local got = assembly.disassemble(0x50000, len+len2)
 print('START')
 print(got)
 print('END')

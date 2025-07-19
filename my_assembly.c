@@ -61,7 +61,7 @@ static int assembly_assemble(lua_State* L) {
 			req.operands[i].mem.displacement = lua_tointeger(L, -1);
 			lua_rawgeti(L, 3 + i, 6);
 			req.operands[i].mem.size = lua_tointeger(L, -1);
-			lua_pop(L, 2);
+			lua_pop(L, 5);
 			break;
 
 		case ZYDIS_OPERAND_TYPE_IMMEDIATE:
@@ -76,7 +76,6 @@ static int assembly_assemble(lua_State* L) {
 	}
 
 	ZyanUSize encoded_length;
-
 	if (ZYAN_FAILED(ZydisEncoderEncodeInstruction(&req, dst, &encoded_length))) {
 		lua_pushnil(L);
 		return 1;
@@ -91,7 +90,6 @@ static int assembly_disassemble(lua_State* L) {
 	UINT64 size = luaL_checknumber(L, 2);
 
 	char buffer[256];
-
 	luaL_Buffer b;
 	luaL_buffinit(L, &b);
 
