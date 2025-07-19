@@ -182,6 +182,19 @@
     <ClCompile Include="my_thread.c" />
     <ClCompile Include="my_util.c" />
     <ClCompile Include="my_window.c" />
+    <ClCompile Include="zycore\src\Allocator.c" />
+    <ClCompile Include="zycore\src\API\Memory.c" />
+    <ClCompile Include="zycore\src\API\Process.c" />
+    <ClCompile Include="zycore\src\API\Synchronization.c" />
+    <ClCompile Include="zycore\src\API\Terminal.c" />
+    <ClCompile Include="zycore\src\API\Thread.c" />
+    <ClCompile Include="zycore\src\ArgParse.c" />
+    <ClCompile Include="zycore\src\Bitset.c" />
+    <ClCompile Include="zycore\src\Format.c" />
+    <ClCompile Include="zycore\src\List.c" />
+    <ClCompile Include="zycore\src\String.c" />
+    <ClCompile Include="zycore\src\Vector.c" />
+    <ClCompile Include="zycore\src\Zycore.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="my_app.h" />
@@ -228,6 +241,28 @@
     <ClInclude Include="my_thread.h" />
     <ClInclude Include="my_util.h" />
     <ClInclude Include="my_window.h" />
+    <ClInclude Include="zycore\Allocator.h" />
+    <ClInclude Include="zycore\API\Memory.h" />
+    <ClInclude Include="zycore\API\Process.h" />
+    <ClInclude Include="zycore\API\Synchronization.h" />
+    <ClInclude Include="zycore\API\Terminal.h" />
+    <ClInclude Include="zycore\API\Thread.h" />
+    <ClInclude Include="zycore\ArgParse.h" />
+    <ClInclude Include="zycore\Atomic.h" />
+    <ClInclude Include="zycore\Bitset.h" />
+    <ClInclude Include="zycore\Comparison.h" />
+    <ClInclude Include="zycore\Defines.h" />
+    <ClInclude Include="zycore\Format.h" />
+    <ClInclude Include="zycore\Internal\AtomicGNU.h" />
+    <ClInclude Include="zycore\Internal\AtomicMSVC.h" />
+    <ClInclude Include="zycore\LibC.h" />
+    <ClInclude Include="zycore\List.h" />
+    <ClInclude Include="zycore\Object.h" />
+    <ClInclude Include="zycore\Status.h" />
+    <ClInclude Include="zycore\String.h" />
+    <ClInclude Include="zycore\Types.h" />
+    <ClInclude Include="zycore\Vector.h" />
+    <ClInclude Include="zycore\Zycore.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

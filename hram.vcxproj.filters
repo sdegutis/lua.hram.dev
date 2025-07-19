@@ -22,35 +22,11 @@
     <Filter Include="Vendor\LPeg">
       <UniqueIdentifier>{123c93aa-1e0a-46f9-969b-47701f5182b3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vendor\Zycore">
+      <UniqueIdentifier>{8214b9ef-75ca-4ab6-989d-d1658cadf210}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="memory.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="mutex.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="screen.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="thread.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="window.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="app.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="image.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lua\lapi.c">
       <Filter>Vendor\Lua</Filter>
     </ClCompile>
@@ -165,32 +141,74 @@
     <ClCompile Include="lpeg\lpvm.c">
       <Filter>Vendor\LPeg</Filter>
     </ClCompile>
+    <ClCompile Include="my_app.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="my_assembly.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="my_image.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="my_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="my_memory.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="my_mutex.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="my_thread.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="my_util.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="my_window.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore\src\Allocator.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore\src\API\Memory.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore\src\API\Process.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore\src\API\Synchronization.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore\src\API\Terminal.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore\src\API\Thread.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore\src\ArgParse.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore\src\Bitset.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore\src\Format.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore\src\List.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore\src\String.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore\src\Vector.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore\src\Zycore.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="app.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="memory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="mutex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="screen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="thread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="util.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="lua\lapi.h">
       <Filter>Vendor\Lua</Filter>
     </ClInclude>
@@ -296,6 +314,99 @@
     <ClInclude Include="lpeg\lpvm.h">
       <Filter>Vendor\LPeg</Filter>
     </ClInclude>
+    <ClInclude Include="my_app.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="my_assembly.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="my_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="my_memory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="my_mutex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="my_thread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="my_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="my_window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\Allocator.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\API\Memory.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\API\Process.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\API\Synchronization.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\API\Terminal.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\API\Thread.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\ArgParse.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\Atomic.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\Bitset.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\Comparison.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\Defines.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\Format.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\Internal\AtomicGNU.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\Internal\AtomicMSVC.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\LibC.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\List.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\Object.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\Status.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\String.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\Types.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\Vector.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zycore\Zycore.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl">
@@ -304,5 +415,16 @@
     <FxCompile Include="PixelShader.hlsl">
       <Filter>Resource Files</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="hram.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="boot.lua" />
+    <None Include="mytextfi.bin">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
