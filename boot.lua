@@ -47,7 +47,7 @@ print('done in main')
 
 
 local m = 0x10000
-for i = 0,3*3*4-1 do memory.set(m+i, 8, math.random(0xff)-1) end
+for i = 0,3*3*4-1 do memory.write(m+i, 8, math.random(0xff)-1) end
 local img = image.create(m, 3, 3)
 
 image.copy(nil, img, 0, 0)

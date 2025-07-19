@@ -64,13 +64,15 @@ lua_State* newvm() {
 	return L;
 }
 
+void draw();
+
 void boot() {
 	openConsole();
 
 	// 4kb pages, 10mb reserved for user, starting at 0x10000
 	void* mem = VirtualAlloc(0x10000, 0x10000000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 
-
+	printf("draw = %p\n", draw);
 
 	struct State* state = 0x10000;
 	ZeroMemory(state, sizeof(*state));
@@ -109,6 +111,10 @@ void boot() {
 	for (int i = 0; i < 7; i++) {
 		printf("bytes[%d] = %d\n", i, bytes[i]);
 	}
+
+
+
+	//0x40000
 
 	int res = ((int(*)(int))0x40000)(213);
 	printf("res = %d\n", res);

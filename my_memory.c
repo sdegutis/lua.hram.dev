@@ -30,7 +30,7 @@ static int memory_copy(lua_State* L) {
 	return 0;
 }
 
-static int memory_get(lua_State* L) {
+static int memory_read(lua_State* L) {
 	lua_Integer mem = lua_tointeger(L, 1);
 	lua_Integer siz = lua_tointeger(L, 2);
 
@@ -55,7 +55,7 @@ static int memory_get(lua_State* L) {
 	return 1;
 }
 
-static int memory_set(lua_State* L) {
+static int memory_write(lua_State* L) {
 	void* mem = lua_tointeger(L, 1);
 	lua_Integer siz = lua_tointeger(L, 2);
 	lua_Integer val = lua_tointeger(L, 3);
@@ -82,10 +82,10 @@ static int memory_set(lua_State* L) {
 }
 
 static const luaL_Reg memorylib[] = {
-	{"get",  memory_get},
-	{"set",  memory_set},
-	{"fill", memory_fill},
-	{"copy", memory_copy},
+	{"read",  memory_read},
+	{"write", memory_write},
+	{"fill",  memory_fill},
+	{"copy",  memory_copy},
 	{NULL,NULL}
 };
 
