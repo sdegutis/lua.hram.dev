@@ -75,8 +75,8 @@ void testingthis() {
 void boot() {
 	openConsole();
 
-	// 4kb pages, 10mb reserved for user, starting at 0x10000
-	void* mem = VirtualAlloc(0x10000, 0x10000000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	// 4kb pages, 1mb reserved for user, starting at 0x10000
+	void* mem = VirtualAlloc(0x10000, 0x100000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 
 	printf("testingthis = %p\n", testingthis);
 	*((PUINT8)0x40000) = testingthis;

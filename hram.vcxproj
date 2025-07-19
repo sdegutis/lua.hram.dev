@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="my_app.c" />
+    <ClCompile Include="my_asmkeys.c" />
     <ClCompile Include="my_assembly.c" />
     <ClCompile Include="my_image.c" />
     <ClCompile Include="lpeg\lpcap.c" />
