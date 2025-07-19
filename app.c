@@ -19,18 +19,11 @@ static lua_State* mvm;
 
 
 //#pragma pack(push, 1)
-//
-//struct Bit {
-//	uint8_t bit : 1;
-//};
-//
 //struct State {
-//	uint8_t mousex;
-//	uint8_t mousey;
-//	Bit bits[256];
-//	uint8_t mousez;
+//	struct {
+//		UINT8 bit : 1;
+//	} bits[10];
 //};
-//
 //#pragma pack(pop)
 
 
@@ -80,8 +73,26 @@ void boot() {
 	int res = ((int(*)(int))0x10000)(213);
 	printf("res = %d\n", res);
 
-	//printf("s = %d\n", sizeof(Bit));
-	//printf("s = %d\n", sizeof(State));
+	//struct State* state = 0x10000;
+	//ZeroMemory(state, sizeof(*state));
+	//printf("sizeof state = %d\n", sizeof(struct State));
+
+	//printf("\n");
+	//for (int i = 0; i < 10; i++) {
+	//	printf("bit[%d] = %d\n", i, state->bits[i].bit);
+	//}
+
+	//state->bits[123].bit = 1;
+
+	//printf("\n");
+	//for (int i = 0; i < 10; i++) {
+	//	printf("bit[%d] = %d\n", i, state->bits[i].bit);
+	//}
+
+	////return;
+
+
+
 
 	mvm = newvm();
 
