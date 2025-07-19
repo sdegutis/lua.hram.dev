@@ -5,6 +5,8 @@ memory.copy(0x40000, 0x30000, 7)
 
 print("ops", assembly.ops)
 print("mov", assembly.ops.mov)
+print("regs", assembly.regs)
+print("rax", assembly.regs.rax)
 
 --local res = assembly.exec(0x40000, 41)
 --print("res = "..res)

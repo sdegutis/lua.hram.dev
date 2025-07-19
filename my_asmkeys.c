@@ -1,7 +1,7 @@
 #include <lua/lualib.h>
 #include <zydis/Zydis.h>
 
-void addkeys(lua_State* L) {
+void addops(lua_State* L) {
 	lua_pushinteger(L, ZYDIS_MNEMONIC_AAA); lua_setfield(L, -2, "aaa");
 	lua_pushinteger(L, ZYDIS_MNEMONIC_AAD); lua_setfield(L, -2, "aad");
 	lua_pushinteger(L, ZYDIS_MNEMONIC_AADD); lua_setfield(L, -2, "aadd");
@@ -1794,4 +1794,311 @@ void addkeys(lua_State* L) {
 	lua_pushinteger(L, ZYDIS_MNEMONIC_XSTORE); lua_setfield(L, -2, "xstore");
 	lua_pushinteger(L, ZYDIS_MNEMONIC_XSUSLDTRK); lua_setfield(L, -2, "xsusldtrk");
 	lua_pushinteger(L, ZYDIS_MNEMONIC_XTEST); lua_setfield(L, -2, "xtest");
+}
+
+void addregs(lua_State* L) {
+	// General purpose registers  8-bit
+	lua_pushinteger(L, ZYDIS_REGISTER_AL); lua_setfield(L, -2, "al");
+	lua_pushinteger(L, ZYDIS_REGISTER_CL); lua_setfield(L, -2, "cl");
+	lua_pushinteger(L, ZYDIS_REGISTER_DL); lua_setfield(L, -2, "dl");
+	lua_pushinteger(L, ZYDIS_REGISTER_BL); lua_setfield(L, -2, "bl");
+	lua_pushinteger(L, ZYDIS_REGISTER_AH); lua_setfield(L, -2, "ah");
+	lua_pushinteger(L, ZYDIS_REGISTER_CH); lua_setfield(L, -2, "ch");
+	lua_pushinteger(L, ZYDIS_REGISTER_DH); lua_setfield(L, -2, "dh");
+	lua_pushinteger(L, ZYDIS_REGISTER_BH); lua_setfield(L, -2, "bh");
+	lua_pushinteger(L, ZYDIS_REGISTER_SPL); lua_setfield(L, -2, "spl");
+	lua_pushinteger(L, ZYDIS_REGISTER_BPL); lua_setfield(L, -2, "bpl");
+	lua_pushinteger(L, ZYDIS_REGISTER_SIL); lua_setfield(L, -2, "sil");
+	lua_pushinteger(L, ZYDIS_REGISTER_DIL); lua_setfield(L, -2, "dil");
+	lua_pushinteger(L, ZYDIS_REGISTER_R8B); lua_setfield(L, -2, "r8b");
+	lua_pushinteger(L, ZYDIS_REGISTER_R9B); lua_setfield(L, -2, "r9b");
+	lua_pushinteger(L, ZYDIS_REGISTER_R10B); lua_setfield(L, -2, "r10b");
+	lua_pushinteger(L, ZYDIS_REGISTER_R11B); lua_setfield(L, -2, "r11b");
+	lua_pushinteger(L, ZYDIS_REGISTER_R12B); lua_setfield(L, -2, "r12b");
+	lua_pushinteger(L, ZYDIS_REGISTER_R13B); lua_setfield(L, -2, "r13b");
+	lua_pushinteger(L, ZYDIS_REGISTER_R14B); lua_setfield(L, -2, "r14b");
+	lua_pushinteger(L, ZYDIS_REGISTER_R15B); lua_setfield(L, -2, "r15b");
+
+	// General purpose registers 16-bit
+	lua_pushinteger(L, ZYDIS_REGISTER_AX); lua_setfield(L, -2, "ax");
+	lua_pushinteger(L, ZYDIS_REGISTER_CX); lua_setfield(L, -2, "cx");
+	lua_pushinteger(L, ZYDIS_REGISTER_DX); lua_setfield(L, -2, "dx");
+	lua_pushinteger(L, ZYDIS_REGISTER_BX); lua_setfield(L, -2, "bx");
+	lua_pushinteger(L, ZYDIS_REGISTER_SP); lua_setfield(L, -2, "sp");
+	lua_pushinteger(L, ZYDIS_REGISTER_BP); lua_setfield(L, -2, "bp");
+	lua_pushinteger(L, ZYDIS_REGISTER_SI); lua_setfield(L, -2, "si");
+	lua_pushinteger(L, ZYDIS_REGISTER_DI); lua_setfield(L, -2, "di");
+	lua_pushinteger(L, ZYDIS_REGISTER_R8W); lua_setfield(L, -2, "r8w");
+	lua_pushinteger(L, ZYDIS_REGISTER_R9W); lua_setfield(L, -2, "r9w");
+	lua_pushinteger(L, ZYDIS_REGISTER_R10W); lua_setfield(L, -2, "r10w");
+	lua_pushinteger(L, ZYDIS_REGISTER_R11W); lua_setfield(L, -2, "r11w");
+	lua_pushinteger(L, ZYDIS_REGISTER_R12W); lua_setfield(L, -2, "r12w");
+	lua_pushinteger(L, ZYDIS_REGISTER_R13W); lua_setfield(L, -2, "r13w");
+	lua_pushinteger(L, ZYDIS_REGISTER_R14W); lua_setfield(L, -2, "r14w");
+	lua_pushinteger(L, ZYDIS_REGISTER_R15W); lua_setfield(L, -2, "r15w");
+
+	// General purpose registers 32-bit
+	lua_pushinteger(L, ZYDIS_REGISTER_EAX); lua_setfield(L, -2, "eax");
+	lua_pushinteger(L, ZYDIS_REGISTER_ECX); lua_setfield(L, -2, "ecx");
+	lua_pushinteger(L, ZYDIS_REGISTER_EDX); lua_setfield(L, -2, "edx");
+	lua_pushinteger(L, ZYDIS_REGISTER_EBX); lua_setfield(L, -2, "ebx");
+	lua_pushinteger(L, ZYDIS_REGISTER_ESP); lua_setfield(L, -2, "esp");
+	lua_pushinteger(L, ZYDIS_REGISTER_EBP); lua_setfield(L, -2, "ebp");
+	lua_pushinteger(L, ZYDIS_REGISTER_ESI); lua_setfield(L, -2, "esi");
+	lua_pushinteger(L, ZYDIS_REGISTER_EDI); lua_setfield(L, -2, "edi");
+	lua_pushinteger(L, ZYDIS_REGISTER_R8D); lua_setfield(L, -2, "r8d");
+	lua_pushinteger(L, ZYDIS_REGISTER_R9D); lua_setfield(L, -2, "r9d");
+	lua_pushinteger(L, ZYDIS_REGISTER_R10D); lua_setfield(L, -2, "r10d");
+	lua_pushinteger(L, ZYDIS_REGISTER_R11D); lua_setfield(L, -2, "r11d");
+	lua_pushinteger(L, ZYDIS_REGISTER_R12D); lua_setfield(L, -2, "r12d");
+	lua_pushinteger(L, ZYDIS_REGISTER_R13D); lua_setfield(L, -2, "r13d");
+	lua_pushinteger(L, ZYDIS_REGISTER_R14D); lua_setfield(L, -2, "r14d");
+	lua_pushinteger(L, ZYDIS_REGISTER_R15D); lua_setfield(L, -2, "r15d");
+
+	// General purpose registers 64-bit
+	lua_pushinteger(L, ZYDIS_REGISTER_RAX); lua_setfield(L, -2, "rax");
+	lua_pushinteger(L, ZYDIS_REGISTER_RCX); lua_setfield(L, -2, "rcx");
+	lua_pushinteger(L, ZYDIS_REGISTER_RDX); lua_setfield(L, -2, "rdx");
+	lua_pushinteger(L, ZYDIS_REGISTER_RBX); lua_setfield(L, -2, "rbx");
+	lua_pushinteger(L, ZYDIS_REGISTER_RSP); lua_setfield(L, -2, "rsp");
+	lua_pushinteger(L, ZYDIS_REGISTER_RBP); lua_setfield(L, -2, "rbp");
+	lua_pushinteger(L, ZYDIS_REGISTER_RSI); lua_setfield(L, -2, "rsi");
+	lua_pushinteger(L, ZYDIS_REGISTER_RDI); lua_setfield(L, -2, "rdi");
+	lua_pushinteger(L, ZYDIS_REGISTER_R8); lua_setfield(L, -2, "r8");
+	lua_pushinteger(L, ZYDIS_REGISTER_R9); lua_setfield(L, -2, "r9");
+	lua_pushinteger(L, ZYDIS_REGISTER_R10); lua_setfield(L, -2, "r10");
+	lua_pushinteger(L, ZYDIS_REGISTER_R11); lua_setfield(L, -2, "r11");
+	lua_pushinteger(L, ZYDIS_REGISTER_R12); lua_setfield(L, -2, "r12");
+	lua_pushinteger(L, ZYDIS_REGISTER_R13); lua_setfield(L, -2, "r13");
+	lua_pushinteger(L, ZYDIS_REGISTER_R14); lua_setfield(L, -2, "r14");
+	lua_pushinteger(L, ZYDIS_REGISTER_R15); lua_setfield(L, -2, "r15");
+
+	// Floating point legacy registers
+	lua_pushinteger(L, ZYDIS_REGISTER_ST0); lua_setfield(L, -2, "st0");
+	lua_pushinteger(L, ZYDIS_REGISTER_ST1); lua_setfield(L, -2, "st1");
+	lua_pushinteger(L, ZYDIS_REGISTER_ST2); lua_setfield(L, -2, "st2");
+	lua_pushinteger(L, ZYDIS_REGISTER_ST3); lua_setfield(L, -2, "st3");
+	lua_pushinteger(L, ZYDIS_REGISTER_ST4); lua_setfield(L, -2, "st4");
+	lua_pushinteger(L, ZYDIS_REGISTER_ST5); lua_setfield(L, -2, "st5");
+	lua_pushinteger(L, ZYDIS_REGISTER_ST6); lua_setfield(L, -2, "st6");
+	lua_pushinteger(L, ZYDIS_REGISTER_ST7); lua_setfield(L, -2, "st7");
+	lua_pushinteger(L, ZYDIS_REGISTER_X87CONTROL); lua_setfield(L, -2, "x87control");
+	lua_pushinteger(L, ZYDIS_REGISTER_X87STATUS); lua_setfield(L, -2, "x87status");
+	lua_pushinteger(L, ZYDIS_REGISTER_X87TAG); lua_setfield(L, -2, "x87tag");
+
+	// Floating point multimedia registers
+	lua_pushinteger(L, ZYDIS_REGISTER_MM0); lua_setfield(L, -2, "mm0");
+	lua_pushinteger(L, ZYDIS_REGISTER_MM1); lua_setfield(L, -2, "mm1");
+	lua_pushinteger(L, ZYDIS_REGISTER_MM2); lua_setfield(L, -2, "mm2");
+	lua_pushinteger(L, ZYDIS_REGISTER_MM3); lua_setfield(L, -2, "mm3");
+	lua_pushinteger(L, ZYDIS_REGISTER_MM4); lua_setfield(L, -2, "mm4");
+	lua_pushinteger(L, ZYDIS_REGISTER_MM5); lua_setfield(L, -2, "mm5");
+	lua_pushinteger(L, ZYDIS_REGISTER_MM6); lua_setfield(L, -2, "mm6");
+	lua_pushinteger(L, ZYDIS_REGISTER_MM7); lua_setfield(L, -2, "mm7");
+
+	// Floating point vector registers 128-bit
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM0); lua_setfield(L, -2, "xmm0");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM1); lua_setfield(L, -2, "xmm1");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM2); lua_setfield(L, -2, "xmm2");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM3); lua_setfield(L, -2, "xmm3");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM4); lua_setfield(L, -2, "xmm4");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM5); lua_setfield(L, -2, "xmm5");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM6); lua_setfield(L, -2, "xmm6");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM7); lua_setfield(L, -2, "xmm7");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM8); lua_setfield(L, -2, "xmm8");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM9); lua_setfield(L, -2, "xmm9");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM10); lua_setfield(L, -2, "xmm10");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM11); lua_setfield(L, -2, "xmm11");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM12); lua_setfield(L, -2, "xmm12");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM13); lua_setfield(L, -2, "xmm13");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM14); lua_setfield(L, -2, "xmm14");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM15); lua_setfield(L, -2, "xmm15");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM16); lua_setfield(L, -2, "xmm16");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM17); lua_setfield(L, -2, "xmm17");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM18); lua_setfield(L, -2, "xmm18");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM19); lua_setfield(L, -2, "xmm19");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM20); lua_setfield(L, -2, "xmm20");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM21); lua_setfield(L, -2, "xmm21");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM22); lua_setfield(L, -2, "xmm22");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM23); lua_setfield(L, -2, "xmm23");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM24); lua_setfield(L, -2, "xmm24");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM25); lua_setfield(L, -2, "xmm25");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM26); lua_setfield(L, -2, "xmm26");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM27); lua_setfield(L, -2, "xmm27");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM28); lua_setfield(L, -2, "xmm28");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM29); lua_setfield(L, -2, "xmm29");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM30); lua_setfield(L, -2, "xmm30");
+	lua_pushinteger(L, ZYDIS_REGISTER_XMM31); lua_setfield(L, -2, "xmm31");
+
+	// Floating point vector registers 256-bit
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM0); lua_setfield(L, -2, "ymm0");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM1); lua_setfield(L, -2, "ymm1");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM2); lua_setfield(L, -2, "ymm2");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM3); lua_setfield(L, -2, "ymm3");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM4); lua_setfield(L, -2, "ymm4");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM5); lua_setfield(L, -2, "ymm5");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM6); lua_setfield(L, -2, "ymm6");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM7); lua_setfield(L, -2, "ymm7");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM8); lua_setfield(L, -2, "ymm8");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM9); lua_setfield(L, -2, "ymm9");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM10); lua_setfield(L, -2, "ymm10");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM11); lua_setfield(L, -2, "ymm11");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM12); lua_setfield(L, -2, "ymm12");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM13); lua_setfield(L, -2, "ymm13");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM14); lua_setfield(L, -2, "ymm14");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM15); lua_setfield(L, -2, "ymm15");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM16); lua_setfield(L, -2, "ymm16");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM17); lua_setfield(L, -2, "ymm17");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM18); lua_setfield(L, -2, "ymm18");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM19); lua_setfield(L, -2, "ymm19");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM20); lua_setfield(L, -2, "ymm20");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM21); lua_setfield(L, -2, "ymm21");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM22); lua_setfield(L, -2, "ymm22");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM23); lua_setfield(L, -2, "ymm23");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM24); lua_setfield(L, -2, "ymm24");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM25); lua_setfield(L, -2, "ymm25");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM26); lua_setfield(L, -2, "ymm26");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM27); lua_setfield(L, -2, "ymm27");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM28); lua_setfield(L, -2, "ymm28");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM29); lua_setfield(L, -2, "ymm29");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM30); lua_setfield(L, -2, "ymm30");
+	lua_pushinteger(L, ZYDIS_REGISTER_YMM31); lua_setfield(L, -2, "ymm31");
+
+	// Floating point vector registers 512-bit
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM0); lua_setfield(L, -2, "zmm0");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM1); lua_setfield(L, -2, "zmm1");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM2); lua_setfield(L, -2, "zmm2");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM3); lua_setfield(L, -2, "zmm3");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM4); lua_setfield(L, -2, "zmm4");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM5); lua_setfield(L, -2, "zmm5");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM6); lua_setfield(L, -2, "zmm6");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM7); lua_setfield(L, -2, "zmm7");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM8); lua_setfield(L, -2, "zmm8");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM9); lua_setfield(L, -2, "zmm9");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM10); lua_setfield(L, -2, "zmm10");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM11); lua_setfield(L, -2, "zmm11");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM12); lua_setfield(L, -2, "zmm12");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM13); lua_setfield(L, -2, "zmm13");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM14); lua_setfield(L, -2, "zmm14");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM15); lua_setfield(L, -2, "zmm15");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM16); lua_setfield(L, -2, "zmm16");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM17); lua_setfield(L, -2, "zmm17");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM18); lua_setfield(L, -2, "zmm18");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM19); lua_setfield(L, -2, "zmm19");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM20); lua_setfield(L, -2, "zmm20");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM21); lua_setfield(L, -2, "zmm21");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM22); lua_setfield(L, -2, "zmm22");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM23); lua_setfield(L, -2, "zmm23");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM24); lua_setfield(L, -2, "zmm24");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM25); lua_setfield(L, -2, "zmm25");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM26); lua_setfield(L, -2, "zmm26");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM27); lua_setfield(L, -2, "zmm27");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM28); lua_setfield(L, -2, "zmm28");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM29); lua_setfield(L, -2, "zmm29");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM30); lua_setfield(L, -2, "zmm30");
+	lua_pushinteger(L, ZYDIS_REGISTER_ZMM31); lua_setfield(L, -2, "zmm31");
+
+	// Matrix registers
+	lua_pushinteger(L, ZYDIS_REGISTER_TMM0); lua_setfield(L, -2, "tmm0");
+	lua_pushinteger(L, ZYDIS_REGISTER_TMM1); lua_setfield(L, -2, "tmm1");
+	lua_pushinteger(L, ZYDIS_REGISTER_TMM2); lua_setfield(L, -2, "tmm2");
+	lua_pushinteger(L, ZYDIS_REGISTER_TMM3); lua_setfield(L, -2, "tmm3");
+	lua_pushinteger(L, ZYDIS_REGISTER_TMM4); lua_setfield(L, -2, "tmm4");
+	lua_pushinteger(L, ZYDIS_REGISTER_TMM5); lua_setfield(L, -2, "tmm5");
+	lua_pushinteger(L, ZYDIS_REGISTER_TMM6); lua_setfield(L, -2, "tmm6");
+	lua_pushinteger(L, ZYDIS_REGISTER_TMM7); lua_setfield(L, -2, "tmm7");
+
+	// Flags registers
+	lua_pushinteger(L, ZYDIS_REGISTER_FLAGS); lua_setfield(L, -2, "flags");
+	lua_pushinteger(L, ZYDIS_REGISTER_EFLAGS); lua_setfield(L, -2, "eflags");
+	lua_pushinteger(L, ZYDIS_REGISTER_RFLAGS); lua_setfield(L, -2, "rflags");
+
+	// Instruction-pointer registers
+	lua_pushinteger(L, ZYDIS_REGISTER_IP); lua_setfield(L, -2, "ip");
+	lua_pushinteger(L, ZYDIS_REGISTER_EIP); lua_setfield(L, -2, "eip");
+	lua_pushinteger(L, ZYDIS_REGISTER_RIP); lua_setfield(L, -2, "rip");
+
+	// Segment registers
+	lua_pushinteger(L, ZYDIS_REGISTER_ES); lua_setfield(L, -2, "es");
+	lua_pushinteger(L, ZYDIS_REGISTER_CS); lua_setfield(L, -2, "cs");
+	lua_pushinteger(L, ZYDIS_REGISTER_SS); lua_setfield(L, -2, "ss");
+	lua_pushinteger(L, ZYDIS_REGISTER_DS); lua_setfield(L, -2, "ds");
+	lua_pushinteger(L, ZYDIS_REGISTER_FS); lua_setfield(L, -2, "fs");
+	lua_pushinteger(L, ZYDIS_REGISTER_GS); lua_setfield(L, -2, "gs");
+
+	// Table registers
+	lua_pushinteger(L, ZYDIS_REGISTER_GDTR); lua_setfield(L, -2, "gdtr");
+	lua_pushinteger(L, ZYDIS_REGISTER_LDTR); lua_setfield(L, -2, "ldtr");
+	lua_pushinteger(L, ZYDIS_REGISTER_IDTR); lua_setfield(L, -2, "idtr");
+	lua_pushinteger(L, ZYDIS_REGISTER_TR); lua_setfield(L, -2, "tr");
+
+	// Test registers
+	lua_pushinteger(L, ZYDIS_REGISTER_TR0); lua_setfield(L, -2, "tr0");
+	lua_pushinteger(L, ZYDIS_REGISTER_TR1); lua_setfield(L, -2, "tr1");
+	lua_pushinteger(L, ZYDIS_REGISTER_TR2); lua_setfield(L, -2, "tr2");
+	lua_pushinteger(L, ZYDIS_REGISTER_TR3); lua_setfield(L, -2, "tr3");
+	lua_pushinteger(L, ZYDIS_REGISTER_TR4); lua_setfield(L, -2, "tr4");
+	lua_pushinteger(L, ZYDIS_REGISTER_TR5); lua_setfield(L, -2, "tr5");
+	lua_pushinteger(L, ZYDIS_REGISTER_TR6); lua_setfield(L, -2, "tr6");
+	lua_pushinteger(L, ZYDIS_REGISTER_TR7); lua_setfield(L, -2, "tr7");
+
+	// Control registers
+	lua_pushinteger(L, ZYDIS_REGISTER_CR0); lua_setfield(L, -2, "cr0");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR1); lua_setfield(L, -2, "cr1");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR2); lua_setfield(L, -2, "cr2");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR3); lua_setfield(L, -2, "cr3");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR4); lua_setfield(L, -2, "cr4");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR5); lua_setfield(L, -2, "cr5");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR6); lua_setfield(L, -2, "cr6");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR7); lua_setfield(L, -2, "cr7");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR8); lua_setfield(L, -2, "cr8");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR9); lua_setfield(L, -2, "cr9");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR10); lua_setfield(L, -2, "cr10");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR11); lua_setfield(L, -2, "cr11");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR12); lua_setfield(L, -2, "cr12");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR13); lua_setfield(L, -2, "cr13");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR14); lua_setfield(L, -2, "cr14");
+	lua_pushinteger(L, ZYDIS_REGISTER_CR15); lua_setfield(L, -2, "cr15");
+
+	// Debug registers
+	lua_pushinteger(L, ZYDIS_REGISTER_DR0); lua_setfield(L, -2, "dr0");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR1); lua_setfield(L, -2, "dr1");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR2); lua_setfield(L, -2, "dr2");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR3); lua_setfield(L, -2, "dr3");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR4); lua_setfield(L, -2, "dr4");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR5); lua_setfield(L, -2, "dr5");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR6); lua_setfield(L, -2, "dr6");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR7); lua_setfield(L, -2, "dr7");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR8); lua_setfield(L, -2, "dr8");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR9); lua_setfield(L, -2, "dr9");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR10); lua_setfield(L, -2, "dr10");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR11); lua_setfield(L, -2, "dr11");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR12); lua_setfield(L, -2, "dr12");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR13); lua_setfield(L, -2, "dr13");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR14); lua_setfield(L, -2, "dr14");
+	lua_pushinteger(L, ZYDIS_REGISTER_DR15); lua_setfield(L, -2, "dr15");
+
+	// Mask registers
+	lua_pushinteger(L, ZYDIS_REGISTER_K0); lua_setfield(L, -2, "k0");
+	lua_pushinteger(L, ZYDIS_REGISTER_K1); lua_setfield(L, -2, "k1");
+	lua_pushinteger(L, ZYDIS_REGISTER_K2); lua_setfield(L, -2, "k2");
+	lua_pushinteger(L, ZYDIS_REGISTER_K3); lua_setfield(L, -2, "k3");
+	lua_pushinteger(L, ZYDIS_REGISTER_K4); lua_setfield(L, -2, "k4");
+	lua_pushinteger(L, ZYDIS_REGISTER_K5); lua_setfield(L, -2, "k5");
+	lua_pushinteger(L, ZYDIS_REGISTER_K6); lua_setfield(L, -2, "k6");
+	lua_pushinteger(L, ZYDIS_REGISTER_K7); lua_setfield(L, -2, "k7");
+
+	// Bound registers
+	lua_pushinteger(L, ZYDIS_REGISTER_BND0); lua_setfield(L, -2, "bnd0");
+	lua_pushinteger(L, ZYDIS_REGISTER_BND1); lua_setfield(L, -2, "bnd1");
+	lua_pushinteger(L, ZYDIS_REGISTER_BND2); lua_setfield(L, -2, "bnd2");
+	lua_pushinteger(L, ZYDIS_REGISTER_BND3); lua_setfield(L, -2, "bnd3");
+	lua_pushinteger(L, ZYDIS_REGISTER_BNDCFG); lua_setfield(L, -2, "bndcfg");
+	lua_pushinteger(L, ZYDIS_REGISTER_BNDSTATUS); lua_setfield(L, -2, "bndstatus");
+
+	// Uncategorized
+	lua_pushinteger(L, ZYDIS_REGISTER_MXCSR); lua_setfield(L, -2, "mxcsr");
+	lua_pushinteger(L, ZYDIS_REGISTER_PKRU); lua_setfield(L, -2, "pkru");
+	lua_pushinteger(L, ZYDIS_REGISTER_XCR0); lua_setfield(L, -2, "xcr0");
+
 }

@@ -31,14 +31,12 @@ static int assembly_assemble(lua_State* L) {
 	ZyanU8 encoded_instruction[ZYDIS_MAX_INSTRUCTION_LENGTH];
 	ZyanUSize encoded_length = sizeof(encoded_instruction);
 
-	if (ZYAN_FAILED(ZydisEncoderEncodeInstruction(&req, encoded_instruction, &encoded_length)))
-	{
+	if (ZYAN_FAILED(ZydisEncoderEncodeInstruction(&req, encoded_instruction, &encoded_length))) {
 		puts("Failed to encode instruction");
 		return 1;
 	}
 
-	for (ZyanUSize i = 0; i < encoded_length; ++i)
-	{
+	for (ZyanUSize i = 0; i < encoded_length; ++i) {
 		printf("%02X ", encoded_instruction[i]);
 	}
 
@@ -57,11 +55,11 @@ static int assembly_disassemble(lua_State* L) {
 	ZyanUSize offset = 0;
 	ZydisDisassembledInstruction instruction;
 	while (ZYAN_SUCCESS(ZydisDisassembleIntel(
-		/* machine_mode:    */ ZYDIS_MACHINE_MODE_LONG_64,
-		/* runtime_address: */ addr,
-		/* buffer:          */ addr + offset,
-		/* length:          */ size - offset,
-		/* instruction:     */ &instruction
+		ZYDIS_MACHINE_MODE_LONG_64,
+		addr,
+		addr + offset,
+		size - offset,
+		&instruction
 	))) {
 		sprintf_s(buffer, 256, "%016llX  %s\n", addr, instruction.text);
 		luaL_addstring(&b, buffer);
@@ -80,14 +78,19 @@ static const luaL_Reg assemblylib[] = {
 	{NULL,NULL}
 };
 
-void addkeys(lua_State* L);
+void addops(lua_State* L);
+void addregs(lua_State* L);
 
 int luaopen_assembly(lua_State* L) {
 	luaL_newlib(L, assemblylib);
 
 	lua_createtable(L, ZYDIS_MNEMONIC_MAX_VALUE, 0);
-	addkeys(L);
+	addops(L);
 	lua_setfield(L, -2, "ops");
+
+	lua_createtable(L, ZYDIS_REGISTER_MAX_VALUE, 0);
+	addregs(L);
+	lua_setfield(L, -2, "regs");
 
 	return 1;
 }
