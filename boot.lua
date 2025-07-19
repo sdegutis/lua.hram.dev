@@ -4,6 +4,8 @@ print(pcall(function()
 
 print('in foo!')
 
+memory.copy(0x12345, "\xE8\x00\x00\x00\x00\xC3")
+
 memory.copy(0x30000, "\x48\x89\xC8\x48\xFF\xC0\xC3")
 memory.copy(0x40000, 0x30000, 7)
 

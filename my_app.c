@@ -19,13 +19,20 @@ int luaopen_lpeg(lua_State* L);
 static lua_State* mvm;
 
 
-//#pragma pack(push, 1)
-//struct State {
-//	struct {
-//		UINT8 bit : 1;
-//	} bits[10];
-//};
-//#pragma pack(pop)
+#pragma pack(push, 1)
+struct State {
+	UINT8 keys[32];
+	UINT32 time;
+	UINT8 event;
+	UINT8 arg1;
+	UINT8 arg2;
+	UINT8 arg3;
+	UINT16 mousex;
+	UINT16 mousey;
+};
+#pragma pack(pop)
+
+struct State* sys = 0x10000;
 
 
 
@@ -63,21 +70,11 @@ void boot() {
 	// 4kb pages, 10mb reserved for user, starting at 0x10000
 	void* mem = VirtualAlloc(0x10000, 0x10000000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 
-	//int i = 0;
-	//*(PUINT)(0x10000 + i++) = 0x48;
-	//*(PUINT)(0x10000 + i++) = 0x89;
-	//*(PUINT)(0x10000 + i++) = 0xc8;
-	//*(PUINT)(0x10000 + i++) = 0x48;
-	//*(PUINT)(0x10000 + i++) = 0xff;
-	//*(PUINT)(0x10000 + i++) = 0xc0;
-	//*(PUINT)(0x10000 + i++) = 0xc3;
 
 
-
-
-	//struct State* state = 0x10000;
-	//ZeroMemory(state, sizeof(*state));
-	//printf("sizeof state = %d\n", sizeof(struct State));
+	struct State* state = 0x10000;
+	ZeroMemory(state, sizeof(*state));
+	printf("sizeof state = %d\n\n", sizeof(struct State));
 
 	//printf("\n");
 	//for (int i = 0; i < 10; i++) {
