@@ -49,7 +49,7 @@ lua_State* newvm()
 
 	printf("%d\n", 0x10000);
 
-	// 4kb pages, 10mb reserved for user
+	// 4kb pages, 10mb reserved for user, starting at 0x10000
 	void* mem = VirtualAlloc(0x10000, 0x10000000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 
 	printf("reserved = %p\n", mem);
@@ -63,11 +63,7 @@ lua_State* newvm()
 	*(PUINT)(0x10000 + i++) = 0xc0;
 	*(PUINT)(0x10000 + i++) = 0xc3;
 
-	typedef int(*F)(int);
-
-	F f = 0x10000;
-
-	int res = f(213);
+	int res = ((int(*)(int))0x10000)(213);
 	printf("res = %d\n", res);
 
 
