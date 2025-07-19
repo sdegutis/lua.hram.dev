@@ -9,7 +9,7 @@
 #include "thread.h"
 #include "mutex.h"
 
-extern "C" int luaopen_lpeg(lua_State* L);
+int luaopen_lpeg(lua_State* L);
 
 static lua_State* mvm;
 
@@ -30,31 +30,31 @@ static lua_State* mvm;
 //#pragma pack(pop)
 
 
-lua_State* app::newvm()
+lua_State* newvm()
 {
-	auto L = luaL_newstate();
+	lua_State* L = luaL_newstate();
 
 	luaL_openlibs(L);
 
-	luaopen_memory(L);
-	lua_setglobal(L, "memory");
+	//luaopen_memory(L);
+	//lua_setglobal(L, "memory");
 
-	luaopen_image(L);
-	lua_setglobal(L, "image");
+	//luaopen_image(L);
+	//lua_setglobal(L, "image");
 
-	luaopen_thread(L);
-	lua_setglobal(L, "thread");
+	//luaopen_thread(L);
+	//lua_setglobal(L, "thread");
 
 	luaopen_lpeg(L);
 	lua_setglobal(L, "lpeg");
 
-	luaopen_mutex(L);
-	lua_setglobal(L, "mutex");
+	//luaopen_mutex(L);
+	//lua_setglobal(L, "mutex");
 
 	return L;
 }
 
-void app::boot()
+void boot()
 {
 	openConsole();
 
@@ -63,7 +63,7 @@ void app::boot()
 
 	mvm = newvm();
 
-
+	/*
 	luaL_dostring(mvm, R"(
 
 		-- foo
@@ -151,16 +151,17 @@ void app::boot()
 		end))
 
 	)");
+	*/
 }
 
-void app::mouseMoved(int x, int y) {
+void mouseMoved(int x, int y) {
 	lua_getglobal(mvm, "mousemove");
 	lua_pushinteger(mvm, x);
 	lua_pushinteger(mvm, y);
 	lua_pcall(mvm, 2, 0, 0);
 }
 
-void app::mouseDown(int b) {
+void mouseDown(int b) {
 	lua_getglobal(mvm, "mousedown");
 	lua_pushinteger(mvm, b);
 	lua_pcall(mvm, 1, 0, 0);
@@ -168,31 +169,31 @@ void app::mouseDown(int b) {
 	useScreen(1 - screeni);
 }
 
-void app::mouseUp(int b) {
+void mouseUp(int b) {
 	lua_getglobal(mvm, "mouseup");
 	lua_pushinteger(mvm, b);
 	lua_pcall(mvm, 1, 0, 0);
 }
 
-void app::mouseWheel(int d) {
+void mouseWheel(int d) {
 	lua_getglobal(mvm, "mousewheel");
 	lua_pushinteger(mvm, d);
 	lua_pcall(mvm, 1, 0, 0);
 }
 
-void app::keyDown(int vk) {
+void keyDown(int vk) {
 	lua_getglobal(mvm, "keydown");
 	lua_pushinteger(mvm, vk);
 	lua_pcall(mvm, 1, 0, 0);
 }
 
-void app::keyUp(int vk) {
+void keyUp(int vk) {
 	lua_getglobal(mvm, "keyup");
 	lua_pushinteger(mvm, vk);
 	lua_pcall(mvm, 1, 0, 0);
 }
 
-void app::keyChar(const char ch) {
+void keyChar(const char ch) {
 	lua_getglobal(mvm, "keychar");
 	lua_pushlstring(mvm, &ch, 1);
 	lua_pcall(mvm, 1, 0, 0);

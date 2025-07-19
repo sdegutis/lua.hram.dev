@@ -4,12 +4,10 @@
 #pragma comment(lib, "Dwmapi")
 #pragma comment(lib, "user32")
 #pragma comment(lib, "d3d11")
+#pragma comment(lib, "dxguid")
 
 #include <windowsx.h>
 #include <dwmapi.h>
-
-#include <exception>
-#include <vector>
 
 #include "PixelShader.h"
 #include "VertexShader.h"
@@ -49,13 +47,12 @@ ID3D11Device* device;
 ID3D11DeviceContext* devicecontext;
 
 
-
-std::vector<Screen> screens{
+struct Screen screens[] = {
 	{ 320, 180 },
 	{ 320, 200 },
 };
 int screeni = 0;
-Screen* screen = &screens[screeni];
+struct Screen* screen = &screens[0];
 
 void useScreen(int n) {
 	screeni = n;
@@ -68,9 +65,9 @@ void useScreen(int n) {
 
 
 
-int scale = 3;
-int winw = screen->w * scale;
-int winh = screen->h * scale;
+int scale;
+int winw;
+int winh;
 
 void draw();
 
@@ -81,9 +78,13 @@ void toggleFullscreen();
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK WindowProc2(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-void setupWindow(HINSTANCE hInstance, int nCmdShow) {
+int setupWindow(HINSTANCE hInstance, int nCmdShow) {
+	scale = 3;
+	winw = screen->w * scale;
+	winh = screen->h * scale;
 
-	WNDCLASS wc = {};
+	WNDCLASS wc;
+	ZeroMemory(&wc, sizeof(wc));
 	wc.lpfnWndProc = WindowProc;
 	wc.hInstance = hInstance;
 	wc.lpszClassName = L"HRAM Window Class";
@@ -96,7 +97,7 @@ void setupWindow(HINSTANCE hInstance, int nCmdShow) {
 	winbox.top = GetSystemMetrics(SM_CYSCREEN) / 2 - winh / 2;
 	winbox.right = winbox.left + winw;
 	winbox.bottom = winbox.top + winh;
-	AdjustWindowRectEx(&winbox, WS_OVERLAPPEDWINDOW, false, 0);
+	AdjustWindowRectEx(&winbox, WS_OVERLAPPEDWINDOW, 0, 0);
 
 	padw = (winbox.right - winbox.left) - winw;
 	padh = (winbox.bottom - winbox.top) - winh;
@@ -108,12 +109,13 @@ void setupWindow(HINSTANCE hInstance, int nCmdShow) {
 		winbox.right - winbox.left,
 		winbox.bottom - winbox.top,
 		NULL, NULL, hInstance, NULL);
-	if (hwnd == NULL) { throw std::exception("can't create window"); }
+	if (hwnd == NULL) { return 1; }
 
-	const BOOL isDarkMode = true;
+	const BOOL isDarkMode = 1;
 	HRESULT result = DwmSetWindowAttribute(hwnd, DWMWA_USE_IMMERSIVE_DARK_MODE, &isDarkMode, sizeof(isDarkMode));
 
-	WNDCLASS wc2 = {};
+	WNDCLASS wc2;
+	ZeroMemory(&wc2, sizeof(wc2));
 	wc2.lpfnWndProc = WindowProc2;
 	wc2.hInstance = hInstance;
 	wc2.lpszClassName = L"HRAM SubWindow Class";
@@ -124,9 +126,10 @@ void setupWindow(HINSTANCE hInstance, int nCmdShow) {
 		0, L"HRAM SubWindow Class", L"", WS_CHILD | WS_VISIBLE,
 		subx, suby, subw, subh,
 		hwnd, NULL, hInstance, NULL);
-	if (hsub == NULL) { throw std::exception("can't create canvas view"); }
+	if (hsub == NULL) { return 1; }
 
-	DXGI_SWAP_CHAIN_DESC swapchaindesc = {};
+	DXGI_SWAP_CHAIN_DESC swapchaindesc;
+	ZeroMemory(&swapchaindesc, sizeof(swapchaindesc));
 	swapchaindesc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
 	swapchaindesc.SampleDesc.Count = 1;
 	swapchaindesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
@@ -136,38 +139,39 @@ void setupWindow(HINSTANCE hInstance, int nCmdShow) {
 	swapchaindesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 
 	D3D_FEATURE_LEVEL featurelevels[] = { D3D_FEATURE_LEVEL_11_0 };
-	HR(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, D3D11_CREATE_DEVICE_BGRA_SUPPORT | D3D11_CREATE_DEVICE_SINGLETHREADED, featurelevels, ARRAYSIZE(featurelevels), D3D11_SDK_VERSION, &swapchaindesc, &swapchain, &device, nullptr, &devicecontext));
+	HR(D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, D3D11_CREATE_DEVICE_BGRA_SUPPORT | D3D11_CREATE_DEVICE_SINGLETHREADED, featurelevels, ARRAYSIZE(featurelevels), D3D11_SDK_VERSION, &swapchaindesc, &swapchain, &device, NULL, &devicecontext));
 
-	HR(swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&framebuffer));
-	if (framebuffer == NULL) { throw std::exception("can't create canvas view"); }
-	HR(device->CreateRenderTargetView(framebuffer, nullptr, &framebufferRTV));
+	HR(swapchain->lpVtbl->GetBuffer(swapchain, 0, &IID_ID3D11Texture2D, (void**)&framebuffer));
+	if (framebuffer == NULL) { return 1; }
+	HR(device->lpVtbl->CreateRenderTargetView(device, framebuffer, NULL, &framebufferRTV));
 
-	HR(device->CreateVertexShader(MyVertexShader, sizeof(MyVertexShader), 0, &vertexshader));
-	HR(device->CreatePixelShader(MyPixelShader, sizeof(MyPixelShader), 0, &pixelshader));
+	HR(device->lpVtbl->CreateVertexShader(device, MyVertexShader, sizeof(MyVertexShader), 0, &vertexshader));
+	HR(device->lpVtbl->CreatePixelShader(device, MyPixelShader, sizeof(MyPixelShader), 0, &pixelshader));
 
 	D3D11_RASTERIZER_DESC rasterizerdesc = { D3D11_FILL_SOLID, D3D11_CULL_BACK };
-	HR(device->CreateRasterizerState(&rasterizerdesc, &rasterizerstate));
+	HR(device->lpVtbl->CreateRasterizerState(device, &rasterizerdesc, &rasterizerstate));
 
 	D3D11_SAMPLER_DESC samplerdesc = { D3D11_FILTER_MIN_MAG_MIP_POINT, D3D11_TEXTURE_ADDRESS_WRAP, D3D11_TEXTURE_ADDRESS_WRAP, D3D11_TEXTURE_ADDRESS_WRAP };
-	HR(device->CreateSamplerState(&samplerdesc, &samplerstate));
+	HR(device->lpVtbl->CreateSamplerState(device, &samplerdesc, &samplerstate));
 
 	D3D11_VIEWPORT viewport = { 0, 0, (float)subw, (float)subh, 0, 1 };
-	devicecontext->RSSetViewports(1, &viewport);
+	devicecontext->lpVtbl->RSSetViewports(devicecontext, 1, &viewport);
 
-	for (auto& s : screens) {
-		s.setup(device);
-	}
+	setup_screen(device, &screens[0]);
+	setup_screen(device, &screens[1]);
 
 	ShowWindow(hwnd, nCmdShow);
 	SetForegroundWindow(hwnd);
 	SetFocus(hwnd);
+
+	return 0;
 }
 
 void runLoop() {
 
 	MSG msg = { 0 };
 	while (msg.message != WM_QUIT) {
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
@@ -198,21 +202,21 @@ inline void moveSubWindow() {
 }
 
 inline void draw() {
-	devicecontext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	devicecontext->lpVtbl->IASetPrimitiveTopology(devicecontext, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
-	devicecontext->VSSetShader(vertexshader, nullptr, 0);
+	devicecontext->lpVtbl->VSSetShader(devicecontext, vertexshader, NULL, 0);
 
-	devicecontext->RSSetState(rasterizerstate);
+	devicecontext->lpVtbl->RSSetState(devicecontext, rasterizerstate);
 
-	devicecontext->PSSetShader(pixelshader, nullptr, 0);
-	devicecontext->PSSetShaderResources(0, 1, &screen->texturesrv);
-	devicecontext->PSSetSamplers(0, 1, &samplerstate);
+	devicecontext->lpVtbl->PSSetShader(devicecontext, pixelshader, NULL, 0);
+	devicecontext->lpVtbl->PSSetShaderResources(devicecontext, 0, 1, &screen->texturesrv);
+	devicecontext->lpVtbl->PSSetSamplers(devicecontext, 0, 1, &samplerstate);
 
-	devicecontext->OMSetRenderTargets(1, &framebufferRTV, nullptr);
+	devicecontext->lpVtbl->OMSetRenderTargets(devicecontext, 1, &framebufferRTV, NULL);
 
-	devicecontext->Draw(4, 0);
+	devicecontext->lpVtbl->Draw(devicecontext, 4, 0);
 
-	swapchain->Present(1, 0);
+	swapchain->lpVtbl->Present(swapchain, 1, 0);
 }
 
 inline void toggleFullscreen() {
@@ -238,29 +242,29 @@ inline void toggleFullscreen() {
 
 inline void resetBuffers() {
 	D3D11_VIEWPORT viewport = { 0, 0, (float)subw, (float)subh, 0, 1 };
-	devicecontext->RSSetViewports(1, &viewport);
+	devicecontext->lpVtbl->RSSetViewports(devicecontext, 1, &viewport);
 
-	devicecontext->Flush();
+	devicecontext->lpVtbl->Flush(devicecontext);
 
-	framebufferRTV->Release();
-	framebuffer->Release();
+	framebufferRTV->lpVtbl->Release(framebufferRTV);
+	framebuffer->lpVtbl->Release(framebuffer);
 
-	HR(swapchain->ResizeBuffers(0, subw, subh, DXGI_FORMAT_UNKNOWN, 0));
+	HR(swapchain->lpVtbl->ResizeBuffers(swapchain, 0, subw, subh, DXGI_FORMAT_UNKNOWN, 0));
 
 
-	HR(swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&framebuffer));
-	HR(device->CreateRenderTargetView(framebuffer, nullptr, &framebufferRTV));
+	HR(swapchain->lpVtbl->GetBuffer(swapchain, 0, &IID_ID3D11Texture2D, (void**)&framebuffer));
+	HR(device->lpVtbl->CreateRenderTargetView(device, framebuffer, NULL, &framebufferRTV));
 }
 
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	switch (uMsg) {
 
-	case WM_CHAR:       app::keyChar((const char)wParam); return 0;
-	case WM_SYSKEYDOWN: app::keyDown((int)wParam);        return 0;
-	case WM_KEYUP:      app::keyUp((int)wParam);          return 0;
-	case WM_KEYDOWN:    app::keyDown((int)wParam);        return 0;
-	case WM_SYSKEYUP:   app::keyUp((int)wParam);          return 0;
+	case WM_CHAR:       keyChar((const char)wParam); return 0;
+	case WM_SYSKEYDOWN: keyDown((int)wParam);        return 0;
+	case WM_KEYUP:      keyUp((int)wParam);          return 0;
+	case WM_KEYDOWN:    keyDown((int)wParam);        return 0;
+	case WM_SYSKEYUP:   keyUp((int)wParam);          return 0;
 
 	case WM_GETMINMAXINFO: {
 		LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
@@ -301,21 +305,21 @@ LRESULT CALLBACK WindowProc2(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	case WM_LBUTTONUP:   app::mouseUp(0);   return 0;
-	case WM_LBUTTONDOWN: app::mouseDown(0); return 0;
-	case WM_RBUTTONUP:   app::mouseUp(2);   return 0;
-	case WM_RBUTTONDOWN: app::mouseDown(2); return 0;
-	case WM_MBUTTONUP:   app::mouseUp(1);   return 0;
-	case WM_MBUTTONDOWN: app::mouseDown(1); return 0;
-	case WM_MOUSEWHEEL:  app::mouseWheel(GET_WHEEL_DELTA_WPARAM(wParam)); return 0;
+	case WM_LBUTTONUP:   mouseUp(0);   return 0;
+	case WM_LBUTTONDOWN: mouseDown(0); return 0;
+	case WM_RBUTTONUP:   mouseUp(2);   return 0;
+	case WM_RBUTTONDOWN: mouseDown(2); return 0;
+	case WM_MBUTTONUP:   mouseUp(1);   return 0;
+	case WM_MBUTTONDOWN: mouseDown(1); return 0;
+	case WM_MOUSEWHEEL:  mouseWheel(GET_WHEEL_DELTA_WPARAM(wParam)); return 0;
 
 	case WM_MOUSEMOVE: {
 		static int mousex;
 		static int mousey;
-		auto x = GET_X_LPARAM(lParam) / scale;
-		auto y = GET_Y_LPARAM(lParam) / scale;
+		int x = GET_X_LPARAM(lParam) / scale;
+		int y = GET_Y_LPARAM(lParam) / scale;
 		if (x != mousex || y != mousey)
-			app::mouseMoved(mousex = x, mousey = y);
+			mouseMoved(mousex = x, mousey = y);
 		return 0;
 	}
 

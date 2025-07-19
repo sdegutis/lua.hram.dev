@@ -2,8 +2,8 @@
 
 #include <stdint.h>
 #include <d3d11.h>
-#include <lua/lua.hpp>
+#include <lua/lua.h>
 
-ID3D11Texture2D* createImage(ID3D11Device* device, void* data, int w, int h, int pw = 0);
+ID3D11Texture2D* createImage(ID3D11Device* device, void* data, UINT w, UINT h, UINT pw);
 
 int luaopen_image(lua_State* L);
