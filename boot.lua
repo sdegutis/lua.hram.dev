@@ -29,18 +29,20 @@ print('done in main')
 --]=]
 
 
+local h = memory.newheap(100, 1000)
 
-local m = memory.malloc(3*3*4)
+
+local m = memory.alloc(3*3*4, h)
 for i = 0,3*3*4-1 do memory.set(m+i, 8, math.random(0xff)-1) end
 local img = image.create(m, 3, 3)
---memory.free(m)
+--memory.free(m, h)
 
 image.copy(nil, img, 0, 0)
 
-local m2 = memory.malloc(9*9*4)
+local m2 = memory.alloc(9*9*4, h)
 memory.fill(m2, 0, 9*9*4)
 local img2 = image.create(m2, 9, 9)
-memory.free(m2)
+memory.free(m2, h)
 
 image.copy(img2, img, 0, 0, 0, 0, 3, 3)
 image.copy(img2, img, 6, 0, 0, 0, 3, 3)
