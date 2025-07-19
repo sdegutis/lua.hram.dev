@@ -33,8 +33,51 @@ static lua_State* mvm;
 //#pragma pack(pop)
 
 
+#define MAXMEM = 0x0000700000001000
+
 lua_State* newvm()
 {
+
+
+
+	SYSTEM_INFO info;
+	GetSystemInfo(&info);
+	printf("page size = %x\n", info.dwPageSize);
+	printf("page size = %p\n", info.lpMinimumApplicationAddress);
+	printf("page size = %p\n", info.lpMaximumApplicationAddress);
+	//printf("page size = %p\n", info.boun);
+
+	printf("%d\n", 0x10000);
+
+	// 4kb pages, 10mb reserved for user
+	void* mem = VirtualAlloc(0x10000, 0x10000000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+
+	printf("reserved = %p\n", mem);
+
+	int i = 0;
+	*(PUINT)(0x10000 + i++) = 0x48;
+	*(PUINT)(0x10000 + i++) = 0x89;
+	*(PUINT)(0x10000 + i++) = 0xc8;
+	*(PUINT)(0x10000 + i++) = 0x48;
+	*(PUINT)(0x10000 + i++) = 0xff;
+	*(PUINT)(0x10000 + i++) = 0xc0;
+	*(PUINT)(0x10000 + i++) = 0xc3;
+
+	typedef int(*F)(int);
+
+	F f = 0x10000;
+
+	int res = f(213);
+	printf("res = %d\n", res);
+
+
+
+	//0000000000010000
+	//00007FFFFFFEFFFF
+	//0000700000001000
+
+	//HeapCreate(HEAP_CREATE_ENABLE_EXECUTE| HEAP_NO_SERIALIZE, )
+
 	lua_State* L = luaL_newstate();
 
 	luaL_openlibs(L);
