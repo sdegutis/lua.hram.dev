@@ -5,23 +5,6 @@
 #include <Windows.h>
 #include <heapapi.h>
 
-static int luawrap_memory_alloc(lua_State* L) {
-	lua_Integer len = luaL_checkinteger(L, 1);
-	HANDLE heap = lua_tointeger(L, 2);
-	if (!heap) heap = GetProcessHeap();
-	void* mem = HeapAlloc(heap, 0, len);
-	lua_pushinteger(L, mem);
-	return 1;
-}
-
-static int luawrap_memory_free(lua_State* L) {
-	void* mem = lua_tointeger(L, 1);
-	HANDLE heap = lua_tointeger(L, 2);
-	if (!heap) heap = GetProcessHeap();
-	HeapFree(heap, 0, mem);
-	return 0;
-}
-
 static int luawrap_memory_fill(lua_State* L) {
 	void* mem = lua_tointeger(L, 1);
 	lua_Integer val = lua_tointeger(L, 2);
@@ -82,11 +65,9 @@ static int luawrap_memory_set(lua_State* L) {
 }
 
 static const luaL_Reg memorylib[] = {
-	{"alloc",   luawrap_memory_alloc},
-	{"free",    luawrap_memory_free},
-	{"get",     luawrap_memory_get},
-	{"set",     luawrap_memory_set},
-	{"fill",    luawrap_memory_fill},
+	{"get",  luawrap_memory_get},
+	{"set",  luawrap_memory_set},
+	{"fill", luawrap_memory_fill},
 	{NULL,NULL}
 };
 

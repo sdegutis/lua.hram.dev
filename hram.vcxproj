@@ -136,7 +136,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="app.c" />
-    <ClCompile Include="heap.c" />
     <ClCompile Include="image.c" />
     <ClCompile Include="lpeg\lpcap.c" />
     <ClCompile Include="lpeg\lpcode.c" />
@@ -185,7 +184,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h" />
-    <ClInclude Include="heap.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="lpeg\lpcap.h" />
     <ClInclude Include="lpeg\lpcode.h" />

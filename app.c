@@ -1,5 +1,10 @@
 #include "app.h"
 
+#include <lua/lualib.h>
+#include <lua/lauxlib.h>
+#include <Windows.h>
+#include <stdio.h>
+#include "resource.h"
 
 #include "util.h"
 #include "window.h"
@@ -7,10 +12,6 @@
 #include "memory.h"
 #include "thread.h"
 #include "mutex.h"
-
-#include <Windows.h>
-#include <stdio.h>
-#include "resource.h"
 
 int luaopen_lpeg(lua_State* L);
 
@@ -33,21 +34,9 @@ static lua_State* mvm;
 //#pragma pack(pop)
 
 
-#define MAXMEM = 0x0000700000001000
-
-lua_State* newvm()
-{
 
 
-
-	SYSTEM_INFO info;
-	GetSystemInfo(&info);
-	printf("page size = %x\n", info.dwPageSize);
-	printf("page size = %p\n", info.lpMinimumApplicationAddress);
-	printf("page size = %p\n", info.lpMaximumApplicationAddress);
-	//printf("page size = %p\n", info.boun);
-
-	printf("%d\n", 0x10000);
+lua_State* newvm() {
 
 	// 4kb pages, 10mb reserved for user, starting at 0x10000
 	void* mem = VirtualAlloc(0x10000, 0x10000000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
@@ -68,21 +57,12 @@ lua_State* newvm()
 
 
 
-	//0000000000010000
-	//00007FFFFFFEFFFF
-	//0000700000001000
-
-	//HeapCreate(HEAP_CREATE_ENABLE_EXECUTE| HEAP_NO_SERIALIZE, )
-
 	lua_State* L = luaL_newstate();
 
 	luaL_openlibs(L);
 
 	luaopen_memory(L);
 	lua_setglobal(L, "memory");
-
-	luaopen_heap(L);
-	lua_setglobal(L, "heap");
 
 	luaopen_image(L);
 	lua_setglobal(L, "image");
@@ -99,8 +79,7 @@ lua_State* newvm()
 	return L;
 }
 
-void boot()
-{
+void boot() {
 	openConsole();
 
 	//printf("s = %d\n", sizeof(Bit));
