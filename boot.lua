@@ -3,6 +3,9 @@ print(pcall(function()
 memory.copy(0x30000, "\x48\x89\xC8\x48\xFF\xC0\xC3")
 memory.copy(0x40000, 0x30000, 7)
 
+print("ops", assembly.ops)
+print("mov", assembly.ops.mov)
+
 --local res = assembly.exec(0x40000, 41)
 --print("res = "..res)
 
