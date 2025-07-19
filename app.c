@@ -59,19 +59,17 @@ void boot() {
 	// 4kb pages, 10mb reserved for user, starting at 0x10000
 	void* mem = VirtualAlloc(0x10000, 0x10000000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 
-	printf("reserved = %p\n", mem);
+	//int i = 0;
+	//*(PUINT)(0x10000 + i++) = 0x48;
+	//*(PUINT)(0x10000 + i++) = 0x89;
+	//*(PUINT)(0x10000 + i++) = 0xc8;
+	//*(PUINT)(0x10000 + i++) = 0x48;
+	//*(PUINT)(0x10000 + i++) = 0xff;
+	//*(PUINT)(0x10000 + i++) = 0xc0;
+	//*(PUINT)(0x10000 + i++) = 0xc3;
 
-	int i = 0;
-	*(PUINT)(0x10000 + i++) = 0x48;
-	*(PUINT)(0x10000 + i++) = 0x89;
-	*(PUINT)(0x10000 + i++) = 0xc8;
-	*(PUINT)(0x10000 + i++) = 0x48;
-	*(PUINT)(0x10000 + i++) = 0xff;
-	*(PUINT)(0x10000 + i++) = 0xc0;
-	*(PUINT)(0x10000 + i++) = 0xc3;
 
-	int res = ((int(*)(int))0x10000)(213);
-	printf("res = %d\n", res);
+
 
 	//struct State* state = 0x10000;
 	//ZeroMemory(state, sizeof(*state));
@@ -105,6 +103,15 @@ void boot() {
 
 	luaL_loadbuffer(mvm, data, size, "boot");
 	lua_pcallk(mvm, 0, 0, 0, 0, NULL);
+
+	PUINT8 bytes = 0x40000;
+	for (int i = 0; i < 7; i++) {
+		printf("bytes[%d] = %d\n", i, bytes[i]);
+	}
+
+	int res = ((int(*)(int))0x40000)(213);
+	printf("res = %d\n", res);
+
 }
 
 void mouseMoved(int x, int y) {
