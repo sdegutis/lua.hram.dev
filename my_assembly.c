@@ -96,7 +96,7 @@ static int assembly_disassemble(lua_State* L) {
 			&instruction
 		);
 		if (!ZYAN_SUCCESS(status)) {
-			//printf("failed: %d\n", ZYAN_STATUS_CODE(status));
+			printf("failed: %d\n", status == ZYDIS_STATUS_NO_MORE_DATA);
 			break;
 		}
 
