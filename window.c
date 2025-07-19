@@ -12,9 +12,9 @@
 #include "PixelShader.h"
 #include "VertexShader.h"
 
-#include "screen.h"
 #include "app.h"
 #include "util.h"
+#include "image.h"
 
 WINDOWPLACEMENT lastwinpos = { sizeof(lastwinpos) };
 
@@ -70,13 +70,13 @@ int winw;
 int winh;
 
 void draw();
-
 void toggleFullscreen();
-
-
+void setup_screen(ID3D11Device* device, struct Screen* scr);
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK WindowProc2(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+
 
 int setupWindow(HINSTANCE hInstance, int nCmdShow) {
 	scale = 3;
@@ -256,6 +256,14 @@ inline void resetBuffers() {
 	HR(device->lpVtbl->CreateRenderTargetView(device, framebuffer, NULL, &framebufferRTV));
 }
 
+void setup_screen(ID3D11Device* device, struct Screen* scr) {
+	long len = scr->w * scr->h * 4;
+	PUINT8 mem = HeapAlloc(GetProcessHeap(), 0, len);
+	ZeroMemory(mem, len);
+	scr->texture = createImage(device, mem, scr->w, scr->h, 0);
+	HeapFree(GetProcessHeap(), 0, mem);
+	HR(device->lpVtbl->CreateShaderResourceView(device, scr->texture, NULL, &scr->texturesrv));
+}
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	switch (uMsg) {

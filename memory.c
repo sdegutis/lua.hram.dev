@@ -1,6 +1,5 @@
 #include "memory.h"
 
-#include <stdint.h>
 #include <lua/lauxlib.h>
 
 #include <Windows.h>
@@ -38,14 +37,14 @@ static int luawrap_memory_get(lua_State* L) {
 	int good = 0;
 	lua_Integer val = 0;
 	switch (siz) {
-	case 8:   val = *(uint8_t*)mem;  good = 1; break;
-	case 16:  val = *(uint16_t*)mem; good = 1; break;
-	case 32:  val = *(uint32_t*)mem; good = 1; break;
-	case 64:  val = *(uint64_t*)mem; good = 1; break;
-	case -8:  val = *(int8_t*)mem;   good = 1; break;
-	case -16: val = *(int16_t*)mem;  good = 1; break;
-	case -32: val = *(int32_t*)mem;  good = 1; break;
-	case -64: val = *(int64_t*)mem;  good = 1; break;
+	case 8:   val = *(PUINT8)mem;  good = 1; break;
+	case 16:  val = *(PUINT16)mem; good = 1; break;
+	case 32:  val = *(PUINT32)mem; good = 1; break;
+	case 64:  val = *(PUINT64)mem; good = 1; break;
+	case -8:  val = *(PINT8)mem;   good = 1; break;
+	case -16: val = *(PINT16)mem;  good = 1; break;
+	case -32: val = *(PINT32)mem;  good = 1; break;
+	case -64: val = *(PINT64)mem;  good = 1; break;
 	}
 
 	if (good)
@@ -64,14 +63,14 @@ static int luawrap_memory_set(lua_State* L) {
 	int good = 0;
 	lua_Integer set = 0;
 	switch (siz) {
-	case 8:   set = (*((uint8_t*)mem) = val);  good = 1; break;
-	case 16:  set = (*((uint16_t*)mem) = val); good = 1; break;
-	case 32:  set = (*((uint32_t*)mem) = val); good = 1; break;
-	case 64:  set = (*((uint64_t*)mem) = val); good = 1; break;
-	case -8:  set = (*((int8_t*)mem) = val);   good = 1; break;
-	case -16: set = (*((int16_t*)mem) = val);  good = 1; break;
-	case -32: set = (*((int32_t*)mem) = val);  good = 1; break;
-	case -64: set = (*((int64_t*)mem) = val);  good = 1; break;
+	case 8:   set = (*((PUINT8)mem) = val);  good = 1; break;
+	case 16:  set = (*((PUINT16)mem) = val); good = 1; break;
+	case 32:  set = (*((PUINT32)mem) = val); good = 1; break;
+	case 64:  set = (*((PUINT64)mem) = val); good = 1; break;
+	case -8:  set = (*((PINT8)mem) = val);   good = 1; break;
+	case -16: set = (*((PINT16)mem) = val);  good = 1; break;
+	case -32: set = (*((PINT32)mem) = val);  good = 1; break;
+	case -64: set = (*((PINT64)mem) = val);  good = 1; break;
 	}
 
 	if (good)

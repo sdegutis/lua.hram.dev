@@ -3,7 +3,6 @@
 
 #include "util.h"
 #include "window.h"
-#include "screen.h"
 #include "image.h"
 #include "memory.h"
 #include "thread.h"

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <stdint.h>
 #include <d3d11.h>
 #include <lua/lua.h>
 

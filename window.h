@@ -2,7 +2,13 @@
 
 #include <Windows.h>
 #include <d3d11.h>
-#include "screen.h"
+
+struct Screen {
+	int w;
+	int h;
+	ID3D11ShaderResourceView* texturesrv;
+	ID3D11Texture2D* texture;
+};
 
 int setupWindow(HINSTANCE hInstance, int nCmdShow);
 void runLoop();

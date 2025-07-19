@@ -179,7 +179,6 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="memory.c" />
     <ClCompile Include="mutex.c" />
-    <ClCompile Include="screen.c" />
     <ClCompile Include="thread.c" />
     <ClCompile Include="util.c" />
     <ClCompile Include="window.c" />
@@ -226,7 +225,6 @@
     <ClInclude Include="memory.h" />
     <ClInclude Include="mutex.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="screen.h" />
     <ClInclude Include="thread.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="window.h" />
