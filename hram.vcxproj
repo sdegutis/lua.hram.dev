@@ -223,6 +223,7 @@
     <ClInclude Include="lua\lzio.h" />
     <ClInclude Include="memory.h" />
     <ClInclude Include="mutex.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="screen.h" />
     <ClInclude Include="thread.h" />
     <ClInclude Include="util.h" />
@@ -281,6 +282,13 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </ObjectFileOutput>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="hram.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="boot.lua" />
+    <None Include="mytextfi.bin" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
