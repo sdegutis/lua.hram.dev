@@ -17,13 +17,21 @@ print('LICENSE START')
 print(memory.tostr(0x70000, 5))
 print('LICENSE END')
 
+
+local len = assembly.assemble(
+	0x50000,
+	assembly.ops.mov,
+	{assembly.types.reg, assembly.regs.rax},
+	{assembly.types.imm, 234}
+)
+
 --local res = assembly.exec(0x40000, 41)
 --print("res = "..res)
 
 
 print()
 print('DISASM')
-local len = memory.read(0x60000, 64)
+--local len = memory.read(0x60000, 64)
 print('len', len)
 local got = assembly.disassemble(0x50000, len)
 print('START')

@@ -107,8 +107,8 @@ void boot() {
 	luaL_loadbuffer(L, data, size, "<boot>");
 	lua_pcallk(L, 0, 0, 0, 0, NULL);
 
-	int res = ((int(*)(int))0x40000)(213);
-	printf("res = %d\n", res);
+	//int res = ((int(*)(int))0x40000)(213);
+	//printf("res = %d\n", res);
 
 }
 

@@ -17,16 +17,63 @@ static int assembly_exec(lua_State* L) {
 }
 
 static int assembly_assemble(lua_State* L) {
+	PUINT8 dst = luaL_checkinteger(L, 1);
+	UINT64 opcode = luaL_checkinteger(L, 2);
+
 	ZydisEncoderRequest req;
 	ZeroMemory(&req, sizeof(req));
 
-	req.mnemonic = ZYDIS_MNEMONIC_MOV;
+	req.mnemonic = opcode;
 	req.machine_mode = ZYDIS_MACHINE_MODE_LONG_64;
-	req.operand_count = 2;
-	req.operands[0].type = ZYDIS_OPERAND_TYPE_REGISTER;
-	req.operands[0].reg.value = ZYDIS_REGISTER_RAX;
-	req.operands[1].type = ZYDIS_OPERAND_TYPE_IMMEDIATE;
-	req.operands[1].imm.u = 0x1337;
+	req.operand_count = lua_gettop(L) - 2;
+
+	for (int i = 0; i < req.operand_count; i++) {
+		lua_rawgeti(L, 3 + i, 1);
+		req.operands[i].type = lua_tointeger(L, -1);
+		lua_pop(L, 1);
+
+		switch (req.operands[i].type) {
+
+		case ZYDIS_OPERAND_TYPE_REGISTER:
+			lua_rawgeti(L, 3 + i, 2);
+			req.operands[i].reg.value = lua_tointeger(L, -1);
+			lua_rawgeti(L, 3 + i, 3);
+			req.operands[i].reg.is4 = lua_toboolean(L, -1);
+			lua_pop(L, 2);
+			break;
+
+		case ZYDIS_OPERAND_TYPE_POINTER:
+			lua_rawgeti(L, 3 + i, 2);
+			req.operands[i].ptr.segment = lua_tointeger(L, -1);
+			lua_rawgeti(L, 3 + i, 3);
+			req.operands[i].ptr.offset = lua_tointeger(L, -1);
+			lua_pop(L, 2);
+			break;
+
+		case ZYDIS_OPERAND_TYPE_MEMORY:
+			lua_rawgeti(L, 3 + i, 2);
+			req.operands[i].mem.base = lua_tointeger(L, -1);
+			lua_rawgeti(L, 3 + i, 3);
+			req.operands[i].mem.index = lua_tointeger(L, -1);
+			lua_rawgeti(L, 3 + i, 4);
+			req.operands[i].mem.scale = lua_tointeger(L, -1);
+			lua_rawgeti(L, 3 + i, 5);
+			req.operands[i].mem.displacement = lua_tointeger(L, -1);
+			lua_rawgeti(L, 3 + i, 6);
+			req.operands[i].mem.size = lua_tointeger(L, -1);
+			lua_pop(L, 2);
+			break;
+
+		case ZYDIS_OPERAND_TYPE_IMMEDIATE:
+			lua_rawgeti(L, 3 + i, 3);
+			BOOL s = lua_tointeger(L, -1) == -1;
+			lua_rawgeti(L, 3 + i, 2);
+			if (s) req.operands[i].imm.s = lua_tointeger(L, -1);
+			else   req.operands[i].imm.u = lua_tointeger(L, -1);
+			lua_pop(L, 2);
+			break;
+		}
+	}
 
 	ZyanU8 encoded_instruction[ZYDIS_MAX_INSTRUCTION_LENGTH];
 	ZyanUSize encoded_length = sizeof(encoded_instruction);
@@ -37,10 +84,14 @@ static int assembly_assemble(lua_State* L) {
 	}
 
 	for (ZyanUSize i = 0; i < encoded_length; ++i) {
-		printf("%02X ", encoded_instruction[i]);
+		*(dst + i) = encoded_instruction[i];
+		//printf("%02X ", encoded_instruction[i]);
 	}
+	printf("\n");
 
+	lua_pushinteger(L, encoded_length);
 
+	return 1;
 }
 
 static int assembly_disassemble(lua_State* L) {
