@@ -7,7 +7,8 @@ print('in foo!')
 memory.copy(0x30000, "\x48\x89\xC8\x48\xFF\xC0\xC3")
 memory.copy(0x40000, 0x30000, 7)
 
-
+local res = assembly.exec(0x40000, 41)
+print("res = "..res)
 
 --[=[
 m = mutex.create()

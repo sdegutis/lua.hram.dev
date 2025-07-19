@@ -12,6 +12,7 @@
 #include "memory.h"
 #include "thread.h"
 #include "mutex.h"
+#include "assembly.h"
 
 int luaopen_lpeg(lua_State* L);
 
@@ -37,6 +38,9 @@ lua_State* newvm() {
 
 	luaopen_memory(L);
 	lua_setglobal(L, "memory");
+
+	luaopen_assembly(L);
+	lua_setglobal(L, "assembly");
 
 	luaopen_image(L);
 	lua_setglobal(L, "image");
