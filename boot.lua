@@ -17,25 +17,31 @@ memory.copy(0x40000, 0x30000, 7)
 -- print(memory.tostr(0x70000, 5))
 -- print('LICENSE END')
 
+local spot = 0x50000
 
-local len = assembly.assemble(
-	0x50000,
+spot = assembly.assemble(
+	spot,
 	assembly.ops.mov,
 	{assembly.types.reg, assembly.regs.rax},
 	{assembly.types.imm, 234}
 )
-print('LEN', len)
-print('LEN', 0x50000)
+print('LEN', spot)
+print('len', spot-0x50000)
 
 ---[[
-local len2 = assembly.assemble(
-	0x50000 + len,
+spot = assembly.assemble(
+	spot,
 	assembly.ops.ret
 )
-print('LEN2', len2)
+print('LEN2', spot)
 
-for i=1,(len+len2) do
-	print('last',i, memory.read(0x50000+(i-1), 8))
+memory.write(0x50008, 8, 0)
+memory.write(0x50008, 8, 0)
+memory.write(0x50009, 8, 0)
+memory.write(0x5000a, 8, 0)
+
+for i=0x50000,spot-1 do
+	print('last',i, memory.read(i, 8))
 end
 
 --]]
@@ -47,8 +53,8 @@ end
 print()
 print('DISASM')
 --local len = memory.read(0x60000, 64)
-print('len', len)
-local got = assembly.disassemble(0x50000, len+len2)
+print('len', spot-0x50000)
+local got = assembly.disassemble(0x50000, spot-0x50000)
 print('START')
 print(got)
 print('END')

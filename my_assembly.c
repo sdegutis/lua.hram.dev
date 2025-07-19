@@ -35,32 +35,23 @@ static int assembly_assemble(lua_State* L) {
 		switch (req.operands[i].type) {
 
 		case ZYDIS_OPERAND_TYPE_REGISTER:
-			lua_rawgeti(L, 3 + i, 2);
-			req.operands[i].reg.value = lua_tointeger(L, -1);
-			lua_rawgeti(L, 3 + i, 3);
-			req.operands[i].reg.is4 = lua_toboolean(L, -1);
+			lua_rawgeti(L, 3 + i, 2); req.operands[i].reg.value = lua_tointeger(L, -1);
+			lua_rawgeti(L, 3 + i, 3); req.operands[i].reg.is4 = lua_toboolean(L, -1);
 			lua_pop(L, 2);
 			break;
 
 		case ZYDIS_OPERAND_TYPE_POINTER:
-			lua_rawgeti(L, 3 + i, 2);
-			req.operands[i].ptr.segment = lua_tointeger(L, -1);
-			lua_rawgeti(L, 3 + i, 3);
-			req.operands[i].ptr.offset = lua_tointeger(L, -1);
+			lua_rawgeti(L, 3 + i, 2); req.operands[i].ptr.segment = lua_tointeger(L, -1);
+			lua_rawgeti(L, 3 + i, 3); req.operands[i].ptr.offset = lua_tointeger(L, -1);
 			lua_pop(L, 2);
 			break;
 
 		case ZYDIS_OPERAND_TYPE_MEMORY:
-			lua_rawgeti(L, 3 + i, 2);
-			req.operands[i].mem.base = lua_tointeger(L, -1);
-			lua_rawgeti(L, 3 + i, 3);
-			req.operands[i].mem.index = lua_tointeger(L, -1);
-			lua_rawgeti(L, 3 + i, 4);
-			req.operands[i].mem.scale = lua_tointeger(L, -1);
-			lua_rawgeti(L, 3 + i, 5);
-			req.operands[i].mem.displacement = lua_tointeger(L, -1);
-			lua_rawgeti(L, 3 + i, 6);
-			req.operands[i].mem.size = lua_tointeger(L, -1);
+			lua_rawgeti(L, 3 + i, 2); req.operands[i].mem.base = lua_tointeger(L, -1);
+			lua_rawgeti(L, 3 + i, 3); req.operands[i].mem.index = lua_tointeger(L, -1);
+			lua_rawgeti(L, 3 + i, 4); req.operands[i].mem.scale = lua_tointeger(L, -1);
+			lua_rawgeti(L, 3 + i, 5); req.operands[i].mem.displacement = lua_tointeger(L, -1);
+			lua_rawgeti(L, 3 + i, 6); req.operands[i].mem.size = lua_tointeger(L, -1);
 			lua_pop(L, 5);
 			break;
 
@@ -81,7 +72,7 @@ static int assembly_assemble(lua_State* L) {
 		return 1;
 	}
 
-	lua_pushinteger(L, encoded_length);
+	lua_pushinteger(L, dst + encoded_length);
 	return 1;
 }
 
@@ -95,13 +86,20 @@ static int assembly_disassemble(lua_State* L) {
 
 	ZyanUSize offset = 0;
 	ZydisDisassembledInstruction instruction;
-	while (ZYAN_SUCCESS(ZydisDisassembleIntel(
-		ZYDIS_MACHINE_MODE_LONG_64,
-		addr,
-		addr + offset,
-		size - offset,
-		&instruction
-	))) {
+
+	while (1) {
+		ZyanStatus status = ZydisDisassembleIntel(
+			ZYDIS_MACHINE_MODE_LONG_64,
+			addr,
+			addr + offset,
+			size - offset,
+			&instruction
+		);
+		if (!ZYAN_SUCCESS(status)) {
+			//printf("failed: %d\n", ZYAN_STATUS_CODE(status));
+			break;
+		}
+
 		sprintf_s(buffer, 256, "%016llX  %s\n", addr, instruction.text);
 		luaL_addstring(&b, buffer);
 		offset += instruction.info.length;
