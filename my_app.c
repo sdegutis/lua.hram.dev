@@ -1,4 +1,4 @@
-#include "app.h"
+#include "my_app.h"
 
 #include <lua/lualib.h>
 #include <lua/lauxlib.h>
@@ -6,13 +6,15 @@
 #include <stdio.h>
 #include "resource.h"
 
-#include "util.h"
-#include "window.h"
-#include "image.h"
-#include "memory.h"
-#include "thread.h"
-#include "mutex.h"
-#include "assembly.h"
+#include "my_util.h"
+#include "my_window.h"
+#include "my_image.h"
+#include "my_memory.h"
+#include "my_thread.h"
+#include "my_mutex.h"
+#include "my_assembly.h"
+
+//#include <zydis/>
 
 int luaopen_lpeg(lua_State* L);
 

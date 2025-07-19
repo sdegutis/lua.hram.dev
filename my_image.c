@@ -1,9 +1,9 @@
-#include "image.h"
+#include "my_image.h"
 
 #include <lua/lauxlib.h>
 
-#include "util.h"
-#include "window.h"
+#include "my_util.h"
+#include "my_window.h"
 
 ID3D11Texture2D* createImage(ID3D11Device* device, void* data, UINT w, UINT h, UINT pw) {
 	if (pw == 0) pw = w * 4;

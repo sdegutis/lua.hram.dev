@@ -74,9 +74,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ZYCORE_STATIC_BUILD;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/lua;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/zydis;$(SolutionDir)/lua;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
@@ -91,9 +91,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ZYCORE_STATIC_BUILD;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/lua;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/zydis;$(SolutionDir)/lua;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
@@ -106,9 +106,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ZYCORE_STATIC_BUILD;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/lua;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/zydis;$(SolutionDir)/lua;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
@@ -123,9 +123,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>ZYCORE_STATIC_BUILD;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/lua;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/zydis;$(SolutionDir)/lua;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
@@ -135,9 +135,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="app.c" />
-    <ClCompile Include="assembly.c" />
-    <ClCompile Include="image.c" />
+    <ClCompile Include="my_app.c" />
+    <ClCompile Include="my_assembly.c" />
+    <ClCompile Include="my_image.c" />
     <ClCompile Include="lpeg\lpcap.c" />
     <ClCompile Include="lpeg\lpcode.c" />
     <ClCompile Include="lpeg\lpcset.c" />
@@ -176,17 +176,17 @@
     <ClCompile Include="lua\lutf8lib.c" />
     <ClCompile Include="lua\lvm.c" />
     <ClCompile Include="lua\lzio.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="memory.c" />
-    <ClCompile Include="mutex.c" />
-    <ClCompile Include="thread.c" />
-    <ClCompile Include="util.c" />
-    <ClCompile Include="window.c" />
+    <ClCompile Include="my_main.c" />
+    <ClCompile Include="my_memory.c" />
+    <ClCompile Include="my_mutex.c" />
+    <ClCompile Include="my_thread.c" />
+    <ClCompile Include="my_util.c" />
+    <ClCompile Include="my_window.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="app.h" />
-    <ClInclude Include="assembly.h" />
-    <ClInclude Include="image.h" />
+    <ClInclude Include="my_app.h" />
+    <ClInclude Include="my_assembly.h" />
+    <ClInclude Include="my_image.h" />
     <ClInclude Include="lpeg\lpcap.h" />
     <ClInclude Include="lpeg\lpcode.h" />
     <ClInclude Include="lpeg\lpcset.h" />
@@ -222,12 +222,12 @@
     <ClInclude Include="lua\lundump.h" />
     <ClInclude Include="lua\lvm.h" />
     <ClInclude Include="lua\lzio.h" />
-    <ClInclude Include="memory.h" />
-    <ClInclude Include="mutex.h" />
+    <ClInclude Include="my_memory.h" />
+    <ClInclude Include="my_mutex.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="thread.h" />
-    <ClInclude Include="util.h" />
-    <ClInclude Include="window.h" />
+    <ClInclude Include="my_thread.h" />
+    <ClInclude Include="my_util.h" />
+    <ClInclude Include="my_window.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">

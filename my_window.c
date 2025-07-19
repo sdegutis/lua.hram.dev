@@ -1,4 +1,4 @@
-#include "window.h"
+#include "my_window.h"
 
 #pragma comment(lib, "shlwapi")
 #pragma comment(lib, "Dwmapi")
@@ -12,9 +12,9 @@
 #include "PixelShader.h"
 #include "VertexShader.h"
 
-#include "app.h"
-#include "util.h"
-#include "image.h"
+#include "my_app.h"
+#include "my_util.h"
+#include "my_image.h"
 
 WINDOWPLACEMENT lastwinpos = { sizeof(lastwinpos) };
 
