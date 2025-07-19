@@ -6,20 +6,20 @@
 #include <Windows.h>
 #include <heapapi.h>
 
-static int newmemory(lua_State* L) {
+static int luawrap_memory_alloc(lua_State* L) {
 	lua_Integer len = luaL_checkinteger(L, 1);
 	void* mem = HeapAlloc(GetProcessHeap(), 0, len);
 	lua_pushinteger(L, mem);
 	return 1;
 }
 
-static int delmemory(lua_State* L) {
+static int luawrap_memory_free(lua_State* L) {
 	void* mem = lua_tointeger(L, 1);
 	HeapFree(GetProcessHeap(), 0, mem);
 	return 0;
 }
 
-static int filmemory(lua_State* L) {
+static int luawrap_memory_fill(lua_State* L) {
 	void* mem = lua_tointeger(L, 1);
 	lua_Integer val = lua_tointeger(L, 2);
 	lua_Integer len = lua_tointeger(L, 3);
@@ -27,7 +27,7 @@ static int filmemory(lua_State* L) {
 	return 0;
 }
 
-static int getmemory(lua_State* L) {
+static int luawrap_memory_get(lua_State* L) {
 	lua_Integer mem = lua_tointeger(L, 1);
 	lua_Integer siz = lua_tointeger(L, 2);
 
@@ -52,7 +52,7 @@ static int getmemory(lua_State* L) {
 	return 1;
 }
 
-static int setmemory(lua_State* L) {
+static int luawrap_memory_set(lua_State* L) {
 	void* mem = lua_tointeger(L, 1);
 	lua_Integer siz = lua_tointeger(L, 2);
 	lua_Integer val = lua_tointeger(L, 3);
@@ -79,11 +79,11 @@ static int setmemory(lua_State* L) {
 }
 
 static const luaL_Reg memorylib[] = {
-	{"malloc", newmemory},
-	{"free",   delmemory},
-	{"get",    getmemory},
-	{"set",    setmemory},
-	{"fill",   filmemory},
+	{"malloc", luawrap_memory_alloc},
+	{"free",   luawrap_memory_free},
+	{"get",    luawrap_memory_get},
+	{"set",    luawrap_memory_set},
+	{"fill",   luawrap_memory_fill},
 	{NULL,NULL}
 };
 
