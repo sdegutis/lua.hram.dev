@@ -66,7 +66,6 @@ lua_State* newvm() {
 
 void draw();
 
-#include <zydis/Zydis.h>
 
 void testingthis() {
 	printf("IN TESTING THIS!!\n");
