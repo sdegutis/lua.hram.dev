@@ -8,6 +8,10 @@ print("mov", assembly.ops.mov)
 print("regs", assembly.regs)
 print("rax", assembly.regs.rax)
 
+print('LICENSE START')
+print(memory.tostr(0x70000, 5))
+print('LICENSE END')
+
 --local res = assembly.exec(0x40000, 41)
 --print("res = "..res)
 
