@@ -1,23 +1,21 @@
-print(lpeg)
-
 print(pcall(function()
-
-print('in foo!')
-
-memory.copy(0x12345, "\xE8\x00\x00\x00\x00\xC3")
 
 memory.copy(0x30000, "\x48\x89\xC8\x48\xFF\xC0\xC3")
 memory.copy(0x40000, 0x30000, 7)
 
-local res = assembly.exec(0x40000, 41)
-print("res = "..res)
+--local res = assembly.exec(0x40000, 41)
+--print("res = "..res)
 
 
+print()
 print('DISASM')
-local got = assembly.disassemble(0x40000, 7)
+local len = memory.read(0x60000, 64)
+print('len', len)
+local got = assembly.disassemble(0x50000, len)
 print('START')
 print(got)
 print('END')
+print()
 
 --[=[
 m = mutex.create()
