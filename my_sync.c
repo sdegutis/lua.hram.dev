@@ -15,7 +15,7 @@ DWORD WINAPI StartThread(LPVOID param) {
 	return res;
 }
 
-static int sync_spawn(lua_State* L) {
+static int sync_newthread(lua_State* L) {
 	lua_State* L2 = newvm();
 
 	size_t srclen;
@@ -46,15 +46,51 @@ static int sync_spawn(lua_State* L) {
 	return 1;
 }
 
-static int sync_close(lua_State* L) {
-	CloseHandle(lua_tointeger(L, -1));
-	printf("closed\n");
+static int sync_newcritsec(lua_State* L) {
+	LPCRITICAL_SECTION cs = HeapAlloc(GetProcessHeap(), 0, sizeof(CRITICAL_SECTION));
+	InitializeCriticalSection(cs);
+	lua_pushinteger(L, cs);
+	return 1;
+}
+
+static int sync_delcritsec(lua_State* L) {
+	LPCRITICAL_SECTION cs = luaL_checkinteger(L, -1);
+	DeleteCriticalSection(cs);
+	HeapFree(GetProcessHeap(), 0, cs);
+	return 0;
+}
+
+static int sync_closehandle(lua_State* L) {
+	HANDLE h = luaL_checkinteger(L, -1);
+	CloseHandle(h);
+}
+
+static int sync_entercritsec(lua_State* L) {
+	LPCRITICAL_SECTION cs = luaL_checkinteger(L, -1);
+	EnterCriticalSection(cs);
+	printf("entering %d\n", GetCurrentThreadId());
+}
+
+static int sync_leavecritsec(lua_State* L) {
+	LPCRITICAL_SECTION cs = luaL_checkinteger(L, -1);
+	printf("leaving %d\n", GetCurrentThreadId());
+	LeaveCriticalSection(cs);
+}
+
+static int sync_sleep(lua_State* L) {
+	UINT64 ms = luaL_checkinteger(L, -1);
+	Sleep(ms);
 	return 0;
 }
 
 static const struct luaL_Reg threadlib[] = {
-	{"newthread", sync_spawn},
-	{"close", sync_close},
+	{"newthread",    sync_newthread},
+	{"closehandle",  sync_closehandle},
+	{"newcritsec",   sync_newcritsec},
+	{"delcritsec",   sync_delcritsec},
+	{"entercritsec", sync_entercritsec},
+	{"leavecritsec", sync_leavecritsec},
+	{"sleep",        sync_sleep},
 	{NULL,NULL}
 };
 

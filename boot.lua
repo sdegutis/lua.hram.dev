@@ -1,17 +1,27 @@
 local ok, err = pcall(function()
 
 
+local cs = sync.newcritsec()
+
+
 local t, err = sync.newthread([[
-	local a,b,c = ...
+	local a,b,c,cs = ...
+	sync.entercritsec(cs)
 	print('inside thread', table.pack(...).n, ...)
 	print('a='..tostring(a))
 	print('b='..tostring(b))
 	print('c='..tostring(c))
-]], 123, nil, 'asdf')
-sync.close(t)
+	sync.leavecritsec(cs)
+]], 123, nil, 'asdf', cs)
 
-print('outside thread', t, err)
-
+sync.entercritsec(cs)
+sync.closehandle(t)
+print('outside thread')
+print(t, err)
+print('sleep')
+sync.sleep(1000)
+print('wake')
+sync.leavecritsec(cs)
 
 
 end)
