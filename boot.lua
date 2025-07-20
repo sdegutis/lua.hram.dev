@@ -1,14 +1,14 @@
 local ok, err = pcall(function()
 
 
-local t, err = thread.spawn([[
+local t, err = sync.newthread([[
 	local a,b,c = ...
 	print('inside thread', table.pack(...).n, ...)
 	print('a='..tostring(a))
 	print('b='..tostring(b))
 	print('c='..tostring(c))
 ]], 123, nil, 'asdf')
-thread.close(t)
+sync.close(t)
 
 print('outside thread', t, err)
 

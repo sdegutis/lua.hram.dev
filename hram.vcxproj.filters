@@ -156,10 +156,7 @@
     <ClCompile Include="my_memory.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="my_mutex.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="my_thread.c">
+    <ClCompile Include="my_sync.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="my_util.c">
@@ -206,6 +203,12 @@
     </ClCompile>
     <ClCompile Include="zycore\src\Zycore.c">
       <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="my_asmkeys.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zydis\Zydis.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -275,9 +278,6 @@
     <ClInclude Include="lua\lua.h">
       <Filter>Vendor\Lua</Filter>
     </ClInclude>
-    <ClInclude Include="lua\lua.hpp">
-      <Filter>Vendor\Lua</Filter>
-    </ClInclude>
     <ClInclude Include="lua\luaconf.h">
       <Filter>Vendor\Lua</Filter>
     </ClInclude>
@@ -326,13 +326,10 @@
     <ClInclude Include="my_memory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="my_mutex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="my_thread.h">
+    <ClInclude Include="my_sync.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="my_util.h">
@@ -406,6 +403,12 @@
     </ClInclude>
     <ClInclude Include="zycore\Zycore.h">
       <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="licenses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Zydis.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

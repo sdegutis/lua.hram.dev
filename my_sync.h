@@ -2,4 +2,4 @@
 
 #include <lua/lua.h>
 
-int luaopen_thread(lua_State* L);
+int luaopen_sync(lua_State* L);

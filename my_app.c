@@ -10,7 +10,7 @@
 #include "my_window.h"
 #include "my_image.h"
 #include "my_memory.h"
-#include "my_thread.h"
+#include "my_sync.h"
 #include "my_assembly.h"
 #include "licenses.h"
 
@@ -54,8 +54,8 @@ lua_State* newvm() {
 	luaopen_image(L);
 	lua_setglobal(L, "image");
 
-	luaopen_thread(L);
-	lua_setglobal(L, "thread");
+	luaopen_sync(L);
+	lua_setglobal(L, "sync");
 
 	luaopen_lpeg(L);
 	lua_setglobal(L, "lpeg");

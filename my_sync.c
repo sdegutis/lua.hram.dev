@@ -1,4 +1,4 @@
-#include "my_thread.h"
+#include "my_sync.h"
 
 #include <lua/lualib.h>
 #include <lua/lauxlib.h>
@@ -15,7 +15,7 @@ DWORD WINAPI StartThread(LPVOID param) {
 	return res;
 }
 
-static int thread_spawn(lua_State* L) {
+static int sync_spawn(lua_State* L) {
 	lua_State* L2 = newvm();
 
 	size_t srclen;
@@ -46,19 +46,19 @@ static int thread_spawn(lua_State* L) {
 	return 1;
 }
 
-static int thread_close(lua_State* L) {
+static int sync_close(lua_State* L) {
 	CloseHandle(lua_tointeger(L, -1));
 	printf("closed\n");
 	return 0;
 }
 
 static const struct luaL_Reg threadlib[] = {
-	{"spawn", thread_spawn},
-	{"close", thread_close},
+	{"newthread", sync_spawn},
+	{"close", sync_close},
 	{NULL,NULL}
 };
 
-int luaopen_thread(lua_State* L) {
+int luaopen_sync(lua_State* L) {
 	luaL_newlib(L, threadlib);
 	return 1;
 }
