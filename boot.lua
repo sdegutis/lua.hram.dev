@@ -5,30 +5,30 @@ FUNC=memory.read(0x40000, 64)
 
 spot = assembly.assemble(spot,
 	assembly.ops.mov,
-	{assembly.types.reg, assembly.regs.rax},
-	{assembly.types.imm, FUNC}
+	{assembly.loc.reg, assembly.reg.rax},
+	{assembly.loc.imm, FUNC}
 )
 --[[
 spot = assembly.assemble(spot,
 	assembly.ops.mov,
-	{assembly.types.reg, assembly.regs.rcx},
-	{assembly.types.imm, 34}
+	{assembly.loc.reg, assembly.reg.rcx},
+	{assembly.loc.imm, 34}
 )
 spot = assembly.assemble(spot,
 	assembly.ops.mov,
-	{assembly.types.reg, assembly.regs.rdx},
-	{assembly.types.imm, 15}
+	{assembly.loc.reg, assembly.reg.rdx},
+	{assembly.loc.imm, 15}
 )
 ---]]
 spot = assembly.assemble(spot,
 	assembly.ops.call,
-	{assembly.types.reg, assembly.regs.rax}
+	{assembly.loc.reg, assembly.reg.rax}
 )
 --[[
 spot = assembly.assemble(spot,
 	assembly.ops.add,
-	{assembly.types.reg, assembly.regs.rsp},
-	{assembly.types.imm, 12}
+	{assembly.loc.reg, assembly.reg.rsp},
+	{assembly.loc.imm, 12}
 )
 ]]
 spot = assembly.assemble(spot,

@@ -131,11 +131,11 @@ int luaopen_assembly(lua_State* L) {
 
 	lua_createtable(L, ZYDIS_REGISTER_MAX_VALUE, 0);
 	addregs(L);
-	lua_setfield(L, -2, "regs");
+	lua_setfield(L, -2, "reg");
 
 	lua_createtable(L, ZYDIS_OPERAND_TYPE_MAX_VALUE, 0);
 	addtypes(L);
-	lua_setfield(L, -2, "types");
+	lua_setfield(L, -2, "loc");
 
 	return 1;
 }
