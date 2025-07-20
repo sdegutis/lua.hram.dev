@@ -73,8 +73,14 @@ static int asm_assemble(lua_State* L) {
 	lua_pop(L, count + 2);
 
 	ZyanUSize encoded_length;
-	if (ZYAN_FAILED(ZydisEncoderEncodeInstruction(&req, dst, &encoded_length))) {
-		lua_pushnil(L);
+	ZyanStatus status = ZydisEncoderEncodeInstruction(&req, dst, &encoded_length);
+	if (ZYAN_FAILED(status)) {
+		switch (status) {
+		case ZYDIS_STATUS_INSTRUCTION_TOO_LONG:    lua_pushliteral(L, "error on line [1]: instruction too long");     break;
+		case ZYDIS_STATUS_IMPOSSIBLE_INSTRUCTION:  lua_pushliteral(L, "error on line [1]: impossible instruction");   break;
+		case ZYAN_STATUS_INVALID_ARGUMENT:         lua_pushliteral(L, "error on line [1]: invalid argument");         break;
+		case ZYAN_STATUS_INSUFFICIENT_BUFFER_SIZE: lua_pushliteral(L, "error on line [1]: insufficient buffer size"); break;
+		}
 	}
 	else {
 		lua_pushinteger(L, dst + encoded_length);
@@ -84,12 +90,31 @@ static int asm_assemble(lua_State* L) {
 }
 
 static int asm_assembleall(lua_State* L) {
+	int line = 1;
 	while (1) {
 		asm_assemble(L);
+
+		if (lua_type(L, -1) == LUA_TSTRING) {
+			const char* err = lua_tostring(L, -1);
+
+			char linestr[256];
+			memset(linestr, 0, 256);
+			sprintf_s(linestr, 256, "%d", line);
+
+			luaL_Buffer b;
+			luaL_buffinit(L, &b);
+			luaL_addgsub(&b, err, "1", linestr);
+			luaL_pushresult(&b);
+
+			return 1;
+		}
+
 		if (lua_gettop(L) == 1) {
 			return 1;
 		}
+
 		lua_rotate(L, 1, 1);
+		line++;
 	}
 }
 
