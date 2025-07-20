@@ -1,6 +1,20 @@
 print(pcall(function()
 
 
+function gen(spot, ...)
+	print(spot, spot, ...)
+end
+
+gen(234, 'hi')
+
+local addr = 0x70000
+
+addr[#8] = 65
+
+print('mem', memory.tostr(addr))
+print('mem', addr[#8])
+
+
 local spot = 0x50000
 
 spot = asm.assemble(spot,
@@ -24,11 +38,11 @@ end))
 
 function int()
 --	local ok, err = pcall(function()
---		print("time", memory.read(0x10008, 32))
---		local event = memory.read(0x10000, 8)
+--		print("time", (0x10008)[#32])
+--		local event = (0x10000)[#8]
 --		if event == 1 then
---			local x = memory.read(0x10004, 8)
---			local y = memory.read(0x10006, 8)
+--			local x = (0x10004)[#8]
+--			local y = (0x10006)[#8]
 --			print("mousemove!", x, y)
 --		end
 --	end)

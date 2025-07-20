@@ -44,7 +44,7 @@ static int memory_copy(lua_State* L) {
 	return 0;
 }
 
-static int memory_read(lua_State* L) {
+int memory_read(lua_State* L) {
 	lua_Integer mem = lua_tointeger(L, 1);
 	lua_Integer siz = lua_tointeger(L, 2);
 
@@ -69,7 +69,7 @@ static int memory_read(lua_State* L) {
 	return 1;
 }
 
-static int memory_write(lua_State* L) {
+int memory_write(lua_State* L) {
 	void* mem = lua_tointeger(L, 1);
 	lua_Integer siz = lua_tointeger(L, 2);
 	lua_Integer val = lua_tointeger(L, 3);

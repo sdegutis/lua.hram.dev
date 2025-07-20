@@ -34,6 +34,27 @@ struct {
 } *sys = 0x10000;
 
 
+int memory_read(lua_State* L);
+int memory_write(lua_State* L);
+
+int numberlen(lua_State* L) {
+	return 1;
+}
+
+int numbercall(lua_State* L) {
+	double a = lua_tonumber(L, 1);
+	double b = lua_tonumber(L, 2);
+	lua_pushnumber(L, a / 100. + b);
+	return 1;
+}
+
+luaL_Reg numbermetamethods[] = {
+	{"__len", numberlen},
+	{"__index", memory_read},
+	{"__newindex", memory_write},
+	{NULL,NULL}
+};
+
 lua_State* newvm() {
 
 	lua_State* L = luaL_newstate();
@@ -57,6 +78,13 @@ lua_State* newvm() {
 
 	//luaopen_mutex(L);
 	//lua_setglobal(L, "mutex");
+
+	luaL_newlibtable(L, numbermetamethods);
+	luaL_setfuncs(L, numbermetamethods, 0);
+	lua_pushinteger(L, 0);
+	lua_pushvalue(L, -2);
+	lua_setmetatable(L, -2);
+	lua_pop(L, 2);
 
 	return L;
 }
