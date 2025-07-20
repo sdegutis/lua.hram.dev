@@ -76,26 +76,16 @@ lua_State* newvm() {
 }
 
 
-void testingthis(int a, int b) {
-	//draw();
-	//draw();
-	//draw();
-	//printf("IN TESTING THIS a!! a=[%d] b=[%d]\n", a++, b++);
-	//printf("IN TESTING THIS b!! a=[%d] b=[%d]\n", a++, b++);
-	//printf("IN TESTING THIS c!! a=[%d] b=[%d]\n", a++, b++);
-}
-
-
-void blit(int c) {
-	int a = 123;
-	int b = 45;
-	draw();
+void testingthis(int a) {
+	int b = 0;
 	printf("Return address from %s: %p\n", __FUNCTION__, _ReturnAddress());
+	draw();
 	printf("IN TESTING THIS a!! a=[%d] b=[%d]\n", a++, b++);
 	printf("IN TESTING THIS b!! a=[%d] b=[%d]\n", a++, b++);
 	printf("IN TESTING THIS c!! a=[%d] b=[%d]\n", a++, b++);
 	printf("BLIT!\n");
-	return c + 10;
+	draw();
+	return a + b * 2;
 }
 
 void boot() {
@@ -104,19 +94,21 @@ void boot() {
 	void* mem = VirtualAlloc(0x10000, 0x100000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 
 	CopyMemory(0x70000, third_party_licenses, sizeof(third_party_licenses));
-	*((PUINT64)0x60000) = blit;
+	*((PUINT64)0x60000) = draw;
 	*((PUINT64)0x30000) = testingthis;
 
-	// setup lua
-	L = newvm();
 	HMODULE handle = GetModuleHandle(NULL);
 	HRSRC rc = FindResource(handle, MAKEINTRESOURCE(IDR_MYTEXTFILE), MAKEINTRESOURCE(TEXTFILE));
 	HGLOBAL rcData = LoadResource(handle, rc);
 	DWORD size = SizeofResource(handle, rc);
 	const char* data = LockResource(rcData);
+
+	L = newvm();
 	luaL_loadbuffer(L, data, size, "<boot>");
+
 	lua_pcallk(L, 0, 0, 0, 0, NULL);
 	lua_getglobal(L, "int");
+
 	intref = luaL_ref(L, LUA_REGISTRYINDEX);
 }
 
