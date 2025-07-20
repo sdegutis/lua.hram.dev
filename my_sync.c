@@ -83,6 +83,14 @@ static int sync_sleep(lua_State* L) {
 	return 0;
 }
 
+static int sync_newsemaphore(lua_State* L) {
+	UINT64 init = luaL_checkinteger(L, 1);
+	UINT64 max = luaL_checkinteger(L, 2);
+	HANDLE sem = CreateSemaphore(NULL, init, max, NULL);
+	lua_pushinteger(L, sem);
+	return 1;
+}
+
 static const struct luaL_Reg threadlib[] = {
 	{"newthread",    sync_newthread},
 	{"closehandle",  sync_closehandle},
@@ -90,6 +98,7 @@ static const struct luaL_Reg threadlib[] = {
 	{"delcritsec",   sync_delcritsec},
 	{"entercritsec", sync_entercritsec},
 	{"leavecritsec", sync_leavecritsec},
+	{"newsemaphore", sync_newsemaphore},
 	{"sleep",        sync_sleep},
 	{NULL,NULL}
 };
