@@ -76,10 +76,18 @@ static int asm_assemble(lua_State* L) {
 	ZyanStatus status = ZydisEncoderEncodeInstruction(&req, dst, &encoded_length);
 	if (ZYAN_FAILED(status)) {
 		switch (status) {
-		case ZYDIS_STATUS_INSTRUCTION_TOO_LONG:    lua_pushliteral(L, "error on line [1]: instruction too long");     break;
-		case ZYDIS_STATUS_IMPOSSIBLE_INSTRUCTION:  lua_pushliteral(L, "error on line [1]: impossible instruction");   break;
-		case ZYAN_STATUS_INVALID_ARGUMENT:         lua_pushliteral(L, "error on line [1]: invalid argument");         break;
-		case ZYAN_STATUS_INSUFFICIENT_BUFFER_SIZE: lua_pushliteral(L, "error on line [1]: insufficient buffer size"); break;
+		case ZYDIS_STATUS_INSTRUCTION_TOO_LONG:
+			lua_pushliteral(L, "error on line [1]: instruction too long");
+			break;
+		case ZYDIS_STATUS_IMPOSSIBLE_INSTRUCTION:
+			lua_pushliteral(L, "error on line [1]: impossible instruction");
+			break;
+		case ZYAN_STATUS_INVALID_ARGUMENT:
+			lua_pushliteral(L, "error on line [1]: invalid argument");
+			break;
+		case ZYAN_STATUS_INSUFFICIENT_BUFFER_SIZE:
+			lua_pushliteral(L, "error on line [1]: insufficient buffer size");
+			break;
 		}
 	}
 	else {
