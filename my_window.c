@@ -228,7 +228,7 @@ void draw() {
 	swapchain->lpVtbl->Present(swapchain, 1, 0);
 }
 
-inline void toggleFullscreen() {
+void toggleFullscreen() {
 	DWORD dwStyle = GetWindowLong(hwnd, GWL_STYLE);
 	if (dwStyle & WS_OVERLAPPEDWINDOW) {
 		MONITORINFO mi = { sizeof(mi) };

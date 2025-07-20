@@ -14,8 +14,9 @@
 #include "my_assembly.h"
 #include "licenses.h"
 
-int luaopen_lpeg(lua_State* L);
+
 void draw();
+void toggleFullscreen();
 
 static lua_State* L;
 int intref;
@@ -56,6 +57,8 @@ luaL_Reg numbermetamethods[] = {
 	{"__newindex", number_newindex},
 	{NULL,NULL}
 };
+
+int luaopen_lpeg(lua_State* L);
 
 lua_State* newvm() {
 	lua_State* L = luaL_newstate();
@@ -104,6 +107,7 @@ void boot() {
 
 	PUINT64 funcs = 0x60000;
 	*funcs++ = draw;
+	*funcs++ = toggleFullscreen;
 	*funcs++ = testingthis;
 
 	HMODULE handle = GetModuleHandle(NULL);
