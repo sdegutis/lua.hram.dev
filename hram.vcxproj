@@ -236,6 +236,7 @@
     <ClInclude Include="lua\lundump.h" />
     <ClInclude Include="lua\lvm.h" />
     <ClInclude Include="lua\lzio.h" />
+    <ClInclude Include="licenses.h" />
     <ClInclude Include="my_memory.h" />
     <ClInclude Include="my_mutex.h" />
     <ClInclude Include="resource.h" />

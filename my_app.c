@@ -13,6 +13,7 @@
 #include "my_thread.h"
 #include "my_mutex.h"
 #include "my_assembly.h"
+#include "licenses.h"
 
 int luaopen_lpeg(lua_State* L);
 
@@ -23,9 +24,6 @@ struct {
 	UINT16 arg1;
 	UINT16 arg2;
 	UINT32 time;
-	UINT16 mousex;
-	UINT16 mousey;
-	UINT8 keys[32];
 } *sys = 0x10000;
 
 
@@ -61,26 +59,14 @@ lua_State* newvm() {
 void draw();
 
 
-void __stdcall testingthis(int a, int b) {
+void testingthis(int a, int b) {
+	draw();
+	draw();
+	draw();
 	printf("IN TESTING THIS a!! a=[%d] b=[%d]\n", a++, b++);
 	printf("IN TESTING THIS b!! a=[%d] b=[%d]\n", a++, b++);
 	printf("IN TESTING THIS c!! a=[%d] b=[%d]\n", a++, b++);
 }
-
-const char third_party_licenses[] =
-"License of Lua, LPeg, and Zydis (all MIT) is as follows.\n"
-"\n"
-"Lua   : Copyright (c) 1994–2025 Lua.org, PUC-Rio.\n"
-"LPeg  : Copyright (c) 2007-2023 Lua.org, PUC-Rio.\n"
-"Zydis : Copyright (c) 2014-2024 Florian Bernd\n"
-"Zydis : Copyright (c) 2014-2024 Joel Höner\n"
-"\n"
-"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n"
-"\n"
-"The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n"
-"\n"
-"THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n"
-;
 
 int intref;
 
@@ -110,8 +96,8 @@ void boot() {
 	lua_getglobal(L, "int");
 	intref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	int res = ((int(*)(int))0x50000)(213);
-	printf("res = %d\n", res);
+	//int res = ((int(*)(int))0x50000)(213);
+	//printf("res = %d\n", res);
 
 }
 
@@ -131,10 +117,12 @@ void callint() {
 	lua_call(L, 0, 0);
 }
 
-void tick(DWORD delta) {
+void tick(DWORD delta, DWORD now) {
 	sys->event = asmevent_tick;
 	sys->arg1 = delta;
+	sys->time = now;
 	callint();
+	draw();
 }
 
 void mouseMoved(int x, int y) {

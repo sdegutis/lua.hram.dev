@@ -6,7 +6,7 @@
 lua_State* newvm();
 
 void boot();
-void tick(DWORD delta);
+void tick(DWORD delta, DWORD now);
 
 void mouseMoved(int x, int y);
 void mouseDown(int b);

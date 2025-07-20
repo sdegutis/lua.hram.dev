@@ -185,7 +185,7 @@ void runLoop() {
 
 		if (delta >= 30) {
 			last = now;
-			tick(delta);
+			tick(delta, now);
 		}
 	}
 }
