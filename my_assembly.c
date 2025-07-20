@@ -105,6 +105,8 @@ static int asm_assembleall(lua_State* L) {
 		if (lua_type(L, -1) == LUA_TSTRING) {
 			const char* err = lua_tostring(L, -1);
 
+			lua_pushnil(L);
+
 			char linestr[256];
 			memset(linestr, 0, 256);
 			sprintf_s(linestr, 256, "%d", line);
@@ -114,7 +116,7 @@ static int asm_assembleall(lua_State* L) {
 			luaL_addgsub(&b, err, "1", linestr);
 			luaL_pushresult(&b);
 
-			return 1;
+			return 2;
 		}
 
 		if (lua_gettop(L) == 1) {
