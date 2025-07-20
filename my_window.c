@@ -168,19 +168,26 @@ int setupWindow(HINSTANCE hInstance, int nCmdShow) {
 }
 
 void runLoop() {
-
+	DWORD last = 0, now, delta;
 	MSG msg = { 0 };
-	while (msg.message != WM_QUIT) {
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
+
+	while (1) {
+		Sleep(1);
+
+		now = GetTickCount();
+		delta = now - last;
+
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
-			draw();
+			if (msg.message == WM_QUIT) ExitProcess(0);
 		}
-		else {
+
+		if (delta >= 30) {
+			last = now;
+			tick(delta);
 		}
 	}
-
-
 }
 
 inline void moveSubWindow() {

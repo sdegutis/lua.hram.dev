@@ -26,9 +26,9 @@ spot = assembly.assemble(
 	spot,
 	assembly.ops.mov,
 	{assembly.types.reg, assembly.regs.rax},
-	{assembly.types.imm, FUNC}
+	{assembly.types.imm, 0x2445332312}
 )
----[[
+--[[
 spot = assembly.assemble(
 	spot,
 	assembly.ops.mov,
@@ -51,8 +51,8 @@ spot = assembly.assemble(
 spot = assembly.assemble(
 	spot,
 	assembly.ops.add,
-	{assembly.types.reg, assembly.regs.sp},
-	{assembly.types.imm, 8}
+	{assembly.types.reg, assembly.regs.rsp},
+	{assembly.types.imm, 12}
 )
 ]]
 spot = assembly.assemble(
@@ -119,35 +119,23 @@ image.copy(img2, img, 6, 6, 0, 0, 3, 3)
 image.delete(img)
 
 
-
-function mousemove(x, y)
-	--image.copy(nil, img2, x, y)
-	image.update(nil, x, y, 2, 2, m+4*4, 3*4)
-	print('mouse moved', x, y)
+function int()
+	local ok, err = pcall(function()
+		local event = memory.read(0x10000, 8)
+		if event == 1 then
+			local x = memory.read(0x10004, 8)
+			local y = memory.read(0x10006, 8)
+			print("mousemove!", x, y)
+		end
+	end)
+	if not ok then print(err) end
 end
 
-function mousewheel(d)
-	print('mouse wheel', d)
-end
 
-function mouseup(b)
-	print('mouse up', b)
-end
-
-function mousedown(b)
-	print('mouse up', b)
-end
-
-function keyup(k)
-	print('key up', k)
-end
-
-function keydown(k)
-	print('key up', k)
-end
-
-function keychar(s)
-	print('key char', s)
-end
+--function mousemove(x, y)
+--	--image.copy(nil, img2, x, y)
+--	image.update(nil, x, y, 2, 2, m+4*4, 3*4)
+--	print('mouse moved', x, y)
+--end
 
 end))

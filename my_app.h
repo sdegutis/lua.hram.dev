@@ -1,10 +1,12 @@
 #pragma once
 
 #include <lua/lua.h>
+#include <intsafe.h>
 
 lua_State* newvm();
 
 void boot();
+void tick(DWORD delta);
 
 void mouseMoved(int x, int y);
 void mouseDown(int b);

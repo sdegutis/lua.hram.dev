@@ -21,14 +21,13 @@ static lua_State* L;
 
 #pragma pack(push, 1)
 struct State {
-	UINT8 keys[32];
+	UINT32 event;
+	UINT16 arg1;
+	UINT16 arg2;
 	UINT32 time;
-	UINT8 event;
-	UINT8 arg1;
-	UINT8 arg2;
-	UINT8 arg3;
 	UINT16 mousex;
 	UINT16 mousey;
+	UINT8 keys[32];
 };
 #pragma pack(pop)
 
@@ -88,6 +87,8 @@ const char third_party_licenses[] =
 "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n"
 ;
 
+int intref;
+
 void boot() {
 	openConsole();
 
@@ -113,52 +114,81 @@ void boot() {
 	luaL_loadbuffer(L, data, size, "<boot>");
 	lua_pcallk(L, 0, 0, 0, 0, NULL);
 
-	int res = ((int(*)(int))0x50000)(213);
-	printf("res = %d\n", res);
+	lua_getglobal(L, "int");
+	intref = luaL_ref(L, LUA_REGISTRYINDEX);
 
+	//int res = ((int(*)(int))0x50000)(213);
+	//printf("res = %d\n", res);
+
+}
+
+enum asmevent {
+	asmevent_tick,
+	asmevent_mousemove,
+	asmevent_mousewheel,
+	asmevent_mousedown,
+	asmevent_mouseup,
+	asmevent_keydown,
+	asmevent_keyup,
+	asmevent_keychar,
+};
+
+void callint() {
+	lua_rawgeti(L, LUA_REGISTRYINDEX, intref);
+	lua_call(L, 0, 0);
+}
+
+void tick(DWORD delta) {
+	sys->event = asmevent_tick;
+	sys->arg1 = delta;
+	callint();
+
+	//lua_getglobal(L, "tick");
+	//lua_pcall(L, 0, 0, 0);
+
+	//draw();
 }
 
 void mouseMoved(int x, int y) {
-	lua_getglobal(L, "mousemove");
-	lua_pushinteger(L, x);
-	lua_pushinteger(L, y);
-	lua_pcall(L, 2, 0, 0);
+	sys->event = asmevent_mousemove;
+	sys->arg1 = x;
+	sys->arg2 = y;
+	callint();
 }
 
 void mouseDown(int b) {
-	lua_getglobal(L, "mousedown");
-	lua_pushinteger(L, b);
-	lua_pcall(L, 1, 0, 0);
-
-	useScreen(1 - screeni);
+	sys->event = asmevent_mousedown;
+	sys->arg1 = b;
+	callint();
+	//useScreen(1 - screeni);
 }
 
 void mouseUp(int b) {
-	lua_getglobal(L, "mouseup");
-	lua_pushinteger(L, b);
-	lua_pcall(L, 1, 0, 0);
+	sys->event = asmevent_mouseup;
+	sys->arg1 = b;
+	callint();
 }
 
 void mouseWheel(int d) {
-	lua_getglobal(L, "mousewheel");
-	lua_pushinteger(L, d);
-	lua_pcall(L, 1, 0, 0);
+	sys->event = asmevent_mousewheel;
+	sys->arg1 = d;
+	callint();
 }
 
 void keyDown(int vk) {
-	lua_getglobal(L, "keydown");
-	lua_pushinteger(L, vk);
-	lua_pcall(L, 1, 0, 0);
+	sys->event = asmevent_keydown;
+	sys->arg1 = vk;
+	callint();
 }
 
 void keyUp(int vk) {
-	lua_getglobal(L, "keyup");
-	lua_pushinteger(L, vk);
-	lua_pcall(L, 1, 0, 0);
+	sys->event = asmevent_keyup;
+	sys->arg1 = vk;
+	callint();
 }
 
 void keyChar(const char ch) {
-	lua_getglobal(L, "keychar");
-	lua_pushlstring(L, &ch, 1);
-	lua_pcall(L, 1, 0, 0);
+	sys->event = asmevent_keychar;
+	sys->arg1 = ch;
+	callint();
 }
