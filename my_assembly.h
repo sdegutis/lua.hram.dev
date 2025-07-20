@@ -2,4 +2,4 @@
 
 #include <lua/lua.h>
 
-int luaopen_assembly(lua_State* L);
+int luaopen_asm(lua_State* L);

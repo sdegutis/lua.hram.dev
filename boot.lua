@@ -4,8 +4,7 @@ print(pcall(function()
 local spot = 0x50000
 
 spot = asm.assemble(spot,
-	asm.ops.call,
-	{asm.loc.mem, disp=0x60000, bytes=8}
+	asm.ops.call, {asm.loc.mem, disp=0x60000, bytes=8}
 )
 spot = asm.assemble(spot,
 	asm.ops.ret

@@ -38,7 +38,7 @@ lua_State* newvm() {
 	luaopen_memory(L);
 	lua_setglobal(L, "memory");
 
-	luaopen_assembly(L);
+	luaopen_asm(L);
 	lua_setglobal(L, "asm");
 
 	luaopen_image(L);

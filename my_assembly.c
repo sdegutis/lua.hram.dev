@@ -7,7 +7,7 @@
 
 #include <zydis/Zydis.h>
 
-static int assembly_exec(lua_State* L) {
+static int asm_exec(lua_State* L) {
 	typedef UINT64(*F)();
 	F mem = lua_tointeger(L, 1);
 	UINT64 arg = lua_tointeger(L, 2);
@@ -16,7 +16,7 @@ static int assembly_exec(lua_State* L) {
 	return 1;
 }
 
-static int assembly_assemble(lua_State* L) {
+static int asm_assemble(lua_State* L) {
 	PUINT8 dst = luaL_checkinteger(L, 1);
 	UINT64 opcode = luaL_checkinteger(L, 2);
 
@@ -76,7 +76,7 @@ static int assembly_assemble(lua_State* L) {
 	return 1;
 }
 
-static int assembly_disassemble(lua_State* L) {
+static int asm_disassemble(lua_State* L) {
 	UINT64 addr = luaL_checknumber(L, 1);
 	UINT64 size = luaL_checknumber(L, 2);
 	PUINT8 data = addr;
@@ -111,10 +111,10 @@ static int assembly_disassemble(lua_State* L) {
 	return 1;
 }
 
-static const luaL_Reg assemblylib[] = {
-	{"exec",        assembly_exec},
-	{"assemble",    assembly_assemble},
-	{"disassemble", assembly_disassemble},
+static const luaL_Reg asmlib[] = {
+	{"exec",        asm_exec},
+	{"assemble",    asm_assemble},
+	{"disassemble", asm_disassemble},
 	{NULL,NULL}
 };
 
@@ -122,8 +122,8 @@ void addops(lua_State* L);
 void addregs(lua_State* L);
 void addtypes(lua_State* L);
 
-int luaopen_assembly(lua_State* L) {
-	luaL_newlib(L, assemblylib);
+int luaopen_asm(lua_State* L) {
+	luaL_newlib(L, asmlib);
 
 	lua_createtable(L, ZYDIS_MNEMONIC_MAX_VALUE, 0);
 	addops(L);
