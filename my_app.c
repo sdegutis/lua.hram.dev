@@ -74,10 +74,10 @@ void testingthis() {
 const char third_party_licenses[] =
 "License of Lua, LPeg, and Zydis (all MIT) is as follows.\n"
 "\n"
-"Lua   Copyright (c) 1994–2025 Lua.org, PUC-Rio.\n"
-"LPeg  Copyright (c) 2007-2023 Lua.org, PUC-Rio.\n"
-"Zydis Copyright (c) 2014-2024 Florian Bernd\n"
-"Zydis Copyright (c) 2014-2024 Joel Höner\n"
+"Lua   : Copyright (c) 1994–2025 Lua.org, PUC-Rio.\n"
+"LPeg  : Copyright (c) 2007-2023 Lua.org, PUC-Rio.\n"
+"Zydis : Copyright (c) 2014-2024 Florian Bernd\n"
+"Zydis : Copyright (c) 2014-2024 Joel Höner\n"
 "\n"
 "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n"
 "\n"
@@ -92,13 +92,17 @@ void boot() {
 	// 4kb pages, 1mb reserved for user, starting at 0x10000
 	void* mem = VirtualAlloc(0x10000, 0x100000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 
+	// add license
 	CopyMemory(0x70000, third_party_licenses, sizeof(third_party_licenses));
 
+	// testing
+	*((PUINT64)0x40000) = testingthis;
 	printf("testingthis = %p\n", testingthis);
-	*((PUINT8)0x40000) = testingthis;
+	printf("testingthis = %p\n", *(PUINT64)0x40000);
 
 	L = newvm();
 
+	// run <boot>
 	HMODULE handle = GetModuleHandle(NULL);
 	HRSRC rc = FindResource(handle, MAKEINTRESOURCE(IDR_MYTEXTFILE), MAKEINTRESOURCE(TEXTFILE));
 	HGLOBAL rcData = LoadResource(handle, rc);
@@ -107,8 +111,8 @@ void boot() {
 	luaL_loadbuffer(L, data, size, "<boot>");
 	lua_pcallk(L, 0, 0, 0, 0, NULL);
 
-	//int res = ((int(*)(int))0x40000)(213);
-	//printf("res = %d\n", res);
+	int res = ((int(*)(int))0x50000)(213);
+	printf("res = %d\n", res);
 
 }
 

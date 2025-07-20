@@ -1,5 +1,8 @@
 print(pcall(function()
 
+local FUNC = memory.read(0x40000, 64)
+print(FUNC)
+
 memory.copy(0x30000, "\x48\x89\xC8\x48\xFF\xC0\xC3")
 memory.copy(0x40000, 0x30000, 7)
 
@@ -23,28 +26,17 @@ spot = assembly.assemble(
 	spot,
 	assembly.ops.mov,
 	{assembly.types.reg, assembly.regs.rax},
-	{assembly.types.imm, 234}
+	{assembly.types.imm, FUNC}
 )
-print('LEN', spot)
-print('len', spot-0x50000)
-
----[[
+spot = assembly.assemble(
+	spot,
+	assembly.ops.call,
+	{assembly.types.reg, assembly.regs.rax}
+)
 spot = assembly.assemble(
 	spot,
 	assembly.ops.ret
 )
-print('LEN2', spot)
-
-memory.write(0x50008, 8, 0)
-memory.write(0x50008, 8, 0)
-memory.write(0x50009, 8, 0)
-memory.write(0x5000a, 8, 0)
-
-for i=0x50000,spot-1 do
-	print('last',i, memory.read(i, 8))
-end
-
---]]
 
 --local res = assembly.exec(0x40000, 41)
 --print("res = "..res)
