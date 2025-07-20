@@ -56,14 +56,11 @@ lua_State* newvm() {
 	luaopen_image(L);
 	lua_setglobal(L, "image");
 
-	//luaopen_thread(L);
-	//lua_setglobal(L, "thread");
+	luaopen_thread(L);
+	lua_setglobal(L, "thread");
 
 	luaopen_lpeg(L);
 	lua_setglobal(L, "lpeg");
-
-	//luaopen_mutex(L);
-	//lua_setglobal(L, "mutex");
 
 	luaL_newlibtable(L, numbermetamethods);
 	luaL_setfuncs(L, numbermetamethods, 0);
@@ -76,16 +73,8 @@ lua_State* newvm() {
 }
 
 
-void testingthis(int a) {
-	int b = 0;
-	printf("Return address from %s: %p\n", __FUNCTION__, _ReturnAddress());
-	draw();
-	printf("IN TESTING THIS a!! a=[%d] b=[%d]\n", a++, b++);
-	printf("IN TESTING THIS b!! a=[%d] b=[%d]\n", a++, b++);
-	printf("IN TESTING THIS c!! a=[%d] b=[%d]\n", a++, b++);
-	printf("BLIT!\n");
-	draw();
-	return a + b * 2;
+void testingthis(int a, int b) {
+	return a + b;
 }
 
 void boot() {

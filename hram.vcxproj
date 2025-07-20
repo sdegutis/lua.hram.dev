@@ -179,7 +179,6 @@
     <ClCompile Include="lua\lzio.c" />
     <ClCompile Include="my_main.c" />
     <ClCompile Include="my_memory.c" />
-    <ClCompile Include="my_mutex.c" />
     <ClCompile Include="my_thread.c" />
     <ClCompile Include="my_util.c" />
     <ClCompile Include="my_window.c" />
@@ -238,7 +237,6 @@
     <ClInclude Include="lua\lzio.h" />
     <ClInclude Include="licenses.h" />
     <ClInclude Include="my_memory.h" />
-    <ClInclude Include="my_mutex.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="my_thread.h" />
     <ClInclude Include="my_util.h" />
