@@ -6,8 +6,9 @@ FUNC=memory.read(0x40000, 64)
 spot = assembly.assemble(spot,
 	assembly.ops.mov,
 	{assembly.loc.reg, assembly.reg.rax},
-	{assembly.loc.imm, FUNC}
+	{assembly.loc.mem, 0x40000, 0, 0, 0, 64}
 )
+print(spot)
 --[[
 spot = assembly.assemble(spot,
 	assembly.ops.mov,
@@ -52,6 +53,8 @@ print()
 
 
 
+end))
+
 function int()
 --	local ok, err = pcall(function()
 --		print("time", memory.read(0x10008, 32))
@@ -64,5 +67,3 @@ function int()
 --	end)
 --	if not ok then print(err) end
 end
-
-end))
