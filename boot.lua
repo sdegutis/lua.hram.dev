@@ -4,41 +4,14 @@ local spot = 0x50000
 FUNC=memory.read(0x40000, 64)
 
 spot = assembly.assemble(spot,
-	assembly.ops.mov,
-	{assembly.loc.reg, assembly.reg.rax},
-	{assembly.loc.mem, 0x40000, 0, 0, 0, 64}
+	assembly.ops.call,
+	{assembly.loc.mem, 0, 0, 0, 0x40000, 8}
 )
 print(spot)
---[[
-spot = assembly.assemble(spot,
-	assembly.ops.mov,
-	{assembly.loc.reg, assembly.reg.rcx},
-	{assembly.loc.imm, 34}
-)
-spot = assembly.assemble(spot,
-	assembly.ops.mov,
-	{assembly.loc.reg, assembly.reg.rdx},
-	{assembly.loc.imm, 15}
-)
----]]
-spot = assembly.assemble(spot,
-	assembly.ops.call,
-	{assembly.loc.reg, assembly.reg.rax}
-)
---[[
-spot = assembly.assemble(spot,
-	assembly.ops.add,
-	{assembly.loc.reg, assembly.reg.rsp},
-	{assembly.loc.imm, 12}
-)
-]]
+
 spot = assembly.assemble(spot,
 	assembly.ops.ret
 )
-
--- local res = assembly.exec(0x50000)
--- print("res = "..res)
-
 
 print()
 print('DISASM')

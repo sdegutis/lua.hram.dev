@@ -105,8 +105,8 @@ void boot() {
 	lua_getglobal(L, "int");
 	intref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	//int res = ((int(*)())0x50000)();
-	//printf("res = %d\n", res);
+	int res = ((int(*)())0x50000)();
+	printf("res = %d\n", res);
 
 }
 
