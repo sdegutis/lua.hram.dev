@@ -3,16 +3,10 @@ print(pcall(function()
 
 local spot = 0x50000
 
-spot = asm.assemble(spot,
-	asm.ops.sub, {asm.loc.reg, asm.reg.rsp}, {asm.loc.imm, 24}
-)
-spot = asm.assemble(spot,
-	asm.ops.call, {asm.loc.mem, disp=0x60000, bytes=8}
-)
-spot = asm.assemble(spot,
-	asm.ops.add, {asm.loc.reg, asm.reg.rsp}, {asm.loc.imm, 24}
-)
-spot = asm.assemble(spot,
+spot = asm.assembleall(spot,
+	asm.ops.sub, {asm.loc.reg, asm.reg.rsp}, {asm.loc.imm, 24},
+	asm.ops.call, {asm.loc.mem, disp=0x60000, bytes=8},
+	asm.ops.add, {asm.loc.reg, asm.reg.rsp}, {asm.loc.imm, 24},
 	asm.ops.ret
 )
 

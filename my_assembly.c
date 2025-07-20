@@ -16,10 +16,6 @@ static int asm_exec(lua_State* L) {
 	return 1;
 }
 
-static int asm_assembleall(lua_State* L) {
-
-}
-
 static int asm_assemble(lua_State* L) {
 	PUINT8 dst = luaL_checkinteger(L, 1);
 	UINT64 opcode = luaL_checkinteger(L, 2);
@@ -27,11 +23,14 @@ static int asm_assemble(lua_State* L) {
 	ZydisEncoderRequest req;
 	ZeroMemory(&req, sizeof(req));
 
+	int count = 0;
+	while (lua_type(L, count + 3) == LUA_TTABLE) count++;
+
 	req.mnemonic = opcode;
 	req.machine_mode = ZYDIS_MACHINE_MODE_LONG_64;
-	req.operand_count = lua_gettop(L) - 2;
+	req.operand_count = count;
 
-	for (int i = 0; i < req.operand_count; i++) {
+	for (int i = 0; i < count; i++) {
 		lua_rawgeti(L, 3 + i, 1);
 		req.operands[i].type = lua_tointeger(L, -1);
 		lua_pop(L, 1);
@@ -70,14 +69,28 @@ static int asm_assemble(lua_State* L) {
 		}
 	}
 
+	lua_rotate(L, 1, -(count + 2));
+	lua_pop(L, count + 2);
+
 	ZyanUSize encoded_length;
 	if (ZYAN_FAILED(ZydisEncoderEncodeInstruction(&req, dst, &encoded_length))) {
 		lua_pushnil(L);
-		return 1;
+	}
+	else {
+		lua_pushinteger(L, dst + encoded_length);
 	}
 
-	lua_pushinteger(L, dst + encoded_length);
 	return 1;
+}
+
+static int asm_assembleall(lua_State* L) {
+	while (1) {
+		asm_assemble(L);
+		if (lua_gettop(L) == 1) {
+			return 1;
+		}
+		lua_rotate(L, 1, 1);
+	}
 }
 
 static int asm_disassemble(lua_State* L) {
