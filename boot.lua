@@ -28,11 +28,33 @@ spot = assembly.assemble(
 	{assembly.types.reg, assembly.regs.rax},
 	{assembly.types.imm, FUNC}
 )
+---[[
+spot = assembly.assemble(
+	spot,
+	assembly.ops.mov,
+	{assembly.types.reg, assembly.regs.rcx},
+	{assembly.types.imm, 234}
+)
+spot = assembly.assemble(
+	spot,
+	assembly.ops.mov,
+	{assembly.types.reg, assembly.regs.rdx},
+	{assembly.types.imm, 15}
+)
+---]]
 spot = assembly.assemble(
 	spot,
 	assembly.ops.call,
 	{assembly.types.reg, assembly.regs.rax}
 )
+--[[
+spot = assembly.assemble(
+	spot,
+	assembly.ops.add,
+	{assembly.types.reg, assembly.regs.sp},
+	{assembly.types.imm, 8}
+)
+]]
 spot = assembly.assemble(
 	spot,
 	assembly.ops.ret

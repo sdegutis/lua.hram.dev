@@ -67,8 +67,10 @@ lua_State* newvm() {
 void draw();
 
 
-void testingthis() {
-	printf("IN TESTING THIS!!\n");
+void __stdcall testingthis(int a, int b) {
+	printf("IN TESTING THIS a!! a=[%d] b=[%d]\n", a++, b++);
+	printf("IN TESTING THIS b!! a=[%d] b=[%d]\n", a++, b++);
+	printf("IN TESTING THIS c!! a=[%d] b=[%d]\n", a++, b++);
 }
 
 const char third_party_licenses[] =
