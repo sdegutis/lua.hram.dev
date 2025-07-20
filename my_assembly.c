@@ -16,6 +16,10 @@ static int asm_exec(lua_State* L) {
 	return 1;
 }
 
+static int asm_assembleall(lua_State* L) {
+
+}
+
 static int asm_assemble(lua_State* L) {
 	PUINT8 dst = luaL_checkinteger(L, 1);
 	UINT64 opcode = luaL_checkinteger(L, 2);
@@ -115,6 +119,7 @@ static const luaL_Reg asmlib[] = {
 	{"exec",        asm_exec},
 	{"assemble",    asm_assemble},
 	{"disassemble", asm_disassemble},
+	{"assembleall", asm_assembleall},
 	{NULL,NULL}
 };
 

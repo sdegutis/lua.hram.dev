@@ -101,7 +101,12 @@ void testingthis(int a, int b) {
 
 
 void blit() {
-	//draw();
+	int a = 123;
+	int b = 45;
+	draw();
+	printf("IN TESTING THIS a!! a=[%d] b=[%d]\n", a++, b++);
+	printf("IN TESTING THIS b!! a=[%d] b=[%d]\n", a++, b++);
+	printf("IN TESTING THIS c!! a=[%d] b=[%d]\n", a++, b++);
 	printf("BLIT!\n");
 }
 
