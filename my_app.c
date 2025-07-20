@@ -90,6 +90,7 @@ void blit(int c) {
 	int a = 123;
 	int b = 45;
 	draw();
+	printf("Return address from %s: %p\n", __FUNCTION__, _ReturnAddress());
 	printf("IN TESTING THIS a!! a=[%d] b=[%d]\n", a++, b++);
 	printf("IN TESTING THIS b!! a=[%d] b=[%d]\n", a++, b++);
 	printf("IN TESTING THIS c!! a=[%d] b=[%d]\n", a++, b++);

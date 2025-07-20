@@ -7,14 +7,14 @@ local ok, err = asm.assembleall(dostuff,
 	asm.ops.sub, {asm.loc.reg, asm.reg.rsp}, {asm.loc.imm, 24},
 	asm.ops.call, {asm.loc.mem, disp=0x60000, bytes=8},
 	asm.ops.add, {asm.loc.reg, asm.reg.rsp}, {asm.loc.imm, 24},
-	asm.ops.inc, {asm.loc.reg, 0},
+	asm.ops.inc, {asm.loc.reg, asm.reg.rax},
 	asm.ops.ret
 )
 
 if not ok then
 	print(err)
 else
-	print(asm.disassemble(0x50000, ok-0x50000))
+	print(asm.disassemble(dostuff, ok-dostuff))
 
 	print(dostuff(1))
 	print(dostuff(2))
