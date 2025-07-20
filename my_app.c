@@ -35,8 +35,25 @@ struct {
 
 int asm_exec(lua_State* L);
 
+int number_index(lua_State* L) {
+	PUINT8 addr = lua_tointeger(L, 1);
+	UINT64 offs = lua_tointeger(L, 2);
+	lua_pushinteger(L, *(addr + offs));
+	return 1;
+}
+
+int number_newindex(lua_State* L) {
+	PUINT8 addr = lua_tointeger(L, 1);
+	UINT64 offs = lua_tointeger(L, 2);
+	UINT64 nval = lua_tointeger(L, 3);
+	*(addr + offs) = nval;
+	return 0;
+}
+
 luaL_Reg numbermetamethods[] = {
-	{"__call", asm_exec},
+	{"__call",     asm_exec},
+	{"__index",    number_index},
+	{"__newindex", number_newindex},
 	{NULL,NULL}
 };
 
