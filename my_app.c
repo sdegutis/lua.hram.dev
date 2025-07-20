@@ -11,7 +11,6 @@
 #include "my_image.h"
 #include "my_memory.h"
 #include "my_thread.h"
-#include "my_mutex.h"
 #include "my_assembly.h"
 #include "licenses.h"
 
