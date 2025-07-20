@@ -11,6 +11,7 @@ DWORD WINAPI StartThread(LPVOID param) {
 	lua_pcallk(L, lua_gettop(L) - 1, 1, 0, 0, 0);
 	int res = lua_tointeger(L, -1);
 	lua_close(L);
+	printf("thread done\n");
 	return res;
 }
 
@@ -45,8 +46,15 @@ static int thread_spawn(lua_State* L) {
 	return 1;
 }
 
+static int thread_close(lua_State* L) {
+	CloseHandle(lua_tointeger(L, -1));
+	printf("closed\n");
+	return 0;
+}
+
 static const struct luaL_Reg threadlib[] = {
 	{"spawn", thread_spawn},
+	{"close", thread_close},
 	{NULL,NULL}
 };
 

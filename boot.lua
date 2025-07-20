@@ -1,15 +1,16 @@
 local ok, err = pcall(function()
 
 
-print(thread.spawn([[
+local t, err = thread.spawn([[
 	local a,b,c = ...
 	print('inside thread', table.pack(...).n, ...)
 	print('a='..tostring(a))
 	print('b='..tostring(b))
 	print('c='..tostring(c))
-]], 123, nil, 'asdf'))
+]], 123, nil, 'asdf')
+thread.close(t)
 
-print('outside thread')
+print('outside thread', t, err)
 
 
 
