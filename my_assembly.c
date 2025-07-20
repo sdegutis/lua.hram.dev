@@ -57,7 +57,7 @@ static int assembly_assemble(lua_State* L) {
 
 		case ZYDIS_OPERAND_TYPE_IMMEDIATE:
 			lua_getfield(L, 3 + i, "signed");
-			BOOL s = lua_tointeger(L, -1) == -1;
+			BOOL s = lua_toboolean(L, -1);
 			lua_rawgeti(L, 3 + i, 2);
 			if (s) req.operands[i].imm.s = lua_tointeger(L, -1);
 			else   req.operands[i].imm.u = lua_tointeger(L, -1);
