@@ -208,7 +208,7 @@ inline void moveSubWindow() {
 	suby = winh / 2 - subh / 2;
 }
 
-inline void draw() {
+void draw() {
 	devicecontext->lpVtbl->IASetPrimitiveTopology(devicecontext, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	devicecontext->lpVtbl->VSSetShader(devicecontext, vertexshader, NULL, 0);

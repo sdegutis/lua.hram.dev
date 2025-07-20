@@ -8,8 +8,6 @@
 #ifndef luaconf_h
 #define luaconf_h
 
-#define LUA_BUILD_AS_DLL
-
 #include <limits.h>
 #include <stddef.h>
 

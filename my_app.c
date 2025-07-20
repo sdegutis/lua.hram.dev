@@ -143,9 +143,6 @@ void tick(DWORD delta) {
 	sys->arg1 = delta;
 	callint();
 
-	//lua_getglobal(L, "tick");
-	//lua_pcall(L, 0, 0, 0);
-
 	//draw();
 }
 

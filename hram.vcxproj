@@ -231,7 +231,6 @@
     <ClInclude Include="lua\ltable.h" />
     <ClInclude Include="lua\ltm.h" />
     <ClInclude Include="lua\lua.h" />
-    <ClInclude Include="lua\lua.hpp" />
     <ClInclude Include="lua\luaconf.h" />
     <ClInclude Include="lua\lualib.h" />
     <ClInclude Include="lua\lundump.h" />
