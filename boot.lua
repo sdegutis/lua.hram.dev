@@ -7,8 +7,6 @@ spot = assembly.assemble(spot,
 	assembly.ops.call,
 	{assembly.loc.mem, 0, 0, 0, 0x40000, 8}
 )
-print(spot)
-
 spot = assembly.assemble(spot,
 	assembly.ops.ret
 )
@@ -22,7 +20,10 @@ print(got)
 print('END')
 print()
 
-
+assembly.exec(0x50000)
+assembly.exec(0x50000)
+assembly.exec(0x50000)
+assembly.exec(0x50000)
 
 
 
