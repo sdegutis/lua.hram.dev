@@ -36,6 +36,7 @@ struct {
 
 int memory_read(lua_State* L);
 int memory_write(lua_State* L);
+int asm_exec(lua_State* L);
 
 int numberlen(lua_State* L) {
 	return 1;
@@ -52,6 +53,7 @@ luaL_Reg numbermetamethods[] = {
 	{"__len", numberlen},
 	{"__index", memory_read},
 	{"__newindex", memory_write},
+	{"__call", asm_exec},
 	{NULL,NULL}
 };
 
@@ -100,7 +102,7 @@ void testingthis(int a, int b) {
 }
 
 
-void blit() {
+void blit(int c) {
 	int a = 123;
 	int b = 45;
 	draw();
@@ -108,6 +110,7 @@ void blit() {
 	printf("IN TESTING THIS b!! a=[%d] b=[%d]\n", a++, b++);
 	printf("IN TESTING THIS c!! a=[%d] b=[%d]\n", a++, b++);
 	printf("BLIT!\n");
+	return c + 10;
 }
 
 void boot() {
@@ -153,7 +156,6 @@ void tick(DWORD delta, DWORD now) {
 	sys->arg = delta;
 	sys->time = now;
 	callint();
-	//draw();
 }
 
 void mouseMoved(int x, int y) {

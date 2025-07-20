@@ -7,7 +7,7 @@
 
 #include <zydis/Zydis.h>
 
-static int asm_exec(lua_State* L) {
+int asm_exec(lua_State* L) {
 	typedef UINT64(*F)();
 	F mem = lua_tointeger(L, 1);
 	UINT64 arg = lua_tointeger(L, 2);
