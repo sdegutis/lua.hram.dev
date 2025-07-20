@@ -3,22 +3,21 @@ print(pcall(function()
 
 local spot = 0x50000
 
-spot = assembly.assemble(spot,
-	assembly.ops.call,
-	{assembly.loc.mem, 0, 0, 0, 0x60000, 8}
+spot = asm.assemble(spot,
+	asm.ops.call,
+	{asm.loc.mem, 0, 0, 0, 0x60000, 8}
 )
-spot = assembly.assemble(spot,
-	assembly.ops.ret
+spot = asm.assemble(spot,
+	asm.ops.ret
 )
 
 
-print(assembly.disassemble(0x50000, spot-0x50000))
+print(asm.disassemble(0x50000, spot-0x50000))
 
-print(memory.read(0x60000, 64))
-assembly.exec(0x50000)
-assembly.exec(0x50000)
-assembly.exec(0x50000)
-assembly.exec(0x50000)
+asm.exec(0x50000)
+asm.exec(0x50000)
+asm.exec(0x50000)
+asm.exec(0x50000)
 
 
 
