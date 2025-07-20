@@ -1,29 +1,26 @@
 print(pcall(function()
 
+
 local spot = 0x50000
-FUNC=memory.read(0x40000, 64)
 
 spot = assembly.assemble(spot,
 	assembly.ops.call,
-	{assembly.loc.mem, 0, 0, 0, 0x40000, 8}
+	{assembly.loc.mem, 0, 0, 0, 0x60000, 8}
 )
 spot = assembly.assemble(spot,
 	assembly.ops.ret
 )
 
-print()
-print('DISASM')
-print('len', spot-0x50000)
-local got = assembly.disassemble(0x50000, spot-0x50000)
-print('START')
-print(got)
-print('END')
-print()
 
+print(assembly.disassemble(0x50000, spot-0x50000))
+
+print(memory.read(0x1000f, 64))
+assembly.exec(0x50000)
+--[[
 assembly.exec(0x50000)
 assembly.exec(0x50000)
 assembly.exec(0x50000)
-assembly.exec(0x50000)
+--]]
 
 
 

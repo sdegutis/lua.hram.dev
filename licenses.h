@@ -1,6 +1,6 @@
 #pragma once
 
-const char third_party_licenses[] =
+static const char third_party_licenses[] =
 "License of Lua, LPeg, and Zydis (all MIT) is as follows.\n"
 "\n"
 "Lua   : Copyright (c) 1994–2025 Lua.org, PUC-Rio.\n"

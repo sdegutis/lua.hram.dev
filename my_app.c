@@ -16,8 +16,10 @@
 #include "licenses.h"
 
 int luaopen_lpeg(lua_State* L);
+void draw();
 
 static lua_State* L;
+int intref;
 
 struct {
 	UINT32 event;
@@ -25,8 +27,6 @@ struct {
 	UINT16 arg2;
 	UINT32 time;
 } *sys = 0x10000;
-
-
 
 
 lua_State* newvm() {
@@ -56,42 +56,35 @@ lua_State* newvm() {
 	return L;
 }
 
-void draw();
-
 
 void testingthis(int a, int b) {
-	draw();
-	draw();
-	draw();
-	printf("IN TESTING THIS a!! a=[%d] b=[%d]\n", a++, b++);
-	printf("IN TESTING THIS b!! a=[%d] b=[%d]\n", a++, b++);
-	printf("IN TESTING THIS c!! a=[%d] b=[%d]\n", a++, b++);
+	//draw();
+	//draw();
+	//draw();
+	//printf("IN TESTING THIS a!! a=[%d] b=[%d]\n", a++, b++);
+	//printf("IN TESTING THIS b!! a=[%d] b=[%d]\n", a++, b++);
+	//printf("IN TESTING THIS c!! a=[%d] b=[%d]\n", a++, b++);
 }
 
-int intref;
 
 void blit() {
+	draw();
 	printf("BLIT!\n");
 }
 
 void boot() {
 	openConsole();
 
-	// 4kb pages, 1mb reserved for user, starting at 0x10000
 	void* mem = VirtualAlloc(0x10000, 0x100000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 
-	// add license
 	CopyMemory(0x70000, third_party_licenses, sizeof(third_party_licenses));
 
-	// testing
-	*((PUINT64)0x40000) = blit;
-	printf("blit = %p\n", blit);
-	printf("blit = %p\n", *(PUINT64)0x40000);
+	printf("%llu\n", blit);
 
 	// testing
-	*((PUINT64)0x30000) = testingthis;
-	printf("testingthis = %p\n", testingthis);
-	printf("testingthis = %p\n", *(PUINT64)0x30000);
+	//*((PUINT64)0x30000) = testingthis;
+
+	*((PUINT64)0x60000) = blit;
 
 	// setup lua
 	L = newvm();
@@ -104,10 +97,6 @@ void boot() {
 	lua_pcallk(L, 0, 0, 0, 0, NULL);
 	lua_getglobal(L, "int");
 	intref = luaL_ref(L, LUA_REGISTRYINDEX);
-
-	int res = ((int(*)())0x50000)();
-	printf("res = %d\n", res);
-
 }
 
 enum asmevent {
