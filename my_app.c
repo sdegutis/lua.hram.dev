@@ -94,8 +94,10 @@ void boot() {
 	void* mem = VirtualAlloc(0x10000, 0x100000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 
 	CopyMemory(0x70000, third_party_licenses, sizeof(third_party_licenses));
-	*((PUINT64)0x60000) = draw;
-	*((PUINT64)0x30000) = testingthis;
+
+	PUINT64 funcs = 0x60000;
+	*funcs++ = draw;
+	*funcs++ = testingthis;
 
 	HMODULE handle = GetModuleHandle(NULL);
 	HRSRC rc = FindResource(handle, MAKEINTRESOURCE(IDR_MYTEXTFILE), MAKEINTRESOURCE(TEXTFILE));
