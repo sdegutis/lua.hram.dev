@@ -41,7 +41,6 @@ luaL_Reg numbermetamethods[] = {
 };
 
 lua_State* newvm() {
-
 	lua_State* L = luaL_newstate();
 
 	luaL_openlibs(L);
@@ -60,6 +59,7 @@ lua_State* newvm() {
 
 	luaopen_lpeg(L);
 	lua_setglobal(L, "lpeg");
+	lua_settop(L, 0);
 
 	luaL_newlibtable(L, numbermetamethods);
 	luaL_setfuncs(L, numbermetamethods, 0);

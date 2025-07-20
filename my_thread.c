@@ -2,77 +2,50 @@
 
 #include <lua/lualib.h>
 #include <lua/lauxlib.h>
+#include <Windows.h>
 
-static int thread_spawn(lua_State* L) {
-	//auto s = luaL_checkstring(L, 1);
+#include "my_app.h"
 
-
-
-
-	//HANDLE heap = HeapCreate(HEAP_CREATE_ENABLE_EXECUTE | HEAP_GENERATE_EXCEPTIONS, 1000, 2000);
-	//char* mem = (char*)HeapAlloc(heap, 0, 100);
-	//int i = 0;
-	//mem[i++] = 0x48;
-	//mem[i++] = 0x89;
-	//mem[i++] = 0xc8;
-	//mem[i++] = 0x48;
-	//mem[i++] = 0xff;
-	//mem[i++] = 0xc0;
-	//mem[i++] = 0xc3;
-	//typedef int(*Func)(int);
-	//Func fn = (Func)mem;
-	//int res = fn(123);
-	//printf("result = [%d]\n", res);
-
-
-
-
-	//std::vector<std::variant<
-	//	nullptr_t,
-	//	bool,
-	//	std::string,
-	//	uint64_t,
-	//	double>
-	//> args;
-
-	//for (auto i = 2; i <= lua_gettop(L); i++) {
-	//	switch (lua_type(L, i)) {
-	//	case LUA_TNIL:     args.push_back(nullptr); break;
-	//	case LUA_TBOOLEAN: args.push_back((bool)lua_toboolean(L, i)); break;
-	//	case LUA_TSTRING:  args.push_back(lua_tostring(L, i)); break;
-	//	case LUA_TNUMBER:  args.push_back(lua_isinteger(L, i)
-	//		? lua_tointeger(L, i)
-	//		: lua_tonumber(L, i)); break;
-	//	}
-	//}
-
-	//auto t = new std::jthread([s, args](std::stop_token stok) {
-	//	auto L = app::newvm();
-
-	//	auto err = luaL_loadstring(L, s);
-	//	if (err != LUA_OK) {
-	//		printf("thread.spawn err: %d\n", err);
-	//		return;
-	//	}
-
-	//	for (auto& arg : args) {
-	//		switch (arg.index()) {
-	//		case 0: lua_pushnil(L); break;
-	//		case 1: lua_pushboolean(L, std::get<bool>(arg)); break;
-	//		case 2: lua_pushstring(L, std::get<std::string>(arg).c_str()); break;
-	//		case 3: lua_pushinteger(L, std::get<uint64_t>(arg)); break;
-	//		case 4: lua_pushnumber(L, std::get<double>(arg)); break;
-	//		}
-	//	}
-
-	//	lua_pcallk(L, args.size(), 0, 0, 0, 0);
-	//	});
-
-	//lua_pushinteger(L, reinterpret_cast<uint64_t>(t));
-	return 0;
+DWORD WINAPI StartThread(LPVOID param) {
+	lua_State* L = param;
+	lua_pcallk(L, lua_gettop(L) - 1, 1, 0, 0, 0);
+	int res = lua_tointeger(L, -1);
+	lua_close(L);
+	return res;
 }
 
-static const luaL_Reg threadlib[] = {
+static int thread_spawn(lua_State* L) {
+	lua_State* L2 = newvm();
+
+	size_t srclen;
+	const char* src = luaL_checklstring(L, 1, &srclen);
+	int ok = luaL_loadbuffer(L2, src, srclen, "<thread>");
+
+	if (ok != LUA_OK) {
+		lua_pushnil(L);
+		lua_pushstring(L, lua_tostring(L2, -1));
+		lua_rotate(L, 1, 2);
+		lua_settop(L, 2);
+		return 2;
+	}
+
+	for (auto i = 2; i <= lua_gettop(L); i++) {
+		switch (lua_type(L, i)) {
+		case LUA_TNIL:     lua_pushnil(L2); break;
+		case LUA_TBOOLEAN: lua_pushboolean(L2, lua_toboolean(L, i)); break;
+		case LUA_TSTRING:  lua_pushstring(L2, lua_tostring(L, i)); break;
+		case LUA_TNUMBER:  lua_isinteger(L, i)
+			? lua_pushinteger(L2, lua_tointeger(L, i))
+			: lua_pushnumber(L2, lua_tonumber(L, i)); break;
+		}
+	}
+
+	HANDLE t = CreateThread(NULL, 0, StartThread, L2, 0, NULL);
+	lua_pushinteger(L, t);
+	return 1;
+}
+
+static const struct luaL_Reg threadlib[] = {
 	{"spawn", thread_spawn},
 	{NULL,NULL}
 };
