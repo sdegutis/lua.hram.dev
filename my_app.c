@@ -70,6 +70,10 @@ void testingthis(int a, int b) {
 
 int intref;
 
+void blit() {
+	printf("BLIT!\n");
+}
+
 void boot() {
 	openConsole();
 
@@ -80,9 +84,14 @@ void boot() {
 	CopyMemory(0x70000, third_party_licenses, sizeof(third_party_licenses));
 
 	// testing
-	*((PUINT64)0x40000) = testingthis;
+	*((PUINT64)0x40000) = blit;
+	printf("blit = %p\n", blit);
+	printf("blit = %p\n", *(PUINT64)0x40000);
+
+	// testing
+	*((PUINT64)0x30000) = testingthis;
 	printf("testingthis = %p\n", testingthis);
-	printf("testingthis = %p\n", *(PUINT64)0x40000);
+	printf("testingthis = %p\n", *(PUINT64)0x30000);
 
 	// setup lua
 	L = newvm();
@@ -96,8 +105,8 @@ void boot() {
 	lua_getglobal(L, "int");
 	intref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	//int res = ((int(*)(int))0x50000)(213);
-	//printf("res = %d\n", res);
+	int res = ((int(*)())0x50000)();
+	printf("res = %d\n", res);
 
 }
 
@@ -122,7 +131,7 @@ void tick(DWORD delta, DWORD now) {
 	sys->arg1 = delta;
 	sys->time = now;
 	callint();
-	draw();
+	//draw();
 }
 
 void mouseMoved(int x, int y) {

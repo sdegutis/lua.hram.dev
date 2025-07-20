@@ -1,6 +1,7 @@
 print(pcall(function()
 
 local spot = 0x50000
+FUNC=memory.read(0x40000, 64)
 
 spot = assembly.assemble(spot,
 	assembly.ops.mov,
@@ -34,8 +35,8 @@ spot = assembly.assemble(spot,
 	assembly.ops.ret
 )
 
---local res = assembly.exec(0x40000, 41)
---print("res = "..res)
+-- local res = assembly.exec(0x50000)
+-- print("res = "..res)
 
 
 print()
@@ -47,29 +48,6 @@ print(got)
 print('END')
 print()
 
---[=[
-m = mutex.create()
-
-t = thread.create([[
-	local m = ...
-	mutex.lock(m)
-	print('locked in thread')
-	mutex.unlock(m)
-	print('done in thread')
-]], m)
-
---thread.sleep(1000)
-mutex.lock(m)
-print('locked in main')
-mutex.unlock(m)
-print('done in main')
-
-
--- print(t)
-
--- require 'bar'
-
---]=]
 
 
 

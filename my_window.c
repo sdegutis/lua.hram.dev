@@ -164,6 +164,8 @@ int setupWindow(HINSTANCE hInstance, int nCmdShow) {
 	SetForegroundWindow(hwnd);
 	SetFocus(hwnd);
 
+	draw();
+
 	return 0;
 }
 
@@ -295,6 +297,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		moveSubWindow();
 		SetWindowPos(hsub, NULL, subx, suby, subw, subh, SWP_FRAMECHANGED | SWP_SHOWWINDOW);
 		resetBuffers();
+
+		draw();
 
 		return 0;
 	}
