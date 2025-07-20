@@ -12,6 +12,7 @@ local t, err = sync.newthread([[
 	print('b='..tostring(b))
 	print('c='..tostring(c))
 	sync.leavecritsec(cs)
+	sync.delcritsec(cs)
 ]], 123, nil, 'asdf', cs)
 
 sync.entercritsec(cs)
