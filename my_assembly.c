@@ -79,6 +79,7 @@ static int assembly_assemble(lua_State* L) {
 static int assembly_disassemble(lua_State* L) {
 	UINT64 addr = luaL_checknumber(L, 1);
 	UINT64 size = luaL_checknumber(L, 2);
+	PUINT8 data = addr;
 
 	char buffer[256];
 	luaL_Buffer b;
@@ -91,7 +92,7 @@ static int assembly_disassemble(lua_State* L) {
 		ZyanStatus status = ZydisDisassembleIntel(
 			ZYDIS_MACHINE_MODE_LONG_64,
 			addr,
-			addr + offset,
+			data + offset,
 			size - offset,
 			&instruction
 		);
