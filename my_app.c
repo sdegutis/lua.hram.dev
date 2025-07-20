@@ -34,25 +34,9 @@ struct {
 } *sys = 0x10000;
 
 
-int memory_read(lua_State* L);
-int memory_write(lua_State* L);
 int asm_exec(lua_State* L);
 
-int numberlen(lua_State* L) {
-	return 1;
-}
-
-int numbercall(lua_State* L) {
-	double a = lua_tonumber(L, 1);
-	double b = lua_tonumber(L, 2);
-	lua_pushnumber(L, a / 100. + b);
-	return 1;
-}
-
 luaL_Reg numbermetamethods[] = {
-	{"__len", numberlen},
-	{"__index", memory_read},
-	{"__newindex", memory_write},
 	{"__call", asm_exec},
 	{NULL,NULL}
 };

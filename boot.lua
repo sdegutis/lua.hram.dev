@@ -1,9 +1,8 @@
 print(pcall(function()
 
 
-local spot = 0x50000
-
-spot = asm.assembleall(spot,
+local dostuff = 0x50000
+local ok, err = asm.assembleall(dostuff,
 	asm.ops.mov, {asm.loc.reg, asm.reg.rax}, {asm.loc.reg, asm.reg.rcx},
 	asm.ops.sub, {asm.loc.reg, asm.reg.rsp}, {asm.loc.imm, 24},
 	asm.ops.call, {asm.loc.mem, disp=0x60000, bytes=8},
@@ -11,14 +10,13 @@ spot = asm.assembleall(spot,
 	asm.ops.inc, {asm.loc.reg, asm.reg.rax},
 	asm.ops.ret
 )
-print(spot)
 
-print(asm.disassemble(0x50000, spot-0x50000))
+print(asm.disassemble(0x50000, ok-0x50000))
 
-print((0x50000)(1))
-print((0x50000)(2))
-print((0x50000)(3))
-print((0x50000)(4))
+print(dostuff(1))
+print(dostuff(2))
+print(dostuff(3))
+print(dostuff(4))
 
 
 
