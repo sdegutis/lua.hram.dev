@@ -5,7 +5,7 @@ local spot = 0x50000
 
 spot = asm.assemble(spot,
 	asm.ops.call,
-	{asm.loc.mem, 0, 0, 0, 0x60000, 8}
+	{asm.loc.mem, disp=0x60000, bytes=8}
 )
 spot = asm.assemble(spot,
 	asm.ops.ret

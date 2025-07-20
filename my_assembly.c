@@ -35,28 +35,28 @@ static int assembly_assemble(lua_State* L) {
 		switch (req.operands[i].type) {
 
 		case ZYDIS_OPERAND_TYPE_REGISTER:
-			lua_rawgeti(L, 3 + i, 2); req.operands[i].reg.value = lua_tointeger(L, -1);
-			lua_rawgeti(L, 3 + i, 3); req.operands[i].reg.is4 = lua_toboolean(L, -1);
+			lua_rawgeti(L, 3 + i, 2);      req.operands[i].reg.value = lua_tointeger(L, -1);
+			lua_getfield(L, 3 + i, "is4"); req.operands[i].reg.is4 = lua_toboolean(L, -1);
 			lua_pop(L, 2);
 			break;
 
 		case ZYDIS_OPERAND_TYPE_POINTER:
-			lua_rawgeti(L, 3 + i, 2); req.operands[i].ptr.segment = lua_tointeger(L, -1);
-			lua_rawgeti(L, 3 + i, 3); req.operands[i].ptr.offset = lua_tointeger(L, -1);
+			lua_getfield(L, 3 + i, "segment"); req.operands[i].ptr.segment = lua_tointeger(L, -1);
+			lua_getfield(L, 3 + i, "offset");  req.operands[i].ptr.offset = lua_tointeger(L, -1);
 			lua_pop(L, 2);
 			break;
 
 		case ZYDIS_OPERAND_TYPE_MEMORY:
-			lua_rawgeti(L, 3 + i, 2); req.operands[i].mem.base = lua_tointeger(L, -1);
-			lua_rawgeti(L, 3 + i, 3); req.operands[i].mem.index = lua_tointeger(L, -1);
-			lua_rawgeti(L, 3 + i, 4); req.operands[i].mem.scale = lua_tointeger(L, -1);
-			lua_rawgeti(L, 3 + i, 5); req.operands[i].mem.displacement = lua_tointeger(L, -1);
-			lua_rawgeti(L, 3 + i, 6); req.operands[i].mem.size = lua_tointeger(L, -1);
+			lua_getfield(L, 3 + i, "base");  req.operands[i].mem.base = lua_tointeger(L, -1);
+			lua_getfield(L, 3 + i, "index"); req.operands[i].mem.index = lua_tointeger(L, -1);
+			lua_getfield(L, 3 + i, "scale"); req.operands[i].mem.scale = lua_tointeger(L, -1);
+			lua_getfield(L, 3 + i, "disp");  req.operands[i].mem.displacement = lua_tointeger(L, -1);
+			lua_getfield(L, 3 + i, "bytes");  req.operands[i].mem.size = lua_tointeger(L, -1);
 			lua_pop(L, 5);
 			break;
 
 		case ZYDIS_OPERAND_TYPE_IMMEDIATE:
-			lua_rawgeti(L, 3 + i, 3);
+			lua_getfield(L, 3 + i, "signed");
 			BOOL s = lua_tointeger(L, -1) == -1;
 			lua_rawgeti(L, 3 + i, 2);
 			if (s) req.operands[i].imm.s = lua_tointeger(L, -1);
