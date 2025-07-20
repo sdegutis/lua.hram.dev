@@ -14,13 +14,11 @@ spot = assembly.assemble(spot,
 
 print(assembly.disassemble(0x50000, spot-0x50000))
 
-print(memory.read(0x1000f, 64))
-assembly.exec(0x50000)
---[[
+print(memory.read(0x60000, 64))
 assembly.exec(0x50000)
 assembly.exec(0x50000)
 assembly.exec(0x50000)
---]]
+assembly.exec(0x50000)
 
 
 

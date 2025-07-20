@@ -68,7 +68,7 @@ void testingthis(int a, int b) {
 
 
 void blit() {
-	draw();
+	//draw();
 	printf("BLIT!\n");
 }
 
@@ -78,13 +78,8 @@ void boot() {
 	void* mem = VirtualAlloc(0x10000, 0x100000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 
 	CopyMemory(0x70000, third_party_licenses, sizeof(third_party_licenses));
-
-	printf("%llu\n", blit);
-
-	// testing
-	//*((PUINT64)0x30000) = testingthis;
-
 	*((PUINT64)0x60000) = blit;
+	*((PUINT64)0x30000) = testingthis;
 
 	// setup lua
 	L = newvm();
