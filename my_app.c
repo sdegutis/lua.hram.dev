@@ -18,9 +18,7 @@ int luaopen_lpeg(lua_State* L);
 
 static lua_State* L;
 
-
-#pragma pack(push, 1)
-struct State {
+struct {
 	UINT32 event;
 	UINT16 arg1;
 	UINT16 arg2;
@@ -28,10 +26,7 @@ struct State {
 	UINT16 mousex;
 	UINT16 mousey;
 	UINT8 keys[32];
-};
-#pragma pack(pop)
-
-struct State* sys = 0x10000;
+} *sys = 0x10000;
 
 
 
@@ -103,9 +98,8 @@ void boot() {
 	printf("testingthis = %p\n", testingthis);
 	printf("testingthis = %p\n", *(PUINT64)0x40000);
 
+	// setup lua
 	L = newvm();
-
-	// run <boot>
 	HMODULE handle = GetModuleHandle(NULL);
 	HRSRC rc = FindResource(handle, MAKEINTRESOURCE(IDR_MYTEXTFILE), MAKEINTRESOURCE(TEXTFILE));
 	HGLOBAL rcData = LoadResource(handle, rc);
@@ -113,12 +107,11 @@ void boot() {
 	const char* data = LockResource(rcData);
 	luaL_loadbuffer(L, data, size, "<boot>");
 	lua_pcallk(L, 0, 0, 0, 0, NULL);
-
 	lua_getglobal(L, "int");
 	intref = luaL_ref(L, LUA_REGISTRYINDEX);
 
-	//int res = ((int(*)(int))0x50000)(213);
-	//printf("res = %d\n", res);
+	int res = ((int(*)(int))0x50000)(213);
+	printf("res = %d\n", res);
 
 }
 
@@ -142,8 +135,6 @@ void tick(DWORD delta) {
 	sys->event = asmevent_tick;
 	sys->arg1 = delta;
 	callint();
-
-	//draw();
 }
 
 void mouseMoved(int x, int y) {
@@ -157,7 +148,6 @@ void mouseDown(int b) {
 	sys->event = asmevent_mousedown;
 	sys->arg1 = b;
 	callint();
-	//useScreen(1 - screeni);
 }
 
 void mouseUp(int b) {
