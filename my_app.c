@@ -23,8 +23,13 @@ int intref;
 
 struct {
 	UINT32 event;
-	UINT16 arg1;
-	UINT16 arg2;
+	union {
+		struct {
+			UINT16 arg1;
+			UINT16 arg2;
+		} args;
+		UINT32 arg;
+	};
 	UINT32 time;
 } *sys = 0x10000;
 
@@ -112,7 +117,7 @@ void callint() {
 
 void tick(DWORD delta, DWORD now) {
 	sys->event = asmevent_tick;
-	sys->arg1 = delta;
+	sys->arg = delta;
 	sys->time = now;
 	callint();
 	//draw();
@@ -120,43 +125,43 @@ void tick(DWORD delta, DWORD now) {
 
 void mouseMoved(int x, int y) {
 	sys->event = asmevent_mousemove;
-	sys->arg1 = x;
-	sys->arg2 = y;
+	sys->args.arg1 = x;
+	sys->args.arg2 = y;
 	callint();
 }
 
 void mouseDown(int b) {
 	sys->event = asmevent_mousedown;
-	sys->arg1 = b;
+	sys->arg = b;
 	callint();
 }
 
 void mouseUp(int b) {
 	sys->event = asmevent_mouseup;
-	sys->arg1 = b;
+	sys->arg = b;
 	callint();
 }
 
 void mouseWheel(int d) {
 	sys->event = asmevent_mousewheel;
-	sys->arg1 = d;
+	sys->arg = d;
 	callint();
 }
 
 void keyDown(int vk) {
 	sys->event = asmevent_keydown;
-	sys->arg1 = vk;
+	sys->arg = vk;
 	callint();
 }
 
 void keyUp(int vk) {
 	sys->event = asmevent_keyup;
-	sys->arg1 = vk;
+	sys->arg = vk;
 	callint();
 }
 
 void keyChar(const char ch) {
 	sys->event = asmevent_keychar;
-	sys->arg1 = ch;
+	sys->arg = ch;
 	callint();
 }
