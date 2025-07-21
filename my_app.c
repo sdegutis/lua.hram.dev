@@ -98,12 +98,16 @@ void testingthis(int a, int b) {
 
 void initfont();
 
+ID3D11Texture2D* img;
+
 void boot() {
 	openConsole();
 
 	void* mem = VirtualAlloc(0x10000, 0x100000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 	initfont();
 	CopyMemory(0x70000, third_party_licenses, sizeof(third_party_licenses));
+
+	img = createImage(device, 0x10100 + (4 * 6 * 4) * (97 - 32), 4, 6, 4 * 4);
 
 	PUINT64 funcs = 0x60000;
 	*funcs++ = draw;
@@ -117,12 +121,21 @@ void boot() {
 	const char* data = LockResource(rcData);
 
 	L = newvm();
+
 	luaL_loadbuffer(L, data, size, "<boot>");
-
 	lua_pcallk(L, 0, 0, 0, 0, NULL);
-	lua_getglobal(L, "int");
 
+	lua_getglobal(L, "int");
 	intref = luaL_ref(L, LUA_REGISTRYINDEX);
+
+	for (int y = 0; y < 25; y++) {
+		for (int x = 0; x < 63; x++) {
+			devicecontext->lpVtbl->CopySubresourceRegion(devicecontext, screen->texture, 0, x * 5, y * 7, 0, img, 0, NULL);
+		}
+	}
+
+
+
 }
 
 enum asmevent {
