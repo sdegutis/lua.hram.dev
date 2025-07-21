@@ -165,9 +165,8 @@ static int asm_disassemble(lua_State* L) {
 
 static const luaL_Reg asmlib[] = {
 	{"exec",        asm_exec},
-	{"assemble",    asm_assemble},
 	{"disassemble", asm_disassemble},
-	{"assembleall", asm_assembleall},
+	{"assemble",    asm_assembleall},
 	{NULL,NULL}
 };
 
