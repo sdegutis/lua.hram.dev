@@ -26,7 +26,7 @@ function print(str, startx, starty)
 
 		local fx = (idx %  16) * 4
 		local fy = (idx // 16) * 6
-		image.copy(nil, fontsheet, x, y, fx, fy, 4, 6)
+		image.copy(#0x60000, fontsheet, x, y, fx, fy, 4, 6)
 		x = x + 4
 
 		::continue::
@@ -39,7 +39,7 @@ end
 
 
 
---image.update(nil, 10-3, 20-3, 100, 50, addr, pitch)
+-- image.update(#0x60000, 10-3, 20-3, 100, 50, addr, pitch)
 
 
 print("welcome to HRAM, the Hand-Rolled Assembly Machine!", 10, 20)
