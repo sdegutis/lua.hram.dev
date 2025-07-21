@@ -200,6 +200,7 @@
   <ItemGroup>
     <ClInclude Include="my_app.h" />
     <ClInclude Include="my_assembly.h" />
+    <ClInclude Include="my_fontsheet.h" />
     <ClInclude Include="my_image.h" />
     <ClInclude Include="lpeg\lpcap.h" />
     <ClInclude Include="lpeg\lpcode.h" />
@@ -235,7 +236,7 @@
     <ClInclude Include="lua\lundump.h" />
     <ClInclude Include="lua\lvm.h" />
     <ClInclude Include="lua\lzio.h" />
-    <ClInclude Include="licenses.h" />
+    <ClInclude Include="my_licenses.h" />
     <ClInclude Include="my_memory.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="my_sync.h" />

@@ -57,7 +57,7 @@ struct Screen* screen = &screens[0];
 void useScreen(int n) {
 	screeni = n;
 	screen = &screens[screeni];
-	*((PUINT64)0x60000) = screen;
+	*((PUINT64)0x10100) = screen;
 
 	moveSubWindow();
 	SetWindowPos(hsub, NULL, subx, suby, subw, subh, SWP_FRAMECHANGED);

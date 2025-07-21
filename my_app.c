@@ -12,7 +12,8 @@
 #include "my_memory.h"
 #include "my_sync.h"
 #include "my_assembly.h"
-#include "licenses.h"
+#include "my_licenses.h"
+#include "my_fontsheet.h"
 
 
 void draw();
@@ -103,24 +104,19 @@ int aplusbtimes2(int a, int b) {
 	return (a + b) * 2;
 }
 
-void initfont();
-
-ID3D11Texture2D* img;
 
 void boot() {
 	openConsole();
 
 	void* mem = VirtualAlloc(0x10000, 0x100000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-	initfont();
 	CopyMemory(0x70000, third_party_licenses, sizeof(third_party_licenses));
 
-	img = createImage(device, 0x10100 + (4 * 6 * 4) * (97 - 32), 4, 6, 4 * 4);
-
-	PUINT64 funcs = 0x60000;
+	PUINT64 funcs = 0x10100;
 	*funcs++ = screen->texture;
 	*funcs++ = draw;
 	*funcs++ = toggleFullscreen;
 	*funcs++ = aplusbtimes2;
+	*funcs++ = createImage(device, fontdata, 4 * 16, 6 * 6, 0);
 
 	HMODULE handle = GetModuleHandle(NULL);
 	HRSRC rc = FindResource(handle, MAKEINTRESOURCE(IDR_MYTEXTFILE), MAKEINTRESOURCE(TEXTFILE));
@@ -202,50 +198,4 @@ void keyChar(const char ch) {
 	sys->event = asmevent_keychar;
 	sys->arg = ch;
 	callint();
-}
-
-static int fw = 4, fh = 6, sw = 16, sh = 6;
-#define x 0xffffff
-#define o 0x770000
-static UINT32 fontdata[] = {
-	o, o, o, o, o, o, o, o, x, o, x, o, o, o, o, o, o, x, o, o, x, o, o, o, o, o, o, o, o, x, o, o, o, o, x, o, o, x, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o,
-	o, o, o, o, o, x, o, o, x, o, x, o, x, x, x, o, x, x, x, o, o, o, x, o, x, x, x, o, o, x, o, o, o, x, o, o, o, o, x, o, x, o, x, o, o, x, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, x, o,
-	o, o, o, o, o, x, o, o, o, o, o, o, x, x, x, o, x, o, o, o, o, x, o, o, x, o, x, o, o, o, o, o, o, x, o, o, o, o, x, o, o, x, o, o, x, x, x, o, o, o, o, o, x, x, x, o, o, o, o, o, o, x, o, o,
-	o, o, o, o, o, o, o, o, o, o, o, o, x, x, x, o, o, x, x, o, x, o, o, o, x, x, o, o, o, o, o, o, o, x, o, o, o, o, x, o, x, o, x, o, o, x, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, x, o, o,
-	o, o, o, o, o, x, o, o, o, o, o, o, o, o, o, o, x, x, x, o, o, o, x, o, x, x, x, o, o, o, o, o, o, o, x, o, o, x, o, o, o, o, o, o, o, o, o, o, o, x, o, o, o, o, o, o, o, x, o, o, x, o, o, o,
-	o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, x, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, x, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o,
-	o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o,
-	o, x, o, o, x, x, o, o, x, x, o, o, x, x, x, o, x, o, x, o, x, x, x, o, x, x, x, o, x, x, x, o, x, x, x, o, x, x, x, o, o, o, o, o, o, o, o, o, o, o, x, o, x, x, x, o, x, o, o, o, x, x, x, o,
-	x, o, x, o, o, x, o, o, o, o, x, o, o, x, x, o, x, o, x, o, x, x, o, o, x, o, o, o, o, o, x, o, x, x, x, o, x, o, x, o, x, o, o, o, o, x, o, o, o, x, o, o, o, o, o, o, o, x, o, o, x, o, x, o,
-	x, o, x, o, o, x, o, o, o, x, o, o, o, o, x, o, x, x, x, o, o, o, x, o, x, x, x, o, o, o, x, o, x, o, x, o, o, x, x, o, o, o, o, o, o, o, o, o, o, o, x, o, x, x, x, o, x, o, o, o, o, o, o, o,
-	o, x, o, o, x, x, x, o, x, x, x, o, x, x, x, o, o, o, x, o, x, x, o, o, x, x, x, o, o, o, x, o, x, x, x, o, x, x, o, o, x, o, o, o, o, x, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, x, o,
-	o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, x, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o,
-	o, x, o, o, o, x, o, o, x, x, o, o, o, x, x, o, x, x, o, o, x, x, x, o, x, x, x, o, o, x, x, o, x, o, x, o, x, x, x, o, x, x, x, o, x, o, x, o, x, o, o, o, x, x, x, o, x, x, o, o, x, x, x, o,
-	x, x, x, o, x, o, x, o, x, o, x, o, x, o, o, o, x, o, x, o, x, o, o, o, x, o, o, o, x, o, o, o, x, o, x, o, o, x, o, o, o, x, o, o, x, x, o, o, x, o, o, o, x, x, x, o, x, o, x, o, x, o, x, o,
-	x, o, x, o, x, x, x, o, x, x, o, o, x, o, o, o, x, o, x, o, x, x, o, o, x, x, o, o, x, o, x, o, x, x, x, o, o, x, o, o, o, x, o, o, x, x, o, o, x, o, o, o, x, x, x, o, x, o, x, o, x, o, x, o,
-	x, o, o, o, x, o, x, o, x, o, x, o, x, o, o, o, x, o, x, o, x, o, o, o, x, o, o, o, x, o, x, o, x, o, x, o, o, x, o, o, o, x, o, o, x, o, x, o, x, o, o, o, x, o, x, o, x, o, x, o, x, o, x, o,
-	o, x, x, o, x, o, x, o, x, x, o, o, o, x, x, o, x, x, o, o, x, x, x, o, x, o, o, o, o, x, x, o, x, o, x, o, x, x, x, o, x, x, o, o, x, o, x, o, x, x, x, o, x, o, x, o, x, o, x, o, x, x, x, o,
-	o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o,
-	x, x, x, o, x, x, x, o, x, x, x, o, o, x, x, o, x, x, x, o, x, o, x, o, x, o, x, o, x, o, x, o, x, o, x, o, x, o, x, o, x, x, x, o, o, x, x, o, o, o, o, o, x, x, o, o, o, o, o, o, o, o, o, o,
-	x, o, x, o, x, o, x, o, x, o, x, o, x, o, o, o, o, x, o, o, x, o, x, o, x, o, x, o, x, o, x, o, x, o, x, o, x, o, x, o, o, o, x, o, o, x, o, o, x, o, o, o, o, x, o, o, o, x, o, o, o, o, o, o,
-	x, x, x, o, x, o, x, o, x, x, o, o, x, x, x, o, o, x, o, o, x, o, x, o, x, o, x, o, x, x, x, o, o, x, o, o, o, x, o, o, o, x, o, o, o, x, o, o, o, x, o, o, o, x, o, o, x, o, x, o, o, o, o, o,
-	x, o, o, o, x, o, x, o, x, o, x, o, o, o, x, o, o, x, o, o, x, o, x, o, x, o, x, o, x, x, x, o, x, o, x, o, o, x, o, o, x, o, o, o, o, x, o, o, o, x, o, o, o, x, o, o, o, o, o, o, o, o, o, o,
-	x, o, o, o, x, x, o, o, x, o, x, o, x, x, o, o, o, x, o, o, x, x, x, o, o, x, o, o, x, x, x, o, x, o, x, o, o, x, o, o, x, x, x, o, o, x, x, o, o, o, x, o, x, x, o, o, o, o, o, o, x, x, x, o,
-	o, o, o, o, o, o, x, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o,
-	o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o,
-	x, o, o, o, o, x, o, o, x, x, o, o, x, x, x, o, x, x, o, o, x, x, x, o, x, x, x, o, x, x, x, o, x, o, x, o, x, x, x, o, x, x, x, o, x, o, x, o, x, o, o, o, x, x, x, o, x, x, o, o, x, x, x, o,
-	o, x, o, o, x, o, x, o, x, x, x, o, x, o, o, o, x, o, x, o, x, x, o, o, x, x, o, o, x, o, o, o, x, x, x, o, o, x, o, o, o, x, o, o, x, x, o, o, x, o, o, o, x, x, x, o, x, o, x, o, x, o, x, o,
-	o, o, o, o, x, x, x, o, x, o, x, o, x, o, o, o, x, o, x, o, x, o, o, o, x, o, o, o, x, o, x, o, x, o, x, o, o, x, o, o, o, x, o, o, x, x, o, o, x, o, o, o, x, o, x, o, x, o, x, o, x, o, x, o,
-	o, o, o, o, x, o, x, o, x, x, x, o, x, x, x, o, x, x, o, o, x, x, x, o, x, o, o, o, x, x, x, o, x, o, x, o, x, x, x, o, x, x, o, o, x, o, x, o, x, x, x, o, x, o, x, o, x, o, x, o, x, x, x, o,
-	o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o,
-	o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, x, x, o, o, x, o, o, x, x, o, o, o, o, o, o, o, o, o, o,
-	x, x, x, o, x, x, x, o, x, x, x, o, x, x, x, o, x, x, x, o, x, o, x, o, x, o, x, o, x, o, x, o, x, o, x, o, x, o, x, o, x, x, x, o, o, x, o, o, o, x, o, o, o, x, o, o, x, x, o, o, o, x, o, o,
-	x, o, x, o, x, o, x, o, x, o, x, o, x, o, o, o, o, x, o, o, x, o, x, o, x, o, x, o, x, o, x, o, o, x, o, o, x, o, x, o, o, x, x, o, x, x, o, o, o, x, o, o, o, x, x, o, o, x, x, o, x, x, x, o,
-	x, x, x, o, x, x, x, o, x, x, o, o, o, x, x, o, o, x, o, o, x, o, x, o, x, o, x, o, x, x, x, o, o, x, o, o, o, x, o, o, x, o, o, o, o, x, o, o, o, x, o, o, o, x, o, o, o, o, o, o, o, x, o, o,
-	x, o, o, o, o, o, x, o, x, o, x, o, x, x, x, o, o, x, o, o, x, x, x, o, o, x, o, o, x, x, x, o, x, o, x, o, o, x, o, o, x, x, x, o, o, x, x, o, o, x, o, o, x, x, o, o, o, o, o, o, o, x, o, o,
-	o, o, o, o, o, o, x, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, o, x, o, o, o, o, o, o, o, o, o, o, o, o, o, o,
-};
-
-void initfont() {
-	memcpy(0x10100, fontdata, sizeof(fontdata));
 }

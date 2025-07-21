@@ -404,10 +404,13 @@
     <ClInclude Include="zycore\Zycore.h">
       <Filter>Vendor\Zycore</Filter>
     </ClInclude>
-    <ClInclude Include="licenses.h">
+    <ClInclude Include="my_licenses.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="zydis\Zydis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="my_fontsheet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

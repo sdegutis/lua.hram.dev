@@ -1,5 +1,4 @@
 -- setup print
-local fontsheet = image.create(0x10100, 4*16, 6*6)
 local lasty=0
 local lastx=0
 function print(str, startx, starty)
@@ -24,7 +23,7 @@ function print(str, startx, starty)
 
 		local fx = (idx %  16) * 4
 		local fy = (idx // 16) * 6
-		image.copy(#0x60000, fontsheet, x, y, fx, fy, 4, 6)
+		image.copy(#0x10100, #0x10120, x, y, fx, fy, 4, 6)
 		x = x + 4
 
 		::continue::
@@ -40,8 +39,7 @@ local w,h = 210,40
 for i=0,w*h-1 do
 	memory.write(addr+i*4, 32, 0x770000)
 end
-image.update(#0x60000, 55, 55, w, h, addr, w*4)
-
+image.update(#0x10100, 55, 55, w, h, addr, w*4)
 print("welcome to HRAM, the Hand-Rolled Assembly Machine!", 60, 60)
 print("")
 print("boot.lua not found; falling back to welcome screen")
