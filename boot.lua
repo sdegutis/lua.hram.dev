@@ -1,6 +1,4 @@
-local ok, err = pcall(function()
-
--- print()
+-- setup print
 local fontsheet = image.create(0x10100, 4*16, 6*6)
 local lasty=0
 local lastx=0
@@ -36,40 +34,32 @@ function print(str, startx, starty)
 	lasty = y+6
 end
 
+-- draw welcome
+local addr = 0x20000
+local w,h = 210,40
+for i=0,w*h-1 do
+	memory.write(addr+i*4, 32, 0x770000)
+end
+image.update(#0x60000, 55, 55, w, h, addr, w*4)
+
+print("welcome to HRAM, the Hand-Rolled Assembly Machine!", 60, 60)
+print("")
+print("boot.lua not found; falling back to welcome screen")
+print("")
+print("for instructions, see the manual at hram.dev")
 
 
 
--- image.update(#0x60000, 10-3, 20-3, 100, 50, addr, pitch)
 
-
-print("welcome to HRAM, the Hand-Rolled Assembly Machine!", 10, 20)
-
-
---[[
-fullscreen = 0x50000
-ok, err = asm.assembleall(fullscreen,
-	asm.ops.sub, {asm.loc.reg, asm.reg.rsp}, {asm.loc.imm, 24},
-	asm.ops.call, {asm.loc.mem, disp=0x60008, bytes=8},
-	asm.ops.add, {asm.loc.reg, asm.reg.rsp}, {asm.loc.imm, 24},
-	asm.ops.ret
-)
-fullscreen()
-]]
-
---]]
-
-end)
-
-
--- sysdata = 0x10000
 
 function int()
---[[
+---[[
+	local sysdata = 0x10000
 	local event = sysdata[0]
 	local arg = sysdata[4]
 
 	if event == 6 and arg == 122 then
 		fullscreen()
 	end
-]]
+--]]
 end
