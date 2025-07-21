@@ -1,20 +1,48 @@
 local ok, err = pcall(function()
 
---[[
-img = image.create(0x10100+(4*6*4*(97-32)), 4, 6)
-image.copy(nil, img, 1, 1)
+-- print()
+local fontsheet = image.create(0x10100, 4*16, 6*6)
+local lasty=0
+local lastx=0
+function print(str, startx, starty)
+	startx = startx or lastx
+	starty = starty or lasty
 
+	local x = startx
+	local y = starty
 
+	for i=1,#str do
+		local idx = str:byte(i)-32
 
-addr = 0x10100+(4*6*4*(97-32))
-for i=0,23 do
-	local old = addr[i]
-	addr[i] = 0x12
-	print(old, addr[i], old)
+		if idx == 0xa-32 then
+			x = startx
+			y = y + 6
+			goto continue
+		end
+
+		if idx < 0 or idx > 16*6 then
+			goto continue
+		end
+
+		local fx = (idx %  16) * 4
+		local fy = (idx // 16) * 6
+		image.copy(nil, fontsheet, x, y, fx, fy, 4, 6)
+		x = x + 4
+
+		::continue::
+	end
+
+	lastx = startx
+	lasty = y+6
 end
 
-if not ok then print(err) end
 
+
+
+--image.update(nil, 10-3, 20-3, 100, 50, addr, pitch)
+
+
+print("welcome to HRAM, the Hand-Rolled Assembly Machine!", 10, 20)
 
 
 --[[
