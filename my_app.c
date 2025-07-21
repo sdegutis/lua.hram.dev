@@ -92,8 +92,8 @@ lua_State* newvm() {
 }
 
 
-void testingthis(int a, int b) {
-	return a + b;
+int aplusbtimes2(int a, int b) {
+	return (a + b) * 2;
 }
 
 void initfont();
@@ -112,7 +112,7 @@ void boot() {
 	PUINT64 funcs = 0x60000;
 	*funcs++ = draw;
 	*funcs++ = toggleFullscreen;
-	*funcs++ = testingthis;
+	*funcs++ = aplusbtimes2;
 
 	HMODULE handle = GetModuleHandle(NULL);
 	HRSRC rc = FindResource(handle, MAKEINTRESOURCE(IDR_MYTEXTFILE), MAKEINTRESOURCE(TEXTFILE));
@@ -127,15 +127,6 @@ void boot() {
 
 	lua_getglobal(L, "int");
 	intref = luaL_ref(L, LUA_REGISTRYINDEX);
-
-	for (int y = 0; y < 25; y++) {
-		for (int x = 0; x < 63; x++) {
-			devicecontext->lpVtbl->CopySubresourceRegion(devicecontext, screen->texture, 0, x * 5, y * 7, 0, img, 0, NULL);
-		}
-	}
-
-
-
 }
 
 enum asmevent {
