@@ -52,7 +52,6 @@ static int delimage(lua_State* L) {
 static int putimage(lua_State* L) {
 	ID3D11Texture2D* dst = lua_tointeger(L, 1);
 	ID3D11Texture2D* src = lua_tointeger(L, 2);
-	if (!dst) dst = screen->texture;
 
 	lua_Integer dx = lua_tointeger(L, 3);
 	lua_Integer dy = lua_tointeger(L, 4);
@@ -77,7 +76,6 @@ static int putimage(lua_State* L) {
 
 static int updimage(lua_State* L) {
 	ID3D11Texture2D* dst = lua_tointeger(L, 1);
-	if (!dst) dst = screen->texture;
 
 	lua_Integer dx = lua_tointeger(L, 2);
 	lua_Integer dy = lua_tointeger(L, 3);
