@@ -164,17 +164,20 @@ enum asmevent {
 };
 
 void callint(enum asmevent ev, UINT32 arg) {
+	sys->event = ev;
+	sys->arg = arg;
 	lua_rawgeti(L, LUA_REGISTRYINDEX, intref);
 	lua_call(L, 0, 0);
 }
 
 void tick(DWORD delta, DWORD now) {
 	sys->time = now;
-	if (sys->blit) {
-		draw();
-		sys->blit = 0;
-	}
 	callint(asmevent_tick, delta);
+
+	if (sys->blit) {
+		sys->blit = 0;
+		draw();
+	}
 }
 
 void mouseMoved(int x, int y) /*   */ { callint(asmevent_mousemove, ((x & 0xffff) << 16) | (y & 0xffff)); }

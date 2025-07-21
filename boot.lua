@@ -1,3 +1,5 @@
+local doblit = 0x1000c
+
 -- default loop
 function int()
 	local sysdata = 0x10000
@@ -42,6 +44,8 @@ function print(str, startx, starty)
 
 	lastx = startx
 	lasty = y+6
+
+	doblit[0]=1
 end
 
 -- sandbox
@@ -104,3 +108,39 @@ else
 		end)
 	end
 end
+
+
+
+
+--[[
+
+
+sync
+
+  newthread(fn<string>, ...) -> int|[nil,string]
+    creates and returns a thread handle
+    extra args are passed to fn
+    returns error only on syntax errors
+
+  sleep(ms)
+    sleep the current thread for ms milliseconds
+
+  newcritsec() -> int
+    return a new critical section
+
+  delcritsec(ms)
+    delete a critical section
+
+  entercritsec(ms)
+    enter a critical section
+    only one thread can enter at a time
+
+  leavecritsec(ms)
+    leave a critical section
+
+  closehandle(int)
+    frees resources and notifies waiters
+    these must be manually closed:
+      threads, semaphores
+
+--]]
