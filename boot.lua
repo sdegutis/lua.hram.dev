@@ -1,11 +1,10 @@
 local ok, err = pcall(function()
 
+--[[
 img = image.create(0x10100+(4*6*4*(97-32)), 4, 6)
 image.copy(nil, img, 1, 1)
 
 
-
-end)
 
 addr = 0x10100+(4*6*4*(97-32))
 for i=0,23 do
@@ -18,6 +17,7 @@ if not ok then print(err) end
 
 
 
+--[[
 fullscreen = 0x50000
 ok, err = asm.assembleall(fullscreen,
 	asm.ops.sub, {asm.loc.reg, asm.reg.rsp}, {asm.loc.imm, 24},
@@ -26,17 +26,22 @@ ok, err = asm.assembleall(fullscreen,
 	asm.ops.ret
 )
 fullscreen()
+]]
+
+--]]
+
+end)
 
 
-sysdata = 0x10000
+-- sysdata = 0x10000
 
 function int()
-
+--[[
 	local event = sysdata[0]
 	local arg = sysdata[4]
 
 	if event == 6 and arg == 122 then
 		fullscreen()
 	end
-	
+]]
 end
