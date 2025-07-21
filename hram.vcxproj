@@ -180,7 +180,6 @@
     <ClCompile Include="my_main.c" />
     <ClCompile Include="my_memory.c" />
     <ClCompile Include="my_sync.c" />
-    <ClCompile Include="my_util.c" />
     <ClCompile Include="my_window.c" />
     <ClCompile Include="zycore\src\Allocator.c" />
     <ClCompile Include="zycore\src\API\Memory.c" />
@@ -240,7 +239,6 @@
     <ClInclude Include="my_memory.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="my_sync.h" />
-    <ClInclude Include="my_util.h" />
     <ClInclude Include="my_window.h" />
     <ClInclude Include="zycore\Allocator.h" />
     <ClInclude Include="zycore\API\Memory.h" />

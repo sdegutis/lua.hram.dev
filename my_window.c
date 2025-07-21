@@ -13,7 +13,6 @@
 #include "VertexShader.h"
 
 #include "my_app.h"
-#include "my_util.h"
 #include "my_image.h"
 
 WINDOWPLACEMENT lastwinpos = { sizeof(lastwinpos) };
@@ -41,6 +40,11 @@ ID3D11PixelShader* pixelshader;
 void resetBuffers();
 void moveSubWindow();
 
+
+void HR(HRESULT res) {
+	if (res == S_OK) return;
+	ExitProcess(1);
+}
 
 
 ID3D11Device* device;

@@ -159,9 +159,6 @@
     <ClCompile Include="my_sync.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="my_util.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="my_window.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -330,9 +327,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="my_sync.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="my_util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="my_window.h">

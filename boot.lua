@@ -44,6 +44,45 @@ function print(str, startx, starty)
 	lasty = y+6
 end
 
+-- sandbox
+local env = setmetatable({
+    assert=assert,
+    error=error,
+    warn=warn,
+	getmetatable=getmetatable,
+    setmetatable=setmetatable,
+	select=select,
+	next=next,
+    pairs=pairs,
+    ipairs=ipairs,
+	rawequal=rawequal,
+    rawget=rawget,
+    rawlen=rawlen,
+    rawset=rawset,
+	tonumber=tonumber,
+    tostring=tostring,
+    type=type,
+	pcall=pcall,
+    xpcall=xpcall,
+    collectgarbage=collectgarbage,
+
+	fullscreen=fullscreen,
+	print=print,
+
+	coroutine=coroutine,
+	string=string,
+	table=table,
+	math=math,
+	utf8=utf8,
+	memory=memory,
+	image=image,
+	asm=asm,
+	sync=sync,
+}, {
+	__index = _G,
+	__newindex = _G,
+})
+
 -- boot
 local userfile = userdir..'\\hram\\boot.lua'
 print("welcome to HRAM, the Hand-Rolled Assembly Machine!", 3, 2)
@@ -56,7 +95,7 @@ else
 	local str = file:read('a')
 	file:close()
 
-	local fn, err = load(str, 'boot.lua')
+	local fn, err = load(str, 'boot.lua', 't', env)
 	if not fn then
 		print(err)
 	else

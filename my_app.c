@@ -8,7 +8,6 @@
 #include <shlobj_core.h>
 #include <KnownFolders.h>
 
-#include "my_util.h"
 #include "my_window.h"
 #include "my_image.h"
 #include "my_memory.h"
@@ -26,13 +25,7 @@ int intref;
 
 struct {
 	UINT32 event;
-	union {
-		struct {
-			UINT16 arg1;
-			UINT16 arg2;
-		} args;
-		UINT32 arg;
-	};
+	UINT32 arg;
 	UINT32 time;
 } *sys = 0x10000;
 
@@ -112,6 +105,16 @@ int fullscreen(lua_State* L) {
 }
 
 void boot() {
+
+	//AllocConsole();
+	//freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	//freopen_s((FILE**)stdin, "CONIN$", "r", stdin);
+
+	//CHAR szFileName[MAX_PATH];
+	//GetModuleFileNameA(NULL, szFileName, MAX_PATH);
+	//char* bare = strrchr(szFileName, '\\') + 1;
+
+
 	void* mem = VirtualAlloc(0x10000, 0x100000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 	CopyMemory(0x70000, third_party_licenses, sizeof(third_party_licenses));
 
@@ -134,10 +137,9 @@ void boot() {
 	lua_setglobal(L, "fullscreen");
 
 	PWSTR wpath;
-	SHGetKnownFolderPath(&FOLDERID_RoamingAppData, 0, NULL, &wpath);
-	int wpathsize = WideCharToMultiByte(CP_UTF8, 0, wpath, -1, NULL, 0, NULL, NULL);
 	PUINT8 ansipath = 0x20000;
-	WideCharToMultiByte(CP_UTF8, 0, wpath, -1, ansipath, wpathsize, NULL, NULL);
+	SHGetKnownFolderPath(&FOLDERID_RoamingAppData, 0, NULL, &wpath);
+	WideCharToMultiByte(CP_UTF8, 0, wpath, -1, ansipath, MAX_PATH, NULL, NULL);
 	CoTaskMemFree(wpath);
 	lua_pushstring(L, ansipath);
 	lua_setglobal(L, "userdir");
@@ -175,8 +177,7 @@ void tick(DWORD delta, DWORD now) {
 
 void mouseMoved(int x, int y) {
 	sys->event = asmevent_mousemove;
-	sys->args.arg1 = x;
-	sys->args.arg2 = y;
+	sys->arg = ((x & 0xff) << 2) | (y & 0xff);
 	callint();
 }
 

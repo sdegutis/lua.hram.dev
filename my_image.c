@@ -2,7 +2,6 @@
 
 #include <lua/lauxlib.h>
 
-#include "my_util.h"
 #include "my_window.h"
 
 ID3D11Texture2D* createImage(ID3D11Device* device, void* data, UINT w, UINT h, UINT pw) {
@@ -26,7 +25,7 @@ ID3D11Texture2D* createImage(ID3D11Device* device, void* data, UINT w, UINT h, U
 	textureSRD.pSysMem = data;
 	textureSRD.SysMemPitch = pw;
 
-	HR(device->lpVtbl->CreateTexture2D(device, &texturedesc, &textureSRD, &texture));
+	device->lpVtbl->CreateTexture2D(device, &texturedesc, &textureSRD, &texture);
 
 	return texture;
 }
