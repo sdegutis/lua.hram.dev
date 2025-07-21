@@ -177,7 +177,7 @@ void tick(DWORD delta, DWORD now) {
 
 void mouseMoved(int x, int y) {
 	sys->event = asmevent_mousemove;
-	sys->arg = ((x & 0xff) << 2) | (y & 0xff);
+	sys->arg = ((x & 0xffff) << 16) | (y & 0xffff);
 	callint();
 }
 
