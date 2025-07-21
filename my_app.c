@@ -27,6 +27,7 @@ struct {
 	UINT32 event;
 	UINT32 arg;
 	UINT32 time;
+	UINT32 blit;
 } *sys = 0x10000;
 
 
@@ -162,57 +163,24 @@ enum asmevent {
 	asmevent_keychar,
 };
 
-void callint() {
+void callint(enum asmevent ev, UINT32 arg) {
 	lua_rawgeti(L, LUA_REGISTRYINDEX, intref);
 	lua_call(L, 0, 0);
 }
 
 void tick(DWORD delta, DWORD now) {
-	sys->event = asmevent_tick;
-	sys->arg = delta;
 	sys->time = now;
-	callint();
-	draw();
+	if (sys->blit) {
+		draw();
+		sys->blit = 0;
+	}
+	callint(asmevent_tick, delta);
 }
 
-void mouseMoved(int x, int y) {
-	sys->event = asmevent_mousemove;
-	sys->arg = ((x & 0xffff) << 16) | (y & 0xffff);
-	callint();
-}
-
-void mouseDown(int b) {
-	sys->event = asmevent_mousedown;
-	sys->arg = b;
-	callint();
-}
-
-void mouseUp(int b) {
-	sys->event = asmevent_mouseup;
-	sys->arg = b;
-	callint();
-}
-
-void mouseWheel(int d) {
-	sys->event = asmevent_mousewheel;
-	sys->arg = d;
-	callint();
-}
-
-void keyDown(int vk) {
-	sys->event = asmevent_keydown;
-	sys->arg = vk;
-	callint();
-}
-
-void keyUp(int vk) {
-	sys->event = asmevent_keyup;
-	sys->arg = vk;
-	callint();
-}
-
-void keyChar(const char ch) {
-	sys->event = asmevent_keychar;
-	sys->arg = ch;
-	callint();
-}
+void mouseMoved(int x, int y) /*   */ { callint(asmevent_mousemove, ((x & 0xffff) << 16) | (y & 0xffff)); }
+void mouseDown(int b) /*           */ { callint(asmevent_mousedown, b); }
+void mouseUp(int b) /*             */ { callint(asmevent_mouseup, b); }
+void mouseWheel(int d) /*          */ { callint(asmevent_mousewheel, d); }
+void keyDown(int vk) /*            */ { callint(asmevent_keydown, vk); }
+void keyUp(int vk) /*              */ { callint(asmevent_keyup, vk); }
+void keyChar(const char ch) /*     */ { callint(asmevent_keychar, ch); }
