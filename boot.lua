@@ -1,3 +1,14 @@
+-- default loop
+function int()
+	local sysdata = 0x10000
+	local event = sysdata[0]
+	local arg = sysdata[4]
+
+	if event == 6 and arg == 122 then
+		fullscreen()
+	end
+end
+
 -- setup print
 local lasty=0
 local lastx=0
@@ -33,31 +44,24 @@ function print(str, startx, starty)
 	lasty = y+6
 end
 
--- draw welcome
-local addr = 0x20000
-local w,h = 210,40
-for i=0,w*h-1 do
-	memory.write(addr+i*4, 32, 0x770000)
-end
-image.update(#0x10100, 55, 55, w, h, addr, w*4)
-print("welcome to HRAM, the Hand-Rolled Assembly Machine!", 60, 60)
-print("")
-print("boot.lua not found; falling back to welcome screen")
-print("")
-print("for instructions, see the manual at hram.dev")
+-- boot
+local userfile = userdir..'\\hram\\boot.lua'
+print("welcome to HRAM, the Hand-Rolled Assembly Machine!", 3, 2)
+print("loading "..userfile)
 
+local file, err = io.open(userfile)
+if not file then
+	print(err)
+else
+	local str = file:read('a')
+	file:close()
 
-
-
-
-function int()
----[[
-	local sysdata = 0x10000
-	local event = sysdata[0]
-	local arg = sysdata[4]
-
-	if event == 6 and arg == 122 then
-		fullscreen()
+	local fn, err = load(str, 'boot.lua')
+	if not fn then
+		print(err)
+	else
+		xpcall(fn, function(err)
+			print(err)
+		end)
 	end
---]]
 end

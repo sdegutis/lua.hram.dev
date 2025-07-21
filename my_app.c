@@ -5,6 +5,8 @@
 #include <Windows.h>
 #include <stdio.h>
 #include "resource.h"
+#include <shlobj_core.h>
+#include <KnownFolders.h>
 
 #include "my_util.h"
 #include "my_window.h"
@@ -104,10 +106,12 @@ int aplusbtimes2(int a, int b) {
 	return (a + b) * 2;
 }
 
+int fullscreen(lua_State* L) {
+	toggleFullscreen();
+	return 0;
+}
 
 void boot() {
-	openConsole();
-
 	void* mem = VirtualAlloc(0x10000, 0x100000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
 	CopyMemory(0x70000, third_party_licenses, sizeof(third_party_licenses));
 
@@ -125,6 +129,18 @@ void boot() {
 	const char* data = LockResource(rcData);
 
 	L = newvm();
+
+	lua_pushcfunction(L, fullscreen);
+	lua_setglobal(L, "fullscreen");
+
+	PWSTR wpath;
+	SHGetKnownFolderPath(&FOLDERID_RoamingAppData, 0, NULL, &wpath);
+	int wpathsize = WideCharToMultiByte(CP_UTF8, 0, wpath, -1, NULL, 0, NULL, NULL);
+	PUINT8 ansipath = 0x20000;
+	WideCharToMultiByte(CP_UTF8, 0, wpath, -1, ansipath, wpathsize, NULL, NULL);
+	CoTaskMemFree(wpath);
+	lua_pushstring(L, ansipath);
+	lua_setglobal(L, "userdir");
 
 	luaL_loadbuffer(L, data, size, "<boot>");
 	lua_pcallk(L, 0, 0, 0, 0, NULL);

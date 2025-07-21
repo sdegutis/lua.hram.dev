@@ -11,7 +11,6 @@ DWORD WINAPI StartThread(LPVOID param) {
 	lua_pcallk(L, lua_gettop(L) - 1, 1, 0, 0, 0);
 	int res = lua_tointeger(L, -1);
 	lua_close(L);
-	printf("thread done\n");
 	return res;
 }
 
@@ -68,12 +67,10 @@ static int sync_closehandle(lua_State* L) {
 static int sync_entercritsec(lua_State* L) {
 	LPCRITICAL_SECTION cs = luaL_checkinteger(L, -1);
 	EnterCriticalSection(cs);
-	printf("entering %d\n", GetCurrentThreadId());
 }
 
 static int sync_leavecritsec(lua_State* L) {
 	LPCRITICAL_SECTION cs = luaL_checkinteger(L, -1);
-	printf("leaving %d\n", GetCurrentThreadId());
 	LeaveCriticalSection(cs);
 }
 
