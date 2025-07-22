@@ -294,6 +294,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 		if (wParam == VK_RETURN) { toggleFullscreen(); }
 		return 0;
 
+	case WM_SYSCHAR:    sysChar((const char)wParam); return 0;
 	case WM_CHAR:       keyChar((const char)wParam); return 0;
 	case WM_KEYUP:      keyUp((int)wParam);          return 0;
 	case WM_KEYDOWN:    keyDown((int)wParam);        return 0;

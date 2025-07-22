@@ -158,6 +158,7 @@ enum asmevent {
 	asmevent_syskeydown,
 	asmevent_syskeyup,
 	asmevent_keychar,
+	asmevent_syschar,
 };
 
 void callsig(enum asmevent ev, UINT32 arg) {
@@ -186,3 +187,4 @@ void keyUp(int vk) /*              */ { callsig(asmevent_keyup, vk); }
 void syskeyDown(int vk) /*         */ { callsig(asmevent_syskeydown, vk); }
 void syskeyUp(int vk) /*           */ { callsig(asmevent_syskeyup, vk); }
 void keyChar(const char ch) /*     */ { callsig(asmevent_keychar, ch); }
+void sysChar(const char ch) /*     */ { callsig(asmevent_syschar, ch); }
