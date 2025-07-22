@@ -21,7 +21,6 @@ void draw();
 void toggleFullscreen();
 
 static lua_State* L;
-int intref;
 
 struct {
 	UINT32 event;
@@ -147,9 +146,6 @@ void boot() {
 
 	luaL_loadbuffer(L, data, size, "<boot>");
 	lua_pcallk(L, 0, 0, 0, 0, NULL);
-
-	lua_getglobal(L, "int");
-	intref = luaL_ref(L, LUA_REGISTRYINDEX);
 }
 
 enum asmevent {
@@ -166,7 +162,7 @@ enum asmevent {
 void callint(enum asmevent ev, UINT32 arg) {
 	sys->event = ev;
 	sys->arg = arg;
-	lua_rawgeti(L, LUA_REGISTRYINDEX, intref);
+	lua_getglobal(L, "int");
 	lua_call(L, 0, 0);
 }
 

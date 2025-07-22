@@ -1,17 +1,6 @@
-local doblit = 0x1000c
-
--- default loop
-function int()
-	local sysdata = 0x10000
-	local event = sysdata[0]
-	local arg = sysdata[4]
-
-	if event == 6 and arg == 122 then
-		fullscreen()
-	end
-end
 
 -- setup print
+local doblit = 0x1000c
 local lasty=0
 local lastx=0
 function print(str, startx, starty)
@@ -47,6 +36,7 @@ function print(str, startx, starty)
 
 	doblit[0]=1
 end
+
 
 -- sandbox
 local env = setmetatable({
@@ -87,25 +77,49 @@ local env = setmetatable({
 	__newindex = _G,
 })
 
--- boot
-local userfile = userdir..'\\hram\\boot.lua'
-print("welcome to HRAM, the Hand-Rolled Assembly Machine!", 3, 2)
-print("loading "..userfile)
 
-local file, err = io.open(userfile)
-if not file then
-	print(err)
-else
-	local str = file:read('a')
-	file:close()
+-- welcome screen
+local welcomestr = [[
+  _   _   ___     _     __  __ 
+ | |_| | | _ \   / \   |  \/  |
+ | ___ | |   /  / ^ \  | |\/| |
+ |_| |_| |_\_\ /_/ \_\ |_|  |_|
 
-	local fn, err = load(str, 'boot.lua', 't', env)
-	if not fn then
+THE HAND ROLLED ASSEMBLY MACHINE
+================================
+
+///  program like it's 1979! ///
+]]
+print(welcomestr, 95, 50)
+
+local total = 0
+function int()
+	local sysdata = 0x10000
+	local event = sysdata[0]
+	if event == 0 then total = total + 1 end
+	if total < 30 then return end
+
+	_G.int = function()end
+	
+	-- user boot
+	local userfile = userdir..'\\hram\\boot.lua'
+	print("loading "..userfile, 3, 2)
+
+	local file, err = io.open(userfile)
+	if not file then
 		print(err)
 	else
-		xpcall(fn, function(err)
+		local str = file:read('a')
+		file:close()
+
+		local fn, err = load(str, 'boot.lua', 't', env)
+		if not fn then
 			print(err)
-		end)
+		else
+			xpcall(fn, function(err)
+				print(err)
+			end)
+		end
 	end
 end
 
@@ -142,5 +156,19 @@ sync
     frees resources and notifies waiters
     these must be manually closed:
       threads, semaphores
+
+--]]
+
+
+
+
+--[[
+	local sysdata = 0x10000
+	local event = sysdata[0]
+	local arg = sysdata[4]
+
+	if event == 6 and arg == 122 then
+		fullscreen()
+	end
 
 --]]
