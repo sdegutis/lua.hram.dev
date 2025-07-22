@@ -125,8 +125,8 @@ function sig()
 	if total < 50 then return end
 
 	_G.sig = function()
-		if env.sig then
-			xpcall(env.sig, errfn)
+		if env.signal then
+			xpcall(env.signal, errfn)
 		end
 	end
 
