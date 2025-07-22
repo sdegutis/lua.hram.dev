@@ -61,20 +61,28 @@ local env = {
     xpcall=xpcall,
     collectgarbage=collectgarbage,
 
-	fullscreen=fullscreen,
-	print=print,
-
 	coroutine=coroutine,
 	string=string,
 	table=table,
 	math=math,
 	utf8=utf8,
-	memory=memory,
-	image=image,
-	asm=asm,
+
+	memcpy=memory.copy,
+	memset=memory.fill,
+	strndup=memory.tostr,
+
+	exec=asm.exec,
+	assemble=asm.assemble,
+	disassemble=asm.disassemble,
+
+	drawtext=print,
+
 	lpeg=lpeg,
 }
 
+for k,v in pairs(asm.ops) do env[k] = v end
+for k,v in pairs(asm.reg) do env[k] = v end
+for k,v in pairs(asm.loc) do env[k] = v end
 
 -- welcome screen
 print('', 95, 50)
