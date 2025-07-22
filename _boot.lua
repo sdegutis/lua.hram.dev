@@ -91,7 +91,7 @@ THE HAND ROLLED ASSEMBLY MACHINE
 ]]
 
 local co = coroutine.create(function()
-	for i = 1, 3 do
+	for i = 1, 5 do
 		coroutine.yield()
 	end
 	for i = 1, #welcome, 33 do
@@ -112,8 +112,8 @@ function sig()
 	local sysdata = 0x10000
 	local event = sysdata[0]
 	if event == 0 then total = total + 1 end
-	if total % 3 == 0 then coroutine.resume(co) end
-	if total < 40 then return end
+	if total % 2 == 0 then coroutine.resume(co) end
+	if total < 50 then return end
 
 	_G.sig = function()
 		if env.sig then
