@@ -280,11 +280,16 @@ void setup_screen(ID3D11Device* device, struct Screen* scr) {
 	HR(device->lpVtbl->CreateShaderResourceView(device, scr->texture, NULL, &scr->texturesrv));
 }
 
+void toggleFullscreen();
+
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	switch (uMsg) {
 
+	case WM_SYSKEYDOWN: keyDown((int)wParam);
+		if (wParam == VK_RETURN) { toggleFullscreen(); }
+		return 0;
+
 	case WM_CHAR:       keyChar((const char)wParam); return 0;
-	case WM_SYSKEYDOWN: keyDown((int)wParam);        return 0;
 	case WM_KEYUP:      keyUp((int)wParam);          return 0;
 	case WM_KEYDOWN:    keyDown((int)wParam);        return 0;
 	case WM_SYSKEYUP:   keyUp((int)wParam);          return 0;
