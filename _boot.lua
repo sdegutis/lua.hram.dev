@@ -76,17 +76,32 @@ local env = {
 
 
 -- welcome screen
-print([[
-  _   _   ___     _     __  __ 
- | |_| | | _ \   / \   |  \/  |
- | ___ | |   /  / ^ \  | |\/| |
- |_| |_| |_\_\ /_/ \_\ |_|  |_|
+print('', 95, 50)
 
+local welcome = [[
+  _   _   ___     _     __  __  
+ | |_| | | _ \   / \   |  \/  | 
+ | ___ | |   /  / ^ \  | |\/| | 
+ |_| |_| |_\_\ /_/ \_\ |_|  |_| 
+                                
 THE HAND ROLLED ASSEMBLY MACHINE
 ================================
-
+                                
 ///  program like it's 1979! ///
-]], 95, 50)
+]]
+
+local co = coroutine.create(function()
+	for i = 1, 3 do
+		coroutine.yield()
+	end
+	for i = 1, #welcome, 33 do
+		local s = welcome:sub(i, i+31)
+		print(s)
+		coroutine.yield()
+	end
+end)
+
+coroutine.resume(co)
 
 function errfn(err)
 	print(tostring(err))
@@ -97,7 +112,8 @@ function sig()
 	local sysdata = 0x10000
 	local event = sysdata[0]
 	if event == 0 then total = total + 1 end
-	if total < 30 then return end
+	if total % 3 == 0 then coroutine.resume(co) end
+	if total < 40 then return end
 
 	_G.sig = function()
 		if env.sig then
