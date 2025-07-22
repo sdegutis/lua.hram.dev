@@ -155,9 +155,9 @@ enum asmevent {
 	asmevent_mouseup,
 	asmevent_keydown,
 	asmevent_keyup,
+	asmevent_keychar,
 	asmevent_syskeydown,
 	asmevent_syskeyup,
-	asmevent_keychar,
 	asmevent_syschar,
 };
 
