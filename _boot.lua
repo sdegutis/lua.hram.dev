@@ -85,7 +85,7 @@ for k,v in pairs(asm.reg) do env[k] = v end
 for k,v in pairs(asm.loc) do env[k] = v end
 
 -- welcome screen
-print('', 95, 50)
+print('', 0, 0)
 
 local welcome = [[
   _   _   ___     _     __  __  
@@ -122,7 +122,7 @@ function sig()
 	local event = sysdata[0]
 	if event == 0 then total = total + 1 end
 	if total % 2 == 0 then coroutine.resume(co) end
-	if total < 50 then return end
+	if total < 1070 then return end
 
 	_G.sig = function()
 		if env.signal then

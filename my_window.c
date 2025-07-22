@@ -52,8 +52,8 @@ ID3D11DeviceContext* devicecontext;
 
 
 struct Screen screens[] = {
-	{ 320, 180 },
-	{ 320, 200 },
+	{ 128,     72 },
+	{ 128 * 2, 72 * 2 },
 };
 int screeni = 0;
 struct Screen* screen = &screens[0];
@@ -84,7 +84,7 @@ LRESULT CALLBACK WindowProc2(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 #include "resource.h"
 
 int setupWindow(HINSTANCE hInstance, int nCmdShow) {
-	scale = 3;
+	scale = 5;
 	winw = screen->w * scale;
 	winh = screen->h * scale;
 
