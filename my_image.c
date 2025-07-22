@@ -5,7 +5,7 @@
 #include "my_window.h"
 
 ID3D11Texture2D* createImage(ID3D11Device* device, void* data, UINT w, UINT h, UINT pw) {
-	if (pw == 0) pw = w * 4;
+	if (pw == 0) pw = w;
 
 	ID3D11Texture2D* texture = NULL;
 
@@ -15,7 +15,7 @@ ID3D11Texture2D* createImage(ID3D11Device* device, void* data, UINT w, UINT h, U
 	texturedesc.Height = h;
 	texturedesc.MipLevels = 1;
 	texturedesc.ArraySize = 1;
-	texturedesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	texturedesc.Format = DXGI_FORMAT_R8_UNORM;
 	texturedesc.SampleDesc.Count = 1;
 	texturedesc.Usage = D3D11_USAGE_DEFAULT;
 	texturedesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
