@@ -4,6 +4,7 @@ local doblit = 0x1000c
 local lasty=0
 local lastx=0
 function print(str, startx, starty)
+    str = tostring(str)
 	startx = startx or lastx
 	starty = starty or lasty
 
