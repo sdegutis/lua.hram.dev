@@ -81,7 +81,7 @@ void setup_screen(ID3D11Device* device, struct Screen* scr);
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK WindowProc2(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-
+#include "resource.h"
 
 int setupWindow(HINSTANCE hInstance, int nCmdShow) {
 	scale = 3;
@@ -91,6 +91,7 @@ int setupWindow(HINSTANCE hInstance, int nCmdShow) {
 	WNDCLASS wc;
 	ZeroMemory(&wc, sizeof(wc));
 	wc.lpfnWndProc = WindowProc;
+	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	wc.hInstance = hInstance;
 	wc.lpszClassName = L"HRAM Window Class";
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
