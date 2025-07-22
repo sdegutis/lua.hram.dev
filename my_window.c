@@ -285,14 +285,18 @@ void toggleFullscreen();
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	switch (uMsg) {
 
-	case WM_SYSKEYDOWN: keyDown((int)wParam);
+	case WM_SYSKEYUP:
+		syskeyUp((int)wParam);
+		return 0;
+
+	case WM_SYSKEYDOWN:
+		syskeyDown((int)wParam);
 		if (wParam == VK_RETURN) { toggleFullscreen(); }
 		return 0;
 
 	case WM_CHAR:       keyChar((const char)wParam); return 0;
 	case WM_KEYUP:      keyUp((int)wParam);          return 0;
 	case WM_KEYDOWN:    keyDown((int)wParam);        return 0;
-	case WM_SYSKEYUP:   keyUp((int)wParam);          return 0;
 
 	case WM_GETMINMAXINFO: {
 		LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;

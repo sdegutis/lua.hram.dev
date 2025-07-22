@@ -15,4 +15,6 @@ void mouseWheel(int d);
 
 void keyDown(int vk);
 void keyUp(int vk);
+void syskeyDown(int vk);
+void syskeyUp(int vk);
 void keyChar(const char ch);
