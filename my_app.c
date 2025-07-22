@@ -120,7 +120,6 @@ void boot() {
 
 	PUINT64 funcs = 0x10100;
 	*funcs++ = screen->texture;
-	*funcs++ = draw;
 	*funcs++ = toggleFullscreen;
 	*funcs++ = aplusbtimes2;
 	*funcs++ = createImage(device, fontdata, 4 * 16, 6 * 6, 0);

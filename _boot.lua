@@ -25,7 +25,7 @@ function print(str, startx, starty)
 
 		local fx = (idx %  16) * 4
 		local fy = (idx // 16) * 6
-		image.copy(#0x10100, #0x10120, x, y, fx, fy, 4, 6)
+		image.copy(#0x10100, #0x10118, x, y, fx, fy, 4, 6)
 		x = x + 4
 
 		::continue::
@@ -112,7 +112,7 @@ function int()
 	if not found then
 		print('error loading boot.lua:\n'..err)
 	else
-		print(tostring(found))
+		print('found: '..found)
 		local fn = loadfile(found, 't', env)
 		xpcall(fn, errfn)
 	end
