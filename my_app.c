@@ -158,16 +158,16 @@ enum asmevent {
 	asmevent_keychar,
 };
 
-void callint(enum asmevent ev, UINT32 arg) {
+void callsig(enum asmevent ev, UINT32 arg) {
 	sys->event = ev;
 	sys->arg = arg;
-	lua_getglobal(L, "int");
+	lua_getglobal(L, "sig");
 	lua_call(L, 0, 0);
 }
 
 void tick(DWORD delta, DWORD now) {
 	sys->time = now;
-	callint(asmevent_tick, delta);
+	callsig(asmevent_tick, delta);
 
 	if (sys->blit) {
 		sys->blit = 0;
@@ -175,10 +175,10 @@ void tick(DWORD delta, DWORD now) {
 	}
 }
 
-void mouseMoved(int x, int y) /*   */ { callint(asmevent_mousemove, ((x & 0xffff) << 16) | (y & 0xffff)); }
-void mouseDown(int b) /*           */ { callint(asmevent_mousedown, b); }
-void mouseUp(int b) /*             */ { callint(asmevent_mouseup, b); }
-void mouseWheel(int d) /*          */ { callint(asmevent_mousewheel, d); }
-void keyDown(int vk) /*            */ { callint(asmevent_keydown, vk); }
-void keyUp(int vk) /*              */ { callint(asmevent_keyup, vk); }
-void keyChar(const char ch) /*     */ { callint(asmevent_keychar, ch); }
+void mouseMoved(int x, int y) /*   */ { callsig(asmevent_mousemove, ((x & 0xffff) << 16) | (y & 0xffff)); }
+void mouseDown(int b) /*           */ { callsig(asmevent_mousedown, b); }
+void mouseUp(int b) /*             */ { callsig(asmevent_mouseup, b); }
+void mouseWheel(int d) /*          */ { callsig(asmevent_mousewheel, d); }
+void keyDown(int vk) /*            */ { callsig(asmevent_keydown, vk); }
+void keyUp(int vk) /*              */ { callsig(asmevent_keyup, vk); }
+void keyChar(const char ch) /*     */ { callsig(asmevent_keychar, ch); }

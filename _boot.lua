@@ -93,15 +93,15 @@ function errfn(err)
 end
 
 local total = 0
-function int()
+function sig()
 	local sysdata = 0x10000
 	local event = sysdata[0]
 	if event == 0 then total = total + 1 end
 	if total < 30 then return end
 
-	_G.int = function()
-		if env.int then
-			xpcall(env.int, errfn)
+	_G.sig = function()
+		if env.sig then
+			xpcall(env.sig, errfn)
 		end
 	end
 
