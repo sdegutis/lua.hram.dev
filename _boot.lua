@@ -39,7 +39,7 @@ end
 
 
 -- sandbox
-local env = setmetatable({
+local env = {
     assert=assert,
     error=error,
     warn=warn,
@@ -71,15 +71,12 @@ local env = setmetatable({
 	memory=memory,
 	image=image,
 	asm=asm,
-	sync=sync,
-}, {
-	__index = _G,
-	__newindex = _G,
-})
+	lpeg=lpeg,
+}
 
 
 -- welcome screen
-local welcomestr = [[
+print([[
   _   _   ___     _     __  __ 
  | |_| | | _ \   / \   |  \/  |
  | ___ | |   /  / ^ \  | |\/| |
@@ -89,8 +86,11 @@ THE HAND ROLLED ASSEMBLY MACHINE
 ================================
 
 ///  program like it's 1979! ///
-]]
-print(welcomestr, 95, 50)
+]], 95, 50)
+
+function errfn(err)
+	print(tostring(err))
+end
 
 local total = 0
 function int()
@@ -99,27 +99,22 @@ function int()
 	if event == 0 then total = total + 1 end
 	if total < 30 then return end
 
-	_G.int = function()end
-	
-	-- user boot
-	local userfile = userdir..'\\hram\\boot.lua'
-	print("loading "..userfile, 3, 2)
-
-	local file, err = io.open(userfile)
-	if not file then
-		print(err)
-	else
-		local str = file:read('a')
-		file:close()
-
-		local fn, err = load(str, 'boot.lua', 't', env)
-		if not fn then
-			print(err)
-		else
-			xpcall(fn, function(err)
-				print(err)
-			end)
+	_G.int = function()
+		if env.int then
+			xpcall(env.int, errfn)
 		end
+	end
+
+	-- user boot
+	print("loading boot.lua", 3, 2)
+
+	local found, err = package.searchpath('boot', userdir..'\\hram\\?.lua;.\\?.lua')
+	if not found then
+		print('error loading boot.lua:\n'..err)
+	else
+		print(tostring(found))
+		local fn = loadfile(found, 't', env)
+		xpcall(fn, errfn)
 	end
 end
 

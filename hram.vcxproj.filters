@@ -422,7 +422,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="boot.lua" />
+    <None Include="_boot.lua" />
     <None Include="mytextfi.bin">
       <Filter>Resource Files</Filter>
     </None>

@@ -322,7 +322,7 @@
     <ResourceCompile Include="hram.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="boot.lua" />
+    <None Include="_boot.lua" />
     <None Include="mytextfi.bin" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
