@@ -19,7 +19,6 @@
 void draw();
 void toggleFullscreen();
 void blitimmediately();
-int asm_exec(lua_State* L);
 
 static lua_State* L;
 
@@ -46,35 +45,6 @@ struct AppState {
 struct AppState* sys = 0x30000;
 
 
-int number_index(lua_State* L) {
-	PUINT8 addr = lua_tointeger(L, 1);
-	UINT64 offs = lua_tointeger(L, 2);
-	lua_pushinteger(L, *(addr + offs));
-	return 1;
-}
-
-int number_newindex(lua_State* L) {
-	PUINT8 addr = lua_tointeger(L, 1);
-	UINT64 offs = lua_tointeger(L, 2);
-	UINT64 nval = lua_tointeger(L, 3);
-	*(addr + offs) = nval;
-	return 0;
-}
-
-int number_len(lua_State* L) {
-	PUINT64 addr = lua_tointeger(L, 1);
-	lua_pushinteger(L, *addr);
-	return 1;
-}
-
-luaL_Reg numbermetamethods[] = {
-	{"__len",      number_len},
-	{"__call",     asm_exec},
-	{"__index",    number_index},
-	{"__newindex", number_newindex},
-	{NULL,NULL}
-};
-
 int luaopen_lpeg(lua_State* L);
 
 lua_State* newvm() {
@@ -94,13 +64,6 @@ lua_State* newvm() {
 	luaopen_lpeg(L);
 	lua_setglobal(L, "lpeg");
 	lua_settop(L, 0);
-
-	luaL_newlibtable(L, numbermetamethods);
-	luaL_setfuncs(L, numbermetamethods, 0);
-	lua_pushinteger(L, 0);
-	lua_pushvalue(L, -2);
-	lua_setmetatable(L, -2);
-	lua_pop(L, 2);
 
 	return L;
 }
