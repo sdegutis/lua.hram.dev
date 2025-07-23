@@ -42,6 +42,7 @@ void moveSubWindow();
 
 void HR(HRESULT res) {
 	if (res == S_OK) return;
+	MessageBox(NULL, L"Could not set up HRAM window.", L"Fatal error", 0);
 	ExitProcess(1);
 }
 

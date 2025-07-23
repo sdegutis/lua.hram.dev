@@ -22,8 +22,8 @@ void toggleFullscreen();
 static lua_State* L;
 
 struct AppState {
+	UINT8 appversion;
 	UINT8 eventid;
-	UINT8 reserved1;
 	UINT16 eventarg;
 	UINT8 inflags;
 	UINT8 keymods;
@@ -125,8 +125,11 @@ void boot() {
 	//GetModuleFileNameA(NULL, szFileName, MAX_PATH);
 	//char* bare = strrchr(szFileName, '\\') + 1;
 
-	void* mem2 = VirtualAlloc(0x30000, 0x4000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-	if (!mem2) { abort(); }
+	void* sysmem = VirtualAlloc(0x30000, 0x4000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	if (!sysmem) {
+		MessageBox(NULL, L"Could not allocate sufficient memory.", L"Fatal error", 0);
+		ExitProcess(1);
+	}
 
 	memcpy(sys->licenses, third_party_licenses, sizeof(third_party_licenses));
 	initfont();
@@ -142,9 +145,6 @@ void boot() {
 	const char* data = LockResource(rcData);
 
 	L = newvm();
-
-	lua_pushcfunction(L, fullscreen);
-	lua_setglobal(L, "fullscreen");
 
 	PWSTR wpath;
 	PUINT8 ansipath = 0x33000;
@@ -187,16 +187,48 @@ void tick(DWORD delta, DWORD now) {
 	}
 }
 
-void mouseMoved(int x, int y) /*   */ { callsig(asmevent_mousemove, ((x & 0xffff) << 16) | (y & 0xffff)); }
-void mouseDown(int b) /*           */ { callsig(asmevent_mousedown, b); }
-void mouseUp(int b) /*             */ { callsig(asmevent_mouseup, b); }
-void mouseWheel(int d) /*          */ { callsig(asmevent_mousewheel, d); }
-void keyDown(int vk) /*            */ { callsig(asmevent_keydown, vk); }
-void keyUp(int vk) /*              */ { callsig(asmevent_keyup, vk); }
-void syskeyDown(int vk) /*         */ { callsig(asmevent_keydown, vk); }
-void syskeyUp(int vk) /*           */ { callsig(asmevent_keyup, vk); }
-void keyChar(const char ch) /*     */ { callsig(asmevent_keychar, ch); }
-void sysChar(const char ch) /*     */ { callsig(asmevent_keychar, ch); }
+void mouseMoved(int x, int y) {
+	sys->mousex = x;
+	sys->mousey = y;
+	callsig(asmevent_mousemove, ((x & 0xffff) << 16) | (y & 0xffff));
+}
+
+void mouseDown(int b) {
+	callsig(asmevent_mousedown, b);
+}
+
+void mouseUp(int b) {
+	callsig(asmevent_mouseup, b);
+}
+
+void mouseWheel(int d) {
+	callsig(asmevent_mousewheel, d);
+}
+
+void keyDown(int vk) {
+	callsig(asmevent_keydown, vk);
+}
+
+void keyUp(int vk) {
+	callsig(asmevent_keyup, vk);
+}
+
+void syskeyDown(int vk) {
+	callsig(asmevent_keydown, vk);
+}
+
+void syskeyUp(int vk) {
+	callsig(asmevent_keyup, vk);
+}
+
+void keyChar(const char ch) {
+	callsig(asmevent_keychar, ch);
+}
+
+void sysChar(const char ch) {
+	callsig(asmevent_keychar, ch);
+}
+
 
 
 #define FW (4)
