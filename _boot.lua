@@ -205,7 +205,7 @@ end
 local total = 0
 function sig()
 	if not skipwelcome then
-		local event = (0x30001)[0]
+		local event = (0x30000)[2]
 		if event == 0 then total = total + 1 end
 		if total % 2 == 0 then coroutine.resume(co) end
 		if total < 70 then return end
