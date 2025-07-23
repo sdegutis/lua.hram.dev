@@ -1,13 +1,82 @@
-local int = 0x30004
+local int    = 0x30004
 local screen = 0x30100
+local font   = 0x32600
+
+local maxcols = 32
+local maxrows = 12
+
+function blit()
+	int[0] = 1
+end
+
 function sig()
 	if (0x30000)[0] == 0 then
 		local pixel = math.random(0, 128*72)
 		--pixel = 1
 		screen[pixel] = math.random(0xff)
-		int[0] = 1
+		blit()
 	end
 end
+
+function printchar(idx, x, y)
+	local scraddr = screen + 128*y+x
+	local fntaddr = font + idx*4*6
+
+	for y=0,5 do
+		memcpy(scraddr+y*128, fntaddr+y*4, 4)
+	end
+end
+
+function movetonextrow()
+	col = 1
+	row = row + 1
+end
+
+local cursor = 0x30006
+cursor[0]=1
+cursor[1]=1
+
+function printf(s, ...)
+	s = string.format(s, ...)
+
+	local col = cursor[0]
+	local row = cursor[1]
+
+	for i = 1, #s do
+
+		local char = s:byte(i)
+
+		if char == 0xA then
+			movetonextrow()
+			goto continue
+		end
+
+		if char < 32 or char > 126 then
+			goto continue
+		end
+		
+		local idx = char - 32
+		local x = (col-1) * 4
+		local y = (row-1) * 6
+
+		printchar(idx, x, y)
+
+		col = col + 1
+
+		if col > 32 then
+			movetonextrow()
+		end
+
+		::continue::
+
+	end
+
+	cursor[0] = col
+	cursor[1] = row
+end
+
+printf("hi")
+
 
 --[=[
 

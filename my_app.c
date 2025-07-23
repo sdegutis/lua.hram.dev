@@ -117,11 +117,13 @@ int fullscreen(lua_State* L) {
 	return 0;
 }
 
+static void initfont();
+
 void boot() {
 
-	AllocConsole();
-	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
-	freopen_s((FILE**)stdin, "CONIN$", "r", stdin);
+	//AllocConsole();
+	//freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	//freopen_s((FILE**)stdin, "CONIN$", "r", stdin);
 
 	//CHAR szFileName[MAX_PATH];
 	//GetModuleFileNameA(NULL, szFileName, MAX_PATH);
@@ -131,7 +133,7 @@ void boot() {
 	if (!mem2) { abort(); }
 
 	memcpy(sys->licenses, third_party_licenses, sizeof(third_party_licenses));
-	memcpy(sys->font, fontdata, sizeof(fontdata));
+	initfont();
 
 	int funcs = 0;
 	sys->addrs[funcs++] = aplusbtimes2;
@@ -199,3 +201,24 @@ void syskeyDown(int vk) /*         */ { callsig(asmevent_keydown, vk); }
 void syskeyUp(int vk) /*           */ { callsig(asmevent_keyup, vk); }
 void keyChar(const char ch) /*     */ { callsig(asmevent_keychar, ch); }
 void sysChar(const char ch) /*     */ { callsig(asmevent_keychar, ch); }
+
+
+#define FW (4)
+#define FH (6)
+#define SW (16)
+#define SH (6)
+
+static void initfont() {
+	PUINT8 ptr = sys->font;
+	int z = 0;
+	for (int sy = 0; sy < SH; sy++) {
+		for (int sx = 0; sx < SW; sx++) {
+			for (int fy = 0; fy < FH; fy++) {
+				for (int fx = 0; fx < FW; fx++) {
+					int i = (fy * SW * FW) + (sy * SH * SW * FW) + (sx * FW) + fx;
+					*ptr++ = fontdata[i] ? 0x0a : 0x30;
+				}
+			}
+		}
+	}
+}
