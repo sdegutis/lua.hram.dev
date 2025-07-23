@@ -1,4 +1,3 @@
-local isboot = ...
 local int    = 0x30004
 local screen = 0x30100
 local font   = 0x32500
@@ -43,6 +42,13 @@ cursor[1]=1
 
 local tabsize = 4
 
+function paginate(row)
+	if row <= maxrows then return row end
+	memcpy(screen, screen+128*6, 128*(72-6))
+	memset(screen+128*(72-6), 0, 128*6)
+	return row-1
+end
+
 function printf(s, ...)
 	s = string.format(s, ...)
 
@@ -59,7 +65,7 @@ function printf(s, ...)
 				col = col + 1
 				if col > 32 then
 					col = 1
-					row = row + 1
+					row = paginate(row + 1)
 					goto continue
 				end
 			end
@@ -68,7 +74,7 @@ function printf(s, ...)
 
 		if char == 0xA then
 			col = 1
-			row = row + 1
+			row = paginate(row + 1)
 			goto continue
 		end
 
@@ -82,7 +88,7 @@ function printf(s, ...)
 
 		if col > 32 then
 			col = 1
-			row = row + 1
+			row = paginate(row + 1)
 		end
 
 		::continue::
@@ -208,14 +214,16 @@ function sig()
 	cursor[1] = 1
 
 	-- user boot
-	print("loading boot.lua", 3, 2)
+	print("loading <appdata>\\hram\\boot.lua")
 
-	local found, err = package.searchpath('boot', userdir..'\\hram\\?.lua;.\\?.lua')
-	if not found then
-		print('error loading boot.lua:\n'..err)
+	local f = io.open(userdir..'\\hram\\boot.lua', 'r')
+	if not f then
+		print('file not found')
 	else
-		print('found: '..found)
-		local fn = loadfile(found, 't', env)
+		local code = f:read'a'
+		f:close()
+		local fn = load(code, 'boot.lua', 't', env)
+		print('running user code')
 		xpcall(fn, errfn)
 	end
 end

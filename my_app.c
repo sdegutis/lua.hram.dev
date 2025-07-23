@@ -151,8 +151,7 @@ void boot() {
 	lua_setglobal(L, "userdir");
 
 	luaL_loadbuffer(L, data, size, "<boot>");
-	lua_pushboolean(L, 1);
-	lua_pcallk(L, 1, 0, 0, 0, NULL);
+	lua_pcallk(L, 0, 0, 0, 0, NULL);
 }
 
 enum asmevent {
@@ -185,9 +184,9 @@ void tick(DWORD delta, DWORD now) {
 }
 
 void mouseMoved(int x, int y) {
+	callsig(asmevent_mousemove, ((x & 0xff) << 8) | (y & 0xff));
 	sys->mousex = x;
 	sys->mousey = y;
-	callsig(asmevent_mousemove, ((x & 0xffff) << 16) | (y & 0xffff));
 }
 
 void mouseDown(int b) {
