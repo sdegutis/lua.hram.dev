@@ -1,12 +1,14 @@
 #pragma once
 
 static const char third_party_licenses[] =
-"License of Lua, LPeg, and Zydis (all MIT) is as follows.\n"
+"License of Lua, LPeg, Zydis, and Zycore (all MIT) is as follows.\n"
 "\n"
-"Lua   : Copyright (c) 1994–2025 Lua.org, PUC-Rio.\n"
-"LPeg  : Copyright (c) 2007-2023 Lua.org, PUC-Rio.\n"
-"Zydis : Copyright (c) 2014-2024 Florian Bernd\n"
-"Zydis : Copyright (c) 2014-2024 Joel Höner\n"
+"Lua    : Copyright (c) 1994-2025 Lua.org, PUC-Rio.\n"
+"LPeg   : Copyright (c) 2007-2023 Lua.org, PUC-Rio.\n"
+"Zydis  : Copyright (c) 2014-2024 Florian Bernd\n"
+"Zydis  : Copyright (c) 2014-2024 Joel Honer\n"
+"Zycore : Copyright (c) 2018-2024 Florian Bernd\n"
+"Zycore : Copyright (c) 2018-2024 Joel Honer\n"
 "\n"
 "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n"
 "\n"

@@ -34,12 +34,13 @@ struct AppState {
 	UINT32 time;
 	UINT8 mousex;
 	UINT8 mousey;
-	UINT16 reserved;
+	UINT16 reserved1;
 	UINT8 keys[32];
 	UINT64 addrs[26];
 	UINT8 screen[128 * 72];
-	UINT8 font[16 * 4 * 4 * 6];
-	CHAR licenses[1280];
+	UINT8 font[16 * 4 * 6 * 6];
+	CHAR reserved2[512];
+	PUINT8 userdata;
 };
 
 struct AppState* sys = 0x30000;
@@ -129,7 +130,7 @@ void boot() {
 
 	sys->appversion = 300;
 
-	memcpy(sys->licenses, third_party_licenses, sizeof(third_party_licenses));
+	memcpy(&sys->userdata, third_party_licenses, sizeof(third_party_licenses));
 	initfont();
 
 	int funcs = 0;
