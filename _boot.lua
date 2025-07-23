@@ -25,7 +25,10 @@ function setfontcolor(fore, back)
 end
 
 
-function printchar(idx, x, y)
+function printchar(char, col, row)
+	local idx = char-32
+	local x = (col-1) * 4
+	local y = (row-1) * 6
 	local scraddr = screen + 128*y+x
 	local fntaddr = font + idx*4*6
 	for y=0,5 do
@@ -52,6 +55,7 @@ function printf(s, ...)
 
 		if char == 0x9 then
 			while (col-1) % tabsize ~= 0 do
+				printchar(32, col, row)
 				col = col + 1
 				if col > 32 then
 					col = 1
@@ -72,11 +76,7 @@ function printf(s, ...)
 			goto continue
 		end
 		
-		local idx = char - 32
-		local x = (col-1) * 4
-		local y = (row-1) * 6
-
-		printchar(idx, x, y)
+		printchar(char, col, row)
 
 		col = col + 1
 
