@@ -171,8 +171,8 @@ local env = {
 	strndup=strndup,
 
 	exec=asm.exec,
-	assemble=asm.assemble,
-	disassemble=asm.disassemble,
+	asm=asm.asm,
+	dasm=asm.dasm,
 
 	print=print,
 	printf=printf,
