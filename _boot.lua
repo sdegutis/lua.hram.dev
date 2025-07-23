@@ -180,6 +180,7 @@ local env = {
 
 	memcpy=memcpy,
 	memset=memset,
+	strdup=strdup,
 	strndup=strndup,
 
 	exec=asm.exec,
