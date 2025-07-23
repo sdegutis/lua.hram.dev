@@ -187,10 +187,11 @@ void tick(DWORD delta, DWORD now) {
 	sys->time = now;
 	callsig(asmevent_tick, delta);
 
-	if (sys->inflags) {
-		sys->inflags = 0;
+	if (sys->inflags & 1) {
 		blitimmediately();
 	}
+
+	sys->inflags = 0;
 }
 
 void mouseMoved(int x, int y) {
