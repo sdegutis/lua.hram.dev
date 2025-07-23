@@ -23,11 +23,11 @@ void toggleFullscreen();
 static lua_State* L;
 
 struct AppState {
-	UINT8 event;
+	UINT32 eventid : 4;
+	UINT32 eventarg : 28;
 	UINT8 inflags;
 	UINT8 keymods;
-	UINT8 reserved1;
-	UINT32 arg;
+	UINT16 reserved1;
 	UINT32 time;
 	UINT16 mousex;
 	UINT16 mousey;
@@ -167,9 +167,6 @@ enum asmevent {
 	asmevent_keydown,
 	asmevent_keyup,
 	asmevent_keychar,
-	asmevent_syskeydown,
-	asmevent_syskeyup,
-	asmevent_syschar,
 };
 
 void callsig(enum asmevent ev, UINT32 arg) {
@@ -196,7 +193,7 @@ void mouseUp(int b) /*             */ { callsig(asmevent_mouseup, b); }
 void mouseWheel(int d) /*          */ { callsig(asmevent_mousewheel, d); }
 void keyDown(int vk) /*            */ { callsig(asmevent_keydown, vk); }
 void keyUp(int vk) /*              */ { callsig(asmevent_keyup, vk); }
-void syskeyDown(int vk) /*         */ { callsig(asmevent_syskeydown, vk); }
-void syskeyUp(int vk) /*           */ { callsig(asmevent_syskeyup, vk); }
+void syskeyDown(int vk) /*         */ { callsig(asmevent_keydown, vk); }
+void syskeyUp(int vk) /*           */ { callsig(asmevent_keyup, vk); }
 void keyChar(const char ch) /*     */ { callsig(asmevent_keychar, ch); }
-void sysChar(const char ch) /*     */ { callsig(asmevent_syschar, ch); }
+void sysChar(const char ch) /*     */ { callsig(asmevent_keychar, ch); }
