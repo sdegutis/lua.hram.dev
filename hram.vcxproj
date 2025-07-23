@@ -193,7 +193,6 @@
     <ClCompile Include="zycore\src\String.c" />
     <ClCompile Include="zycore\src\Vector.c" />
     <ClCompile Include="zycore\src\Zycore.c" />
-    <ClCompile Include="zydis\Zydis.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="my_app.h" />
@@ -260,7 +259,6 @@
     <ClInclude Include="zycore\Types.h" />
     <ClInclude Include="zycore\Vector.h" />
     <ClInclude Include="zycore\Zycore.h" />
-    <ClInclude Include="zydis\Zydis.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
