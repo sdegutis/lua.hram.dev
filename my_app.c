@@ -125,12 +125,6 @@ void boot() {
 	//GetModuleFileNameA(NULL, szFileName, MAX_PATH);
 	//char* bare = strrchr(szFileName, '\\') + 1;
 
-	void* sysmem = VirtualAlloc(0x30000, 0x4000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-	if (!sysmem) {
-		MessageBox(NULL, L"Could not allocate sufficient memory.", L"Fatal error", 0);
-		ExitProcess(1);
-	}
-
 	memcpy(sys->licenses, third_party_licenses, sizeof(third_party_licenses));
 	initfont();
 

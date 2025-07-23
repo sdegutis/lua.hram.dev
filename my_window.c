@@ -40,13 +40,6 @@ void resetBuffers();
 void moveSubWindow();
 
 
-void HR(HRESULT res) {
-	if (res == S_OK) return;
-	MessageBox(NULL, L"Could not set up HRAM window.", L"Fatal error", 0);
-	ExitProcess(1);
-}
-
-
 ID3D11Device* device;
 ID3D11DeviceContext* devicecontext;
 
@@ -59,6 +52,7 @@ int winh;
 void draw();
 void toggleFullscreen();
 void setup_screen(ID3D11Device* device, struct Screen* scr);
+ID3D11Texture2D* createImage(ID3D11Device* device, void* data, UINT w, UINT h, UINT pw);
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK WindowProc2(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -127,25 +121,40 @@ int setupWindow(HINSTANCE hInstance, int nCmdShow) {
 	swapchaindesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 
 	D3D_FEATURE_LEVEL featurelevels[] = { D3D_FEATURE_LEVEL_11_0 };
-	HR(D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, D3D11_CREATE_DEVICE_BGRA_SUPPORT | D3D11_CREATE_DEVICE_SINGLETHREADED, featurelevels, ARRAYSIZE(featurelevels), D3D11_SDK_VERSION, &swapchaindesc, &swapchain, &device, NULL, &devicecontext));
+	HRESULT res;
+	res = D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, D3D11_CREATE_DEVICE_BGRA_SUPPORT | D3D11_CREATE_DEVICE_SINGLETHREADED, featurelevels, ARRAYSIZE(featurelevels), D3D11_SDK_VERSION, &swapchaindesc, &swapchain, &device, NULL, &devicecontext);
+	if (res != S_OK) return 1;
 
-	HR(swapchain->lpVtbl->GetBuffer(swapchain, 0, &IID_ID3D11Texture2D, (void**)&framebuffer));
-	if (framebuffer == NULL) { return 1; }
-	HR(device->lpVtbl->CreateRenderTargetView(device, framebuffer, NULL, &framebufferRTV));
+	res = swapchain->lpVtbl->GetBuffer(swapchain, 0, &IID_ID3D11Texture2D, (void**)&framebuffer);
+	if (res != S_OK || framebuffer == NULL) return 1;
 
-	HR(device->lpVtbl->CreateVertexShader(device, MyVertexShader, sizeof(MyVertexShader), 0, &vertexshader));
-	HR(device->lpVtbl->CreatePixelShader(device, MyPixelShader, sizeof(MyPixelShader), 0, &pixelshader));
+	res = device->lpVtbl->CreateRenderTargetView(device, framebuffer, NULL, &framebufferRTV);
+	if (res != S_OK) return 1;
+
+	res = device->lpVtbl->CreateVertexShader(device, MyVertexShader, sizeof(MyVertexShader), 0, &vertexshader);
+	if (res != S_OK) return 1;
+
+	res = device->lpVtbl->CreatePixelShader(device, MyPixelShader, sizeof(MyPixelShader), 0, &pixelshader);
+	if (res != S_OK) return 1;
 
 	D3D11_RASTERIZER_DESC rasterizerdesc = { D3D11_FILL_SOLID, D3D11_CULL_BACK };
-	HR(device->lpVtbl->CreateRasterizerState(device, &rasterizerdesc, &rasterizerstate));
+	res = device->lpVtbl->CreateRasterizerState(device, &rasterizerdesc, &rasterizerstate);
+	if (res != S_OK) return 1;
 
 	D3D11_SAMPLER_DESC samplerdesc = { D3D11_FILTER_MIN_MAG_MIP_POINT, D3D11_TEXTURE_ADDRESS_WRAP, D3D11_TEXTURE_ADDRESS_WRAP, D3D11_TEXTURE_ADDRESS_WRAP };
-	HR(device->lpVtbl->CreateSamplerState(device, &samplerdesc, &samplerstate));
+	res = device->lpVtbl->CreateSamplerState(device, &samplerdesc, &samplerstate);
+	if (res != S_OK) return 1;
 
 	D3D11_VIEWPORT viewport = { 0, 0, (float)subw, (float)subh, 0, 1 };
 	devicecontext->lpVtbl->RSSetViewports(devicecontext, 1, &viewport);
 
-	setup_screen(device, &screen);
+	long len = screen.w * screen.h * 4;
+	PUINT8 mem = HeapAlloc(GetProcessHeap(), 0, len);
+	ZeroMemory(mem, len);
+	screen.texture = createImage(device, mem, screen.w, screen.h, 0);
+	HeapFree(GetProcessHeap(), 0, mem);
+	res = device->lpVtbl->CreateShaderResourceView(device, screen.texture, NULL, &screen.texturesrv);
+	if (res != S_OK) return 1;
 
 	ShowWindow(hwnd, nCmdShow);
 	SetForegroundWindow(hwnd);
@@ -245,11 +254,10 @@ inline void resetBuffers() {
 	framebufferRTV->lpVtbl->Release(framebufferRTV);
 	framebuffer->lpVtbl->Release(framebuffer);
 
-	HR(swapchain->lpVtbl->ResizeBuffers(swapchain, 0, subw, subh, DXGI_FORMAT_UNKNOWN, 0));
+	swapchain->lpVtbl->ResizeBuffers(swapchain, 0, subw, subh, DXGI_FORMAT_UNKNOWN, 0);
 
-
-	HR(swapchain->lpVtbl->GetBuffer(swapchain, 0, &IID_ID3D11Texture2D, (void**)&framebuffer));
-	HR(device->lpVtbl->CreateRenderTargetView(device, framebuffer, NULL, &framebufferRTV));
+	swapchain->lpVtbl->GetBuffer(swapchain, 0, &IID_ID3D11Texture2D, (void**)&framebuffer);
+	device->lpVtbl->CreateRenderTargetView(device, framebuffer, NULL, &framebufferRTV);
 }
 
 ID3D11Texture2D* createImage(ID3D11Device* device, void* data, UINT w, UINT h, UINT pw) {
@@ -276,15 +284,6 @@ ID3D11Texture2D* createImage(ID3D11Device* device, void* data, UINT w, UINT h, U
 	device->lpVtbl->CreateTexture2D(device, &texturedesc, &textureSRD, &texture);
 
 	return texture;
-}
-
-void setup_screen(ID3D11Device* device, struct Screen* scr) {
-	long len = scr->w * scr->h * 4;
-	PUINT8 mem = HeapAlloc(GetProcessHeap(), 0, len);
-	ZeroMemory(mem, len);
-	scr->texture = createImage(device, mem, scr->w, scr->h, 0);
-	HeapFree(GetProcessHeap(), 0, mem);
-	HR(device->lpVtbl->CreateShaderResourceView(device, scr->texture, NULL, &scr->texturesrv));
 }
 
 void toggleFullscreen();

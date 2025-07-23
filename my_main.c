@@ -11,7 +11,17 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, PWSTR pCmdLine, in
 		return 0;
 	}
 
-	if (setupWindow(hInstance, nCmdShow)) return 1;
+	void* sysmem = VirtualAlloc(0x30000, 0x4000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	if (!sysmem) {
+		MessageBox(NULL, L"Could not allocate sufficient memory.", L"Fatal error", 0);
+		return 1;
+	}
+
+	if (setupWindow(hInstance, nCmdShow)) {
+		MessageBox(NULL, L"Could not setup window.", L"Fatal error", 0);
+		return 1;
+	}
+
 	boot();
 	runLoop();
 	return 0;
