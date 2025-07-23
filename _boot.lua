@@ -23,14 +23,9 @@ function printchar(idx, x, y)
 	local fntaddr = font + idx*4*6
 	for y=0,5 do
 		print(string.format('%d\t%x\t%x', y, scraddr+y*128, fntaddr+y*4))
-		memory.copy(scraddr+y*128, fntaddr+y*4, 4)
+		memcpy(scraddr+y*128, fntaddr+y*4, 4)
 	end
 	blit()
-end
-
-function movetonextrow()
-	col = 1
-	row = row + 1
 end
 
 local cursor = 0x30006
@@ -48,7 +43,8 @@ function printf(s, ...)
 		local char = s:byte(i)
 
 		if char == 0xA then
-			movetonextrow()
+			col = 1
+			row = row + 1
 			goto continue
 		end
 
@@ -65,7 +61,8 @@ function printf(s, ...)
 		col = col + 1
 
 		if col > 32 then
-			movetonextrow()
+			col = 1
+			row = row + 1
 		end
 
 		::continue::
@@ -76,7 +73,17 @@ function printf(s, ...)
 	cursor[1] = row
 end
 
-printf("hi")
+--function print(...)
+--	local t = table.pack(...)
+--	for i=#t-1,2,-1 do
+--		table.insert(t, '\t')
+--	end
+--	printf()
+--end
+
+for i=1,13 do
+	printf("hello %d\n", i)
+end
 
 
 --[=[
