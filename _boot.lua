@@ -1,4 +1,4 @@
-local int = 0x30001
+local int = 0x30004
 local screen = 0x30100
 function sig()
 	if (0x30000)[0] == 0 then

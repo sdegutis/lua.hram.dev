@@ -23,11 +23,13 @@ void toggleFullscreen();
 static lua_State* L;
 
 struct AppState {
-	UINT32 eventid : 4;
-	UINT32 eventarg : 28;
+	UINT8 eventid;
+	UINT8 reserved1;
+	UINT16 eventarg;
 	UINT8 inflags;
 	UINT8 keymods;
-	UINT16 reserved1;
+	UINT8 reserved2;
+	UINT8 reserved3;
 	UINT32 time;
 	UINT16 mousex;
 	UINT16 mousey;
@@ -117,9 +119,9 @@ int fullscreen(lua_State* L) {
 
 void boot() {
 
-	//AllocConsole();
-	//freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
-	//freopen_s((FILE**)stdin, "CONIN$", "r", stdin);
+	AllocConsole();
+	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	freopen_s((FILE**)stdin, "CONIN$", "r", stdin);
 
 	//CHAR szFileName[MAX_PATH];
 	//GetModuleFileNameA(NULL, szFileName, MAX_PATH);
@@ -170,8 +172,8 @@ enum asmevent {
 };
 
 void callsig(enum asmevent ev, UINT32 arg) {
-	sys->event = ev;
-	sys->arg = arg;
+	sys->eventid = ev;
+	sys->eventarg = arg;
 	lua_getglobal(L, "sig");
 	lua_call(L, 0, 0);
 }
