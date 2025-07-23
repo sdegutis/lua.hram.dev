@@ -60,7 +60,7 @@ function printf(s, ...)
 		local char = s:byte(i)
 
 		if char == 0x9 then
-			while col % tabsize ~= 0 do
+			while (col-1) % tabsize ~= 0 do
 				col = col + 1
 				if col > 32 then
 					col = 1
@@ -116,7 +116,7 @@ end
 
 for i=1,13 do
 	--printf("%s, %d\n", "hello", i)
-	print('hello?', i, i)
+	print('a', i, i)
 end
 
 
