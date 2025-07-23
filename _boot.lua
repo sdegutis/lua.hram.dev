@@ -27,7 +27,7 @@ setfontcolor(0xf0)
 
 
 function sig()
-	if (0x30000)[0] == 0 then
+	if (0x30001)[0] == 0 then
 		local pixel = math.random(0, 128*72)
 		screen[pixel] = math.random(0xff)
 		blit()
@@ -114,10 +114,22 @@ function print(...)
 	printf(table.concat(t))
 end
 
-for i=1,13 do
-	--printf("%s, %d\n", "hello", i)
-	print('a', i, i)
-end
+
+local welcome = [[
+  _   _   ____     _     _   _  
+ | |_| | | __ \   /,\   | \ / | 
+ |  _  | |    /  / _ \  |  V  | 
+ |_| |_| |__\_\ /_/ \_\ |_| |_| 
+                                
+THE HAND ROLLED ASSEMBLY MACHINE
+================================
+                                
+///  program like it's 1979! ///
+]]
+
+setfontcolor(0x0f)
+cursor[1] = 2
+printf(welcome:gsub('\n', ''))
 
 
 --[=[
@@ -210,17 +222,6 @@ for k,v in pairs(asm.loc) do env[k] = v end
 -- welcome screen
 print('', 0, 0)
 
-local welcome = [[
- _   _   ____     _     _   _ 
-| |_| | | __ \   /,\   | \ / |
-|  _  | |    /  / _ \  |  V  |
-|_| |_| |__\_\ /_/ \_\ |_| |_|
-                                 
-THE HAND ROLLED ASSEMBLY MACHINE
-================================
-                                
-///  program like it's 1979! ///
-]]
 
 local co = coroutine.create(function()
 	for i = 1, 5 do
