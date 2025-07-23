@@ -43,10 +43,13 @@ cursor[1]=1
 local tabsize = 4
 
 function paginate(row)
-	if row <= maxrows then return row end
-	memcpy(screen, screen+128*6, 128*(72-6))
-	memset(screen+128*(72-6), 0, 128*6)
-	return row-1
+	if row == maxrows then
+		memcpy(screen, screen+128*6, 128*(72-6))
+		memset(screen+128*(72-6), 0, 128*6)
+		return row
+	else
+		return row+1
+	end
 end
 
 function printf(s, ...)
@@ -65,7 +68,7 @@ function printf(s, ...)
 				col = col + 1
 				if col > 32 then
 					col = 1
-					row = paginate(row + 1)
+					row = paginate(row)
 					goto continue
 				end
 			end
@@ -74,7 +77,7 @@ function printf(s, ...)
 
 		if char == 0xA then
 			col = 1
-			row = paginate(row + 1)
+			row = paginate(row)
 			goto continue
 		end
 
@@ -88,7 +91,7 @@ function printf(s, ...)
 
 		if col > 32 then
 			col = 1
-			row = paginate(row + 1)
+			row = paginate(row)
 		end
 
 		::continue::
