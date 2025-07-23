@@ -1,3 +1,4 @@
+local isboot = ...
 local int    = 0x30004
 local screen = 0x30100
 local font   = 0x32500
@@ -9,7 +10,7 @@ function blit()
 	int[0] = 1
 end
 
-local lastfore = 1
+local lastfore = 0xf0
 function setfontcolor(fore, back)
 	fore = tonumber(fore)
 	back = tonumber(back)
@@ -23,16 +24,6 @@ function setfontcolor(fore, back)
 	lastfore = fore
 end
 
-setfontcolor(0xf0)
-
-
-function sig()
-	if (0x30001)[0] == 0 then
-		local pixel = math.random(0, 128*72)
-		screen[pixel] = math.random(0xff)
-		blit()
-	end
-end
 
 function printchar(idx, x, y)
 	local scraddr = screen + 128*y+x
@@ -127,51 +118,24 @@ THE HAND ROLLED ASSEMBLY MACHINE
 ///  program like it's 1979! ///
 ]]
 
+-- welcome screen
+
 setfontcolor(0x0f)
 cursor[1] = 2
-printf(welcome:gsub('\n', ''))
 
-
---[=[
-
--- setup print
-local doblit = 0x1000c
-local lasty=0
-local lastx=0
-function print(str, startx, starty)
-    str = tostring(str)
-	startx = startx or lastx
-	starty = starty or lasty
-
-	local x = startx
-	local y = starty
-
-	for i=1,#str do
-		local idx = str:byte(i)-32
-
-		if idx == 0xa-32 then
-			x = startx
-			y = y + 6
-			goto continue
-		end
-
-		if idx < 0 or idx > 16*6 then
-			goto continue
-		end
-
-		local fx = (idx %  16) * 4
-		local fy = (idx // 16) * 6
-		image.copy(#0x10100, #0x10118, x, y, fx, fy, 4, 6)
-		x = x + 4
-
-		::continue::
+local co = coroutine.create(function()
+	for i = 1, 5 do
+		coroutine.yield()
 	end
+	for s in welcome:gmatch('[^\n]+') do
+		printf(s)
+		coroutine.yield()
+	end
+end)
 
-	lastx = startx
-	lasty = y+6
+coroutine.resume(co)
 
-	doblit[0]=1
-end
+
 
 
 -- sandbox
@@ -202,15 +166,16 @@ local env = {
 	math=math,
 	utf8=utf8,
 
-	memcpy=memory.copy,
-	memset=memory.fill,
-	strndup=memory.tostr,
+	memcpy=memcpy,
+	memset=memset,
+	strndup=strndup,
 
 	exec=asm.exec,
 	assemble=asm.assemble,
 	disassemble=asm.disassemble,
 
-	drawtext=print,
+	print=print,
+	printf=printf,
 
 	lpeg=lpeg,
 }
@@ -219,22 +184,7 @@ for k,v in pairs(asm.ops) do env[k] = v end
 for k,v in pairs(asm.reg) do env[k] = v end
 for k,v in pairs(asm.loc) do env[k] = v end
 
--- welcome screen
-print('', 0, 0)
 
-
-local co = coroutine.create(function()
-	for i = 1, 5 do
-		coroutine.yield()
-	end
-	for i = 1, #welcome, 33 do
-		local s = welcome:sub(i, i+31)
-		print(s)
-		coroutine.yield()
-	end
-end)
-
-coroutine.resume(co)
 
 function errfn(err)
 	print(tostring(err))
@@ -242,8 +192,7 @@ end
 
 local total = 0
 function sig()
-	local sysdata = 0x10000
-	local event = sysdata[0]
+	local event = (0x30001)[0]
 	if event == 0 then total = total + 1 end
 	if total % 2 == 0 then coroutine.resume(co) end
 	if total < 1070 then return end
@@ -266,5 +215,3 @@ function sig()
 		xpcall(fn, errfn)
 	end
 end
-
---]=]
