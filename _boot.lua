@@ -12,7 +12,6 @@ end
 function sig()
 	if (0x30000)[0] == 0 then
 		local pixel = math.random(0, 128*72)
-		--pixel = 1
 		screen[pixel] = math.random(0xff)
 		blit()
 	end
@@ -22,7 +21,6 @@ function printchar(idx, x, y)
 	local scraddr = screen + 128*y+x
 	local fntaddr = font + idx*4*6
 	for y=0,5 do
-		print(string.format('%d\t%x\t%x', y, scraddr+y*128, fntaddr+y*4))
 		memcpy(scraddr+y*128, fntaddr+y*4, 4)
 	end
 	blit()
@@ -73,16 +71,21 @@ function printf(s, ...)
 	cursor[1] = row
 end
 
---function print(...)
---	local t = table.pack(...)
---	for i=#t-1,2,-1 do
---		table.insert(t, '\t')
---	end
---	printf()
---end
+function print(...)
+	local t = table.pack(...)
+	for i=1,t.n do
+		t[i] = tostring(t[i])
+	end
+	for i=t.n,2,-1 do
+		table.insert(t, i, '  ')
+	end
+	table.insert(t, '\n')
+	printf(table.concat(t))
+end
 
 for i=1,13 do
-	printf("hello %d\n", i)
+	--printf("%s, %d\n", "hello", i)
+	print('hello?', i, i)
 end
 
 
