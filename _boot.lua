@@ -9,6 +9,23 @@ function blit()
 	int[0] = 1
 end
 
+local lastfore = 1
+function setfontcolor(fore, back)
+	fore = tonumber(fore)
+	back = tonumber(back)
+	for i = 0, 4*6*16*6-1 do
+		if font[i] == lastfore then
+			font[i] = fore
+		else
+			font[i] = back
+		end
+	end
+	lastfore = fore
+end
+
+setfontcolor(0xf0)
+
+
 function sig()
 	if (0x30000)[0] == 0 then
 		local pixel = math.random(0, 128*72)

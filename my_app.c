@@ -240,7 +240,7 @@ static void initfont() {
 			for (int fy = 0; fy < FH; fy++) {
 				for (int fx = 0; fx < FW; fx++) {
 					int i = (fy * SW * FW) + (sy * SH * SW * FW) + (sx * FW) + fx;
-					*ptr++ = fontdata[i] ? 0x0a : 0x30;
+					*ptr++ = fontdata[i];
 				}
 			}
 		}
