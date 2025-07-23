@@ -159,50 +159,101 @@
     <ClCompile Include="my_window.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="zycore\src\Allocator.c">
-      <Filter>Vendor\Zycore</Filter>
-    </ClCompile>
-    <ClCompile Include="zycore\src\API\Memory.c">
-      <Filter>Vendor\Zycore</Filter>
-    </ClCompile>
-    <ClCompile Include="zycore\src\API\Process.c">
-      <Filter>Vendor\Zycore</Filter>
-    </ClCompile>
-    <ClCompile Include="zycore\src\API\Synchronization.c">
-      <Filter>Vendor\Zycore</Filter>
-    </ClCompile>
-    <ClCompile Include="zycore\src\API\Terminal.c">
-      <Filter>Vendor\Zycore</Filter>
-    </ClCompile>
-    <ClCompile Include="zycore\src\API\Thread.c">
-      <Filter>Vendor\Zycore</Filter>
-    </ClCompile>
-    <ClCompile Include="zycore\src\ArgParse.c">
-      <Filter>Vendor\Zycore</Filter>
-    </ClCompile>
-    <ClCompile Include="zycore\src\Bitset.c">
-      <Filter>Vendor\Zycore</Filter>
-    </ClCompile>
-    <ClCompile Include="zycore\src\Format.c">
-      <Filter>Vendor\Zycore</Filter>
-    </ClCompile>
-    <ClCompile Include="zycore\src\List.c">
-      <Filter>Vendor\Zycore</Filter>
-    </ClCompile>
-    <ClCompile Include="zycore\src\String.c">
-      <Filter>Vendor\Zycore</Filter>
-    </ClCompile>
-    <ClCompile Include="zycore\src\Vector.c">
-      <Filter>Vendor\Zycore</Filter>
-    </ClCompile>
-    <ClCompile Include="zycore\src\Zycore.c">
-      <Filter>Vendor\Zycore</Filter>
-    </ClCompile>
     <ClCompile Include="my_asmkeys.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="zydis\Zydis.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="zycore-src\Allocator.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\ArgParse.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Bitset.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Decoder.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\DecoderData.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Disassembler.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Encoder.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\EncoderData.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Format.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Formatter.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\FormatterATT.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\FormatterBase.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\FormatterBuffer.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\FormatterIntel.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\List.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Memory.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\MetaInfo.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Mnemonic.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Process.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Register.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Segment.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\SharedData.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\String.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\String_zydis.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Synchronization.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Terminal.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Thread.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Utils.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Vector.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Zycore.c">
+      <Filter>Vendor\Zycore</Filter>
+    </ClCompile>
+    <ClCompile Include="zycore-src\Zydis.c">
+      <Filter>Vendor\Zycore</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -395,11 +446,92 @@
     <ClInclude Include="my_licenses.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="zydis\Zydis.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="my_fontsheet.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Decoder.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Internal\DecoderData.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\DecoderTypes.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Defines.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Disassembler.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Encoder.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Internal\EncoderData.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Generated\EnumInstructionCategory.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Generated\EnumISAExt.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Generated\EnumISASet.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Generated\EnumMnemonic.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Generated\EnumRegister.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Formatter.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Internal\FormatterATT.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Internal\FormatterBase.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\FormatterBuffer.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Internal\FormatterIntel.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\MetaInfo.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Mnemonic.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Register.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Segment.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Internal\SharedData.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\SharedTypes.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\ShortString.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Status.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Internal\String.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Utils.h">
+      <Filter>Vendor\Zycore</Filter>
+    </ClInclude>
+    <ClInclude Include="zydis\Zydis.h">
+      <Filter>Vendor\Zycore</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -419,6 +551,54 @@
     <None Include="_boot.lua" />
     <None Include="mytextfi.bin">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="zydis\Generated\AccessedFlags.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\DecoderTables.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\EncoderTables.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\EnumInstructionCategory.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\EnumISAExt.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\EnumISASet.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\EnumMnemonic.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\EnumRegister.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\FormatterStrings.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\GetCcInfo.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\GetRelInfo.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\InstructionDefinitions.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\InstructionEncodings.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\OperandDefinitions.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\RegisterClassLookup.inc">
+      <Filter>Vendor\Zycore</Filter>
+    </None>
+    <None Include="zydis\Generated\RegisterLookup.inc">
+      <Filter>Vendor\Zycore</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
