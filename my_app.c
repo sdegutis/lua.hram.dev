@@ -18,6 +18,8 @@
 
 void draw();
 void toggleFullscreen();
+void blitimmediately();
+int asm_exec(lua_State* L);
 
 static lua_State* L;
 
@@ -41,8 +43,6 @@ struct AppState {
 
 struct AppState* sys = 0x30000;
 
-
-int asm_exec(lua_State* L);
 
 int number_index(lua_State* L) {
 	PUINT8 addr = lua_tointeger(L, 1);
@@ -134,7 +134,7 @@ void boot() {
 	int funcs = 0;
 	sys->addrs[funcs++] = aplusbtimes2;
 	sys->addrs[funcs++] = toggleFullscreen;
-	sys->addrs[funcs++] = draw;
+	sys->addrs[funcs++] = blitimmediately;
 
 	HMODULE handle = GetModuleHandle(NULL);
 	HRSRC rc = FindResource(handle, MAKEINTRESOURCE(IDR_MYTEXTFILE), MAKEINTRESOURCE(TEXTFILE));
@@ -177,14 +177,18 @@ void callsig(enum asmevent ev, UINT32 arg) {
 	lua_call(L, 0, 0);
 }
 
+void blitimmediately() {
+	devicecontext->lpVtbl->UpdateSubresource(devicecontext, screen.texture, 0, NULL, &sys->screen, 128, 0);
+	draw();
+}
+
 void tick(DWORD delta, DWORD now) {
 	sys->time = now;
 	callsig(asmevent_tick, delta);
 
 	if (sys->inflags) {
 		sys->inflags = 0;
-		devicecontext->lpVtbl->UpdateSubresource(devicecontext, screen.texture, 0, NULL, &sys->screen, 128, 0);
-		draw();
+		blitimmediately();
 	}
 }
 
