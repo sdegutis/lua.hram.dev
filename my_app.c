@@ -121,9 +121,9 @@ static void initfont();
 
 void boot() {
 
-	//AllocConsole();
-	//freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
-	//freopen_s((FILE**)stdin, "CONIN$", "r", stdin);
+	AllocConsole();
+	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	freopen_s((FILE**)stdin, "CONIN$", "r", stdin);
 
 	//CHAR szFileName[MAX_PATH];
 	//GetModuleFileNameA(NULL, szFileName, MAX_PATH);

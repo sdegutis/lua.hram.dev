@@ -1,6 +1,6 @@
 local int    = 0x30004
 local screen = 0x30100
-local font   = 0x32600
+local font   = 0x32500
 
 local maxcols = 32
 local maxrows = 12
@@ -21,10 +21,11 @@ end
 function printchar(idx, x, y)
 	local scraddr = screen + 128*y+x
 	local fntaddr = font + idx*4*6
-
 	for y=0,5 do
-		memcpy(scraddr+y*128, fntaddr+y*4, 4)
+		print(string.format('%d\t%x\t%x', y, scraddr+y*128, fntaddr+y*4))
+		memory.copy(scraddr+y*128, fntaddr+y*4, 4)
 	end
+	blit()
 end
 
 function movetonextrow()
