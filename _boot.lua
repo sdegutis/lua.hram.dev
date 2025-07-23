@@ -1,15 +1,12 @@
-
 local int = 0x30001
 local screen = 0x30100
-
 function sig()
-
-	local pixel = math.random(0, 128*72)
-	--pixel = 1
-	screen[pixel] = math.random(0xff)
-
-	int[0] = 1
-
+	if (0x30000)[0] == 0 then
+		local pixel = math.random(0, 128*72)
+		--pixel = 1
+		screen[pixel] = math.random(0xff)
+		int[0] = 1
+	end
 end
 
 --[=[

@@ -185,11 +185,7 @@ void tick(DWORD delta, DWORD now) {
 
 	if (sys->inflags) {
 		sys->inflags = 0;
-		D3D11_BOX box;
-		box.left = 0; box.right = 128;
-		box.top = 0; box.bottom = 72;
-		box.front = 0; box.back = 1;
-		devicecontext->lpVtbl->UpdateSubresource(devicecontext, screen.texture, 0, &box, &sys->screen, 128, 0);
+		devicecontext->lpVtbl->UpdateSubresource(devicecontext, screen.texture, 0, NULL, &sys->screen, 128, 0);
 		draw();
 	}
 }
