@@ -47,6 +47,8 @@ local cursor = 0x30006
 cursor[0]=1
 cursor[1]=1
 
+local tabsize = 4
+
 function printf(s, ...)
 	s = string.format(s, ...)
 
@@ -56,6 +58,18 @@ function printf(s, ...)
 	for i = 1, #s do
 
 		local char = s:byte(i)
+
+		if char == 0x9 then
+			while col % tabsize ~= 0 do
+				col = col + 1
+				if col > 32 then
+					col = 1
+					row = row + 1
+					goto continue
+				end
+			end
+			goto continue
+		end
 
 		if char == 0xA then
 			col = 1
@@ -94,7 +108,7 @@ function print(...)
 		t[i] = tostring(t[i])
 	end
 	for i=t.n,2,-1 do
-		table.insert(t, i, '  ')
+		table.insert(t, i, '\t')
 	end
 	table.insert(t, '\n')
 	printf(table.concat(t))
