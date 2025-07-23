@@ -27,8 +27,8 @@ struct AppState {
 	UINT16 eventarg;
 	UINT8 inflags;
 	UINT8 keymods;
-	UINT8 reserved2;
-	UINT8 reserved3;
+	UINT8 cursorcol;
+	UINT8 cursorrow;
 	UINT32 time;
 	UINT16 mousex;
 	UINT16 mousey;
