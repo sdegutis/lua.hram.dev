@@ -195,13 +195,17 @@ function sig()
 	local event = (0x30001)[0]
 	if event == 0 then total = total + 1 end
 	if total % 2 == 0 then coroutine.resume(co) end
-	if total < 1070 then return end
+	if total < 70 then return end
 
 	_G.sig = function()
 		if env.signal then
 			xpcall(env.signal, errfn)
 		end
 	end
+
+	memset(0x30100, 0, 128*72)
+	setfontcolor(0xff)
+	cursor[1] = 1
 
 	-- user boot
 	print("loading boot.lua", 3, 2)
