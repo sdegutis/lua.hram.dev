@@ -126,7 +126,7 @@ void boot() {
 	char* exename = strrchr(szFileName, '\\') + 1;
 	BOOL skipwelcome = strchr(exename, '0') != NULL;
 
-	sys->appversion = 200;
+	sys->appversion = 300;
 
 	memcpy(sys->licenses, third_party_licenses, sizeof(third_party_licenses));
 	initfont();
