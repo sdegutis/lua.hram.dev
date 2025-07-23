@@ -80,8 +80,8 @@ lua_State* newvm() {
 
 	luaL_openlibs(L);
 
+	lua_pushglobaltable(L);
 	luaopen_memory(L);
-	lua_setglobal(L, "memory");
 
 	luaopen_asm(L);
 	lua_setglobal(L, "asm");

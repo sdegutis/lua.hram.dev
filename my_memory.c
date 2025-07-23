@@ -44,67 +44,14 @@ static int memory_copy(lua_State* L) {
 	return 0;
 }
 
-int memory_read(lua_State* L) {
-	lua_Integer mem = lua_tointeger(L, 1);
-	lua_Integer siz = lua_tointeger(L, 2);
-
-	int good = 0;
-	lua_Integer val = 0;
-	switch (siz) {
-	case 8:   val = *(PUINT8)mem;  good = 1; break;
-	case 16:  val = *(PUINT16)mem; good = 1; break;
-	case 32:  val = *(PUINT32)mem; good = 1; break;
-	case 64:  val = *(PUINT64)mem; good = 1; break;
-	case -8:  val = *(PINT8)mem;   good = 1; break;
-	case -16: val = *(PINT16)mem;  good = 1; break;
-	case -32: val = *(PINT32)mem;  good = 1; break;
-	case -64: val = *(PINT64)mem;  good = 1; break;
-	}
-
-	if (good)
-		lua_pushinteger(L, val);
-	else
-		lua_pushnil(L);
-
-	return 1;
-}
-
-int memory_write(lua_State* L) {
-	void* mem = lua_tointeger(L, 1);
-	lua_Integer siz = lua_tointeger(L, 2);
-	lua_Integer val = lua_tointeger(L, 3);
-
-	int good = 0;
-	lua_Integer set = 0;
-	switch (siz) {
-	case 8:   set = (*((PUINT8)mem) = val);  good = 1; break;
-	case 16:  set = (*((PUINT16)mem) = val); good = 1; break;
-	case 32:  set = (*((PUINT32)mem) = val); good = 1; break;
-	case 64:  set = (*((PUINT64)mem) = val); good = 1; break;
-	case -8:  set = (*((PINT8)mem) = val);   good = 1; break;
-	case -16: set = (*((PINT16)mem) = val);  good = 1; break;
-	case -32: set = (*((PINT32)mem) = val);  good = 1; break;
-	case -64: set = (*((PINT64)mem) = val);  good = 1; break;
-	}
-
-	if (good)
-		lua_pushinteger(L, set);
-	else
-		lua_pushnil(L);
-
-	return 1;
-}
-
 static const luaL_Reg memorylib[] = {
-	{"read",  memory_read},
-	{"write", memory_write},
-	{"fill",  memory_fill},
-	{"copy",  memory_copy},
-	{"tostr", memory_tostr},
+	{"memset",  memory_fill},
+	{"memcpy",  memory_copy},
+	{"strndup", memory_tostr},
 	{NULL,NULL}
 };
 
 int luaopen_memory(lua_State* L) {
-	luaL_newlib(L, memorylib);
+	luaL_setfuncs(L, memorylib, 0);
 	return 1;
 }
