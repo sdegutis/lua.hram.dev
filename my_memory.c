@@ -13,17 +13,16 @@ static int memory_fill(lua_State* L) {
 	return 0;
 }
 
+static int memory_tostrn(lua_State* L) {
+	const char* mem = lua_tointeger(L, 1);
+	UINT64 len = lua_tointeger(L, 2);
+	lua_pushlstring(L, mem, len);
+	return 1;
+}
+
 static int memory_tostr(lua_State* L) {
 	const char* mem = lua_tointeger(L, 1);
-
-	if (lua_type(L, 2) == LUA_TNUMBER) {
-		UINT64 len = lua_tointeger(L, 2);
-		lua_pushlstring(L, mem, len);
-	}
-	else {
-		lua_pushstring(L, mem);
-	}
-
+	lua_pushstring(L, mem);
 	return 1;
 }
 
@@ -47,7 +46,8 @@ static int memory_copy(lua_State* L) {
 static const luaL_Reg memorylib[] = {
 	{"memset",  memory_fill},
 	{"memcpy",  memory_copy},
-	{"strndup", memory_tostr},
+	{"strndup", memory_tostrn},
+	{"strdup",  memory_tostr},
 	{NULL,NULL}
 };
 
