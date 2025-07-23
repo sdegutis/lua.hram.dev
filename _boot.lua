@@ -225,8 +225,13 @@ function sig()
 	else
 		local code = f:read'a'
 		f:close()
-		local fn = load(code, 'boot.lua', 't', env)
-		print('running user code')
-		xpcall(fn, errfn)
+		local fn, err = load(code, 'boot.lua', 't', env)
+		if fn then
+			print('running user code')
+			xpcall(fn, errfn)
+		else
+			print('error')
+			print(err)
+		end
 	end
 end
