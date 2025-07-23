@@ -138,7 +138,6 @@
     <ClCompile Include="my_app.c" />
     <ClCompile Include="my_asmkeys.c" />
     <ClCompile Include="my_assembly.c" />
-    <ClCompile Include="my_image.c" />
     <ClCompile Include="lpeg\lpcap.c" />
     <ClCompile Include="lpeg\lpcode.c" />
     <ClCompile Include="lpeg\lpcset.c" />
@@ -200,7 +199,6 @@
     <ClInclude Include="my_app.h" />
     <ClInclude Include="my_assembly.h" />
     <ClInclude Include="my_fontsheet.h" />
-    <ClInclude Include="my_image.h" />
     <ClInclude Include="lpeg\lpcap.h" />
     <ClInclude Include="lpeg\lpcode.h" />
     <ClInclude Include="lpeg\lpcset.h" />

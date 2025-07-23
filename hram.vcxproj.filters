@@ -147,9 +147,6 @@
     <ClCompile Include="my_assembly.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="my_image.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="my_main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -317,9 +314,6 @@
     <ClInclude Include="my_assembly.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="my_image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="my_memory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -426,5 +420,10 @@
     <None Include="mytextfi.bin">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

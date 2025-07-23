@@ -9,7 +9,6 @@
 #include <KnownFolders.h>
 
 #include "my_window.h"
-#include "my_image.h"
 #include "my_memory.h"
 #include "my_sync.h"
 #include "my_assembly.h"
@@ -87,9 +86,6 @@ lua_State* newvm() {
 	luaopen_asm(L);
 	lua_setglobal(L, "asm");
 
-	luaopen_image(L);
-	lua_setglobal(L, "image");
-
 	luaopen_sync(L);
 	lua_setglobal(L, "sync");
 
@@ -121,9 +117,9 @@ static void initfont();
 
 void boot() {
 
-	AllocConsole();
-	freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
-	freopen_s((FILE**)stdin, "CONIN$", "r", stdin);
+	//AllocConsole();
+	//freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
+	//freopen_s((FILE**)stdin, "CONIN$", "r", stdin);
 
 	//CHAR szFileName[MAX_PATH];
 	//GetModuleFileNameA(NULL, szFileName, MAX_PATH);

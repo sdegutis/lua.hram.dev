@@ -13,7 +13,6 @@
 #include "VertexShader.h"
 
 #include "my_app.h"
-#include "my_image.h"
 
 WINDOWPLACEMENT lastwinpos = { sizeof(lastwinpos) };
 
@@ -250,6 +249,32 @@ inline void resetBuffers() {
 
 	HR(swapchain->lpVtbl->GetBuffer(swapchain, 0, &IID_ID3D11Texture2D, (void**)&framebuffer));
 	HR(device->lpVtbl->CreateRenderTargetView(device, framebuffer, NULL, &framebufferRTV));
+}
+
+ID3D11Texture2D* createImage(ID3D11Device* device, void* data, UINT w, UINT h, UINT pw) {
+	if (pw == 0) pw = w;
+
+	ID3D11Texture2D* texture = NULL;
+
+	D3D11_TEXTURE2D_DESC texturedesc;
+	ZeroMemory(&texturedesc, sizeof(texturedesc));
+	texturedesc.Width = w;
+	texturedesc.Height = h;
+	texturedesc.MipLevels = 1;
+	texturedesc.ArraySize = 1;
+	texturedesc.Format = DXGI_FORMAT_R8_UNORM;
+	texturedesc.SampleDesc.Count = 1;
+	texturedesc.Usage = D3D11_USAGE_DEFAULT;
+	texturedesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+
+	D3D11_SUBRESOURCE_DATA textureSRD;
+	ZeroMemory(&textureSRD, sizeof(textureSRD));
+	textureSRD.pSysMem = data;
+	textureSRD.SysMemPitch = pw;
+
+	device->lpVtbl->CreateTexture2D(device, &texturedesc, &textureSRD, &texture);
+
+	return texture;
 }
 
 void setup_screen(ID3D11Device* device, struct Screen* scr) {
