@@ -24,16 +24,17 @@ int asm_exec(lua_State* L);
 static lua_State* L;
 
 struct AppState {
-	UINT8 appversion;
+	UINT16 appversion;
 	UINT8 eventid;
-	UINT16 eventarg;
+	UINT8 eventarg;
 	UINT8 inflags;
 	UINT8 keymods;
 	UINT8 cursorcol;
 	UINT8 cursorrow;
 	UINT32 time;
-	UINT16 mousex;
-	UINT16 mousey;
+	UINT8 mousex;
+	UINT8 mousey;
+	UINT16 reserved;
 	UINT8 keys[32];
 	UINT64 addrs[26];
 	UINT8 screen[128 * 72];
@@ -193,7 +194,7 @@ void tick(DWORD delta, DWORD now) {
 }
 
 void mouseMoved(int x, int y) {
-	callsig(asmevent_mousemove, ((x & 0xff) << 8) | (y & 0xff));
+	callsig(asmevent_mousemove, 7);
 	sys->mousex = x;
 	sys->mousey = y;
 }
