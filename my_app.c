@@ -86,6 +86,9 @@ lua_State* newvm() {
 	luaopen_asm(L);
 	lua_setglobal(L, "asm");
 
+	luaopen_sync(L);
+	lua_setglobal(L, "sync");
+
 	luaopen_lpeg(L);
 	lua_setglobal(L, "lpeg");
 	lua_settop(L, 0);
