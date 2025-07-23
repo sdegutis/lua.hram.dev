@@ -220,6 +220,8 @@ function sig()
 	memset(0x30100, 0, 128*72)
 	setfontcolor(0xff)
 	cursor[1] = 1
+	
+	printf("hram version %d\n", (0x30000)[0])
 
 	-- user boot
 	print("loading <appdata>\\hram\\boot.lua")
