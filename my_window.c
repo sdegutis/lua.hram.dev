@@ -50,25 +50,7 @@ void HR(HRESULT res) {
 ID3D11Device* device;
 ID3D11DeviceContext* devicecontext;
 
-
-struct Screen screens[] = {
-	{ 128,     72 },
-	{ 128 * 2, 72 * 2 },
-};
-int screeni = 0;
-struct Screen* screen = &screens[0];
-
-void useScreen(int n) {
-	screeni = n;
-	screen = &screens[screeni];
-	*((PUINT64)0x10100) = screen;
-
-	moveSubWindow();
-	SetWindowPos(hsub, NULL, subx, suby, subw, subh, SWP_FRAMECHANGED);
-	resetBuffers();
-}
-
-
+struct Screen screen = { 128, 72 };
 
 int scale;
 int winw;
@@ -85,8 +67,8 @@ LRESULT CALLBACK WindowProc2(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 int setupWindow(HINSTANCE hInstance, int nCmdShow) {
 	scale = 5;
-	winw = screen->w * scale;
-	winh = screen->h * scale;
+	winw = screen.w * scale;
+	winh = screen.h * scale;
 
 	WNDCLASS wc;
 	ZeroMemory(&wc, sizeof(wc));
@@ -163,8 +145,7 @@ int setupWindow(HINSTANCE hInstance, int nCmdShow) {
 	D3D11_VIEWPORT viewport = { 0, 0, (float)subw, (float)subh, 0, 1 };
 	devicecontext->lpVtbl->RSSetViewports(devicecontext, 1, &viewport);
 
-	setup_screen(device, &screens[0]);
-	setup_screen(device, &screens[1]);
+	setup_screen(device, &screen);
 
 	ShowWindow(hwnd, nCmdShow);
 	SetForegroundWindow(hwnd);
@@ -199,16 +180,16 @@ void runLoop() {
 }
 
 inline void moveSubWindow() {
-	subw = screen->w;
-	subh = screen->h;
+	subw = screen.w;
+	subh = screen.h;
 	scale = 1;
 
 	while (
-		subw + screen->w <= winw &&
-		subh + screen->h <= winh)
+		subw + screen.w <= winw &&
+		subh + screen.h <= winh)
 	{
-		subw += screen->w;
-		subh += screen->h;
+		subw += screen.w;
+		subh += screen.h;
 		scale++;
 	}
 
@@ -224,7 +205,7 @@ void draw() {
 	devicecontext->lpVtbl->RSSetState(devicecontext, rasterizerstate);
 
 	devicecontext->lpVtbl->PSSetShader(devicecontext, pixelshader, NULL, 0);
-	devicecontext->lpVtbl->PSSetShaderResources(devicecontext, 0, 1, &screen->texturesrv);
+	devicecontext->lpVtbl->PSSetShaderResources(devicecontext, 0, 1, &screen.texturesrv);
 	devicecontext->lpVtbl->PSSetSamplers(devicecontext, 0, 1, &samplerstate);
 
 	devicecontext->lpVtbl->OMSetRenderTargets(devicecontext, 1, &framebufferRTV, NULL);
@@ -301,8 +282,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 
 	case WM_GETMINMAXINFO: {
 		LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
-		lpMMI->ptMinTrackSize.x = screen->w + padw;
-		lpMMI->ptMinTrackSize.y = screen->h + padh;
+		lpMMI->ptMinTrackSize.x = screen.w + padw;
+		lpMMI->ptMinTrackSize.y = screen.h + padh;
 		return 0;
 	}
 

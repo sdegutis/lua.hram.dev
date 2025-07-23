@@ -22,12 +22,23 @@ void toggleFullscreen();
 
 static lua_State* L;
 
-struct {
-	UINT32 event;
+struct AppState {
+	UINT8 event;
+	UINT8 inflags;
+	UINT8 keymods;
+	UINT8 reserved1;
 	UINT32 arg;
 	UINT32 time;
-	UINT32 blit;
-} *sys = 0x10000;
+	UINT16 mousex;
+	UINT16 mousey;
+	UINT8 keys[32];
+	UINT64 addrs[26];
+	UINT8 screen[128 * 72];
+	UINT8 font[16 * 4 * 4 * 6];
+	CHAR licenses[1280];
+};
+
+struct AppState* sys = 0x30000;
 
 
 int asm_exec(lua_State* L);
@@ -114,15 +125,15 @@ void boot() {
 	//GetModuleFileNameA(NULL, szFileName, MAX_PATH);
 	//char* bare = strrchr(szFileName, '\\') + 1;
 
+	void* mem2 = VirtualAlloc(0x30000, 0x4000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	if (!mem2) { abort(); }
 
-	void* mem = VirtualAlloc(0x10000, 0x100000, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-	CopyMemory(0x70000, third_party_licenses, sizeof(third_party_licenses));
+	memcpy(sys->licenses, third_party_licenses, sizeof(third_party_licenses));
+	memcpy(sys->font, fontdata, sizeof(fontdata));
 
-	PUINT64 funcs = 0x10100;
-	*funcs++ = screen->texture;
-	*funcs++ = toggleFullscreen;
-	*funcs++ = aplusbtimes2;
-	*funcs++ = createImage(device, fontdata, 4 * 16, 6 * 6, 0);
+	int funcs = 0;
+	sys->addrs[funcs++] = aplusbtimes2;
+	sys->addrs[funcs++] = toggleFullscreen;
 
 	HMODULE handle = GetModuleHandle(NULL);
 	HRSRC rc = FindResource(handle, MAKEINTRESOURCE(IDR_MYTEXTFILE), MAKEINTRESOURCE(TEXTFILE));
@@ -136,7 +147,7 @@ void boot() {
 	lua_setglobal(L, "fullscreen");
 
 	PWSTR wpath;
-	PUINT8 ansipath = 0x20000;
+	PUINT8 ansipath = 0x33000;
 	SHGetKnownFolderPath(&FOLDERID_RoamingAppData, 0, NULL, &wpath);
 	WideCharToMultiByte(CP_UTF8, 0, wpath, -1, ansipath, MAX_PATH, NULL, NULL);
 	CoTaskMemFree(wpath);
@@ -172,8 +183,8 @@ void tick(DWORD delta, DWORD now) {
 	sys->time = now;
 	callsig(asmevent_tick, delta);
 
-	if (sys->blit) {
-		sys->blit = 0;
+	if (sys->inflags) {
+		sys->inflags = 0;
 		draw();
 	}
 }

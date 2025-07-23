@@ -1,4 +1,9 @@
 
+function sig()
+end
+
+--[=[
+
 -- setup print
 local doblit = 0x1000c
 local lasty=0
@@ -142,3 +147,5 @@ function sig()
 		xpcall(fn, errfn)
 	end
 end
+
+--]=]
