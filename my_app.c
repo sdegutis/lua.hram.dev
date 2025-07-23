@@ -121,9 +121,10 @@ void boot() {
 	//freopen_s((FILE**)stdout, "CONOUT$", "w", stdout);
 	//freopen_s((FILE**)stdin, "CONIN$", "r", stdin);
 
-	//CHAR szFileName[MAX_PATH];
-	//GetModuleFileNameA(NULL, szFileName, MAX_PATH);
-	//char* bare = strrchr(szFileName, '\\') + 1;
+	CHAR szFileName[MAX_PATH];
+	GetModuleFileNameA(NULL, szFileName, MAX_PATH);
+	char* exename = strrchr(szFileName, '\\') + 1;
+	BOOL skipwelcome = strchr(exename, '0') != NULL;
 
 	sys->appversion = 200;
 
@@ -133,6 +134,7 @@ void boot() {
 	int funcs = 0;
 	sys->addrs[funcs++] = aplusbtimes2;
 	sys->addrs[funcs++] = toggleFullscreen;
+	sys->addrs[funcs++] = draw;
 
 	HMODULE handle = GetModuleHandle(NULL);
 	HRSRC rc = FindResource(handle, MAKEINTRESOURCE(IDR_MYTEXTFILE), MAKEINTRESOURCE(TEXTFILE));
@@ -149,6 +151,9 @@ void boot() {
 	CoTaskMemFree(wpath);
 	lua_pushstring(L, ansipath);
 	lua_setglobal(L, "userdir");
+
+	lua_pushboolean(L, skipwelcome);
+	lua_setglobal(L, "skipwelcome");
 
 	luaL_loadbuffer(L, data, size, "<boot>");
 	lua_pcallk(L, 0, 0, 0, 0, NULL);

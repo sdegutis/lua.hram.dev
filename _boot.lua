@@ -115,6 +115,9 @@ function print(...)
 end
 
 
+--skipwelcome = true
+
+
 local welcome = [[
   _   _   ____     _     _   _  
  | |_| | | __ \   /,\   | \ / | 
@@ -201,10 +204,12 @@ end
 
 local total = 0
 function sig()
-	local event = (0x30001)[0]
-	if event == 0 then total = total + 1 end
-	if total % 2 == 0 then coroutine.resume(co) end
-	if total < 70 then return end
+	if not skipwelcome then
+		local event = (0x30001)[0]
+		if event == 0 then total = total + 1 end
+		if total % 2 == 0 then coroutine.resume(co) end
+		if total < 70 then return end
+	end
 
 	_G.sig = function()
 		if env.signal then
