@@ -147,7 +147,7 @@ void boot() {
 	L = newvm();
 
 	PWSTR wpath;
-	PUINT8 ansipath = 0x33000;
+	UINT8 ansipath[MAX_PATH];
 	SHGetKnownFolderPath(&FOLDERID_RoamingAppData, 0, NULL, &wpath);
 	WideCharToMultiByte(CP_UTF8, 0, wpath, -1, ansipath, MAX_PATH, NULL, NULL);
 	CoTaskMemFree(wpath);
