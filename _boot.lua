@@ -195,7 +195,7 @@ local env = {
 
 for k,v in pairs(asm.ops) do env[k:upper()] = v end
 for k,v in pairs(asm.reg) do env[k:upper()] = v end
-for k,v in pairs(asm.loc) do env[k:upper()] = v end
+for k,v in pairs(asm.loc) do env[k]         = v end
 
 
 

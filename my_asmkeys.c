@@ -1797,10 +1797,10 @@ void addops(lua_State* L) {
 }
 
 void addtypes(lua_State* L) {
-	lua_pushinteger(L, ZYDIS_OPERAND_TYPE_REGISTER); lua_setfield(L, -2, "reg");
-	lua_pushinteger(L, ZYDIS_OPERAND_TYPE_MEMORY); lua_setfield(L, -2, "mem");
-	lua_pushinteger(L, ZYDIS_OPERAND_TYPE_POINTER); lua_setfield(L, -2, "ptr");
-	lua_pushinteger(L, ZYDIS_OPERAND_TYPE_IMMEDIATE); lua_setfield(L, -2, "imm");
+	lua_pushinteger(L, ZYDIS_OPERAND_TYPE_REGISTER); lua_setfield(L, -2, "Reg");
+	lua_pushinteger(L, ZYDIS_OPERAND_TYPE_MEMORY); lua_setfield(L, -2, "Mem");
+	lua_pushinteger(L, ZYDIS_OPERAND_TYPE_POINTER); lua_setfield(L, -2, "Ptr");
+	lua_pushinteger(L, ZYDIS_OPERAND_TYPE_IMMEDIATE); lua_setfield(L, -2, "Imm");
 }
 
 void addregs(lua_State* L) {
