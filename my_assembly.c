@@ -153,8 +153,8 @@ static int asm_disassemble(lua_State* L) {
 			break;
 		}
 
-		sprintf_s(buffer, 256, "%016llX  %s\n", addr, instruction.text);
-		luaL_addstring(&b, strncmp(buffer, "00000000", 8) == 0 ? buffer + 8 : buffer);
+		sprintf_s(buffer, 256, "%08llX  %s\n", addr, instruction.text);
+		luaL_addstring(&b, buffer);
 		offset += instruction.info.length;
 		addr += instruction.info.length;
 	}
