@@ -164,14 +164,20 @@ void mouseMoved(int x, int y) {
 	sys->mousey = y;
 }
 
-void checkmod(int vk, int down) {
+void togglekeystate(int vk, int down) {
 	UINT8 bit = 0;
 	if /**/ (vk == VK_CONTROL) bit = 1;
 	else if (vk == VK_MENU)    bit = 2;
 	else if (vk == VK_SHIFT)   bit = 3;
-	if (!bit) return;
-	bit--;
-	sys->keymods = sys->keymods & ~(1 << bit) | down << bit;
+
+	if (bit) {
+		bit--;
+		sys->keymods = sys->keymods & ~(1 << bit) | down << bit;
+	}
+
+	UINT8 byteindex = vk / 8;
+	bit = vk % 8;
+	sys->keys[byteindex] = (sys->keys[byteindex] & ~(1 << bit)) | (down << bit);
 }
 
 void mouseDown(int b) {
@@ -187,22 +193,22 @@ void mouseWheel(int d) {
 }
 
 void keyDown(int vk) {
-	checkmod(vk, 1);
+	togglekeystate(vk, 1);
 	callsig(asmevent_keydown, vk);
 }
 
 void keyUp(int vk) {
-	checkmod(vk, 0);
+	togglekeystate(vk, 0);
 	callsig(asmevent_keyup, vk);
 }
 
 void syskeyDown(int vk) {
-	checkmod(vk, 1);
+	togglekeystate(vk, 1);
 	callsig(asmevent_keydown, vk);
 }
 
 void syskeyUp(int vk) {
-	checkmod(vk, 0);
+	togglekeystate(vk, 0);
 	callsig(asmevent_keyup, vk);
 }
 
