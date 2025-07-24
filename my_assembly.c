@@ -16,7 +16,7 @@ int asm_exec(lua_State* L) {
 	return 1;
 }
 
-static int asm_assemble(lua_State* L) {
+static int asm_assemble(lua_State* L, UINT64 size) {
 	PUINT8 dst = luaL_checkinteger(L, 1);
 	UINT64 opcode = luaL_checkinteger(L, 2);
 
@@ -72,7 +72,7 @@ static int asm_assemble(lua_State* L) {
 	lua_rotate(L, 1, -(count + 2));
 	lua_pop(L, count + 2);
 
-	ZyanUSize encoded_length = 1000;
+	ZyanUSize encoded_length = size;
 	ZyanStatus status = ZydisEncoderEncodeInstruction(&req, dst, &encoded_length);
 	if (ZYAN_FAILED(status)) {
 		switch (status) {
@@ -98,9 +98,12 @@ static int asm_assemble(lua_State* L) {
 }
 
 static int asm_assembleall(lua_State* L) {
+	UINT64 len = lua_tointeger(L, 2);
+	lua_remove(L, 2);
+
 	int line = 1;
 	while (1) {
-		asm_assemble(L);
+		asm_assemble(L, len);
 
 		if (lua_type(L, -1) == LUA_TSTRING) {
 			const char* err = lua_tostring(L, -1);
