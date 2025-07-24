@@ -72,7 +72,7 @@ static int asm_assemble(lua_State* L) {
 	lua_rotate(L, 1, -(count + 2));
 	lua_pop(L, count + 2);
 
-	ZyanUSize encoded_length;
+	ZyanUSize encoded_length = 1000;
 	ZyanStatus status = ZydisEncoderEncodeInstruction(&req, dst, &encoded_length);
 	if (ZYAN_FAILED(status)) {
 		switch (status) {
