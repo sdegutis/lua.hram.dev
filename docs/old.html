@@ -1,0 +1,64 @@
+<p>A retrofuturistic programmable pixel machine,
+  geared towards low level programming.</p>
+
+<p>It is the sister project of
+  <a href="https://90s.dev/" target="_blank">90s.dev</a>.
+  In fact I aim to recreate it using HRAM for hyper-efficiency.
+</p>
+
+<p>It aims to recreate the experience
+  of getting a new programmable computer
+  in the 70s or 80s.</p>
+
+<p>It ships with a minimal os, shell, and text editor.
+  You use these to build it up into an os or anything.</p>
+
+<p>It has core apis for keyboard, mouse, audio,
+  timers, procs (os threads), and pixmaps (e.g. the screen).</p>
+
+<p>It's extremely lightweight, written in c/c++,
+  using only win32 and directx, and embedded lua 5.5.</p>
+
+<p>It bundles asmjit.dll and lpeg.dll,
+  to help you experiment with making a language (optional).</p>
+
+
+
+
+sync
+
+  newthread(fn<string>, ...) -> int|[nil,string]
+    creates and returns a thread handle
+    extra args are passed to fn
+    returns error only on syntax errors
+
+  sleep(ms)
+    sleep the current thread for ms milliseconds
+
+  newcritsec() -> int
+    return a new critical section
+
+  delcritsec(ms)
+    delete a critical section
+
+  entercritsec(ms)
+    enter a critical section
+    only one thread can enter at a time
+
+  leavecritsec(ms)
+    leave a critical section
+
+  closehandle(int)
+    frees resources and notifies waiters
+    these must be manually closed:
+      threads, semaphores
+
+
+
+	local sysdata = 0x10000
+	local event = sysdata[0]
+	local arg = sysdata[4]
+
+	if event == 6 and arg == 122 then
+		fullscreen()
+	end

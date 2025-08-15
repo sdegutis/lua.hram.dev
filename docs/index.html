@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" href="https://fonts.gstatic.com/s/firacode/v26/uU9NCBsR6Z2vfE9aq3bh3dSD.woff2" as="font" type="font/woff" crossorigin>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+  @font-face {
+    font-family: 'Fira Code';
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/firacode/v26/uU9NCBsR6Z2vfE9aq3bh3dSD.woff2) format('woff2');
+  }
+
+  html {
+    color-scheme: light dark;
+    background-color: light-dark(#ddd, #333);
+    color:            light-dark(#000, #ddd);
+    font-family: 'Fira Code';
+    font-optical-sizing: auto;
+  }
+
+  body {
+    margin: 0 calc(100vw / 2 - 40ch / 2);
+  }
+
+  main {
+    white-space: pre;
+    overflow-x: visible;
+    width: 40ch;
+    display: inline-block;
+    position: relative;
+    --inset: -12px;
+  }
+
+  nav {
+    white-space: pre;
+    position: fixed;
+    left: calc(100vw / 2 - 40ch / 2 - 24ch);
+    top: 7em;
+    padding: 0;
+    margin: 0;
+  }
+
+  @media (max-width: 840px) {
+    nav { display: none; }
+  }
+
+  @media (min-width: 70ch) {
+    body { margin-top: 2em }
+    main { --inset: -2em }
+  }
+
+  main:focus {
+    caret-color: red;
+    outline: none;
+    border-right: 1px solid #0007;
+  }
+
+  main::selection {
+    background-color: #9099;
+  }
+
+  main::before {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    inset: 0 var(--inset);
+    background-color: light-dark(#333, #000);
+    opacity: .1;
+  }
+
+  a { font-weight: bold; text-decoration: none }
+  a:hover { text-decoration: underline }
+
+  h1, h2 { all: unset; font-weight: bold; }
+  a, u { text-underline-offset: 2px; }
+  a { color: light-dark(#940, #f91) }
+  b { color: light-dark(#909, #f7f) }
+  u { color: light-dark(#070, #1d1) }
+  i { color: light-dark(#409, #7cf) }
+
+  h2 {
+    scroll-margin-top: 1em;
+  }
+
+  h1 { color: #f7f }
+
+  #buynow { display: inline-block; }
+  #buynow:hover { text-decoration: none; }
+  #buynow:hover span { text-decoration: underline; }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (location.protocol==='file:') {
+      const main = document.querySelector('main')
+      main.contentEditable = true
+      document.onkeydown = e => {
+        if (e.ctrlKey && e.key=='s') {
+          e.preventDefault()
+          navigator.clipboard.writeText(main.innerHTML)
+        }
+      }
+    }
+  })
+</script>
+
+<title>hram.dev</title>
+
+<nav>
+<a href="#top"># top</a>
+<a href="#introduction"># what is hram</a>
+<a href="#links"># links</a>
+<a href="#what-can-it-do"># what can it do</a>
+<a href="#manual"># manual</a>
+  <a href="#getting-started"># getting started</a>
+  <a href="#memory-table"># memory table</a>
+  <a href="#signal-table"># signal table</a>
+  <a href="#api-reference"># api reference</a>
+  <a href="#recipes"># recipes</a>
+</nav>
+
+<main id="top">
+
+<h1>
+      _  _    ___     _     _  _   
+     | || |  | _ \   / \   | \/ |  
+     | __ |  |   /  | ^ |  | __ |  
+     |_||_|  |_\_\  |_|_|  |_||_|  
+   
+   THE HAND ROLLED ASSEMBLY MACHINE
+   ================================
+   
+   ///  program like it's 1979  ///
+</h1>
+   <i>lua</i> &amp; <i>jit</i> <i>assembly</i> &amp; <i>vram</i> &amp; <i>lpeg</i>
+
+
+         ( gif coming soon )
+
+<div style="margin: 0; text-align: center;"><img src="sshot1.png" alt="Screenshot 1"></div>
+========================================
+<h2 id="introduction"><a href="#introduction"># what is hram</a></h2>                     <a href="#top"># top</a>
+
+HRAM is a <i>1979-era</i> computer simulator
+that lets you experience the <i>pure joy</i>
+of true <i>lowlevel</i> computer programming
+
+write and run <i>real assembly</i> from <i>lua</i>
+access the <i>same memory</i> in lua or asm
+use <i>lpeg</i> to more easily generate asm
+
+specs
+
+  graphics   ::  <i>128x72</i>, 8-bit screen
+  colors     ::  red/green, <i>256</i> total
+  memory     ::  <i>16kb</i>, all pages <i>exec</i>
+  footprint  ::  c, win32, d3d, 1.4mb
+
+ideal env for
+
+  * learning <i>low level</i> programming
+  * making retro style <i>video games</i>
+  * <i>learn x64</i> assembly the fun way
+  * creating <i>programming languages</i>
+
+
+========================================
+<h2 id="links"><a href="#links"># links</a></h2>                            <a href="#top"># top</a>
+
+        <a href="https://buy.stripe.com/00waEYcY44Rjg0L8fJ3ks06" id="buynow"><b>|--------------------|</b>
+<b>|</b>                    <b>|</b>
+<b>|</b>    <span>BUY IT TODAY</span>    <b>|</b>
+<b>|</b>                    <b>|</b>
+<b>|--------------------|</b></a>
+
+<a href="hram-221.zip">download public beta</a>
+please send feedback to
+  <a href="mailto:admin@90s.dev">admin@90s.dev</a> thanks!
+
+price      ::  <i>$10.24</i> usd
+platforms  ::  <i>windows 10+</i> only
+version    ::  <i>v221</i>
+community  ::  <a target="_blank" href="https://groups.google.com/g/90sdev">google groups</a>
+
+
+========================================
+<h2 id="what-can-it-do"><a href="#what-can-it-do"># what can it do</a></h2>                   <a href="#top"># top</a>
+
+[[ create assembly functions ]]
+
+  <b>asm</b>(<u>0x33000</u>,100,
+    <i>MOV</i>, {Reg, <i>RAX</i>}, {Reg, <i>RCX</i>},
+    <i>INC</i>, {Reg, <i>RAX</i>},
+    <i>RET</i>
+  )
+
+[[ call assembly functions ]]
+
+  <b>printf</b>("%d\n", (<u>0x33000</u>)(3))
+  <i>-- 4</i>
+
+[[ disassemble real code ]]
+
+  <b>printf</b>("%s\n", <b>dasm</b>(<u>0x33000</u>,7))
+  <i>-- 33000  mov rax, rcx</i>
+  <i>-- 33003  inc rax</i>
+  <i>-- 33006  ret</i>
+
+[[ read memory from lua ]]
+
+  <b>printf</b>("%d\n", (<u>0x33000</u>)[0])
+  <i>-- 72</i>
+
+[[ read memory from assembly ]]
+
+  <b>asm</b>(<u>0x33000</u>,100,
+    <i>MOV</i>, {Reg, <i>RAX</i>},
+         {Mem, <i>disp</i>=<u>0x33000</u>, <i>bytes</i>=<u>8</u> },
+    <i>RET</i>
+  )
+  <b>printf</b>("%d\n", (<u>0x33000</u>)())
+  <i>-- 72</i>
+
+
+<b id="manual">========================================
+   _  _    _      _   _ _    _    _
+  | \/ |  / \  |\| | | | |  / \  | |    
+  | __ | | ^ | | \ | | | | | ^ | | |_   
+  |_||_| |_|_| |_|\| |___| |_|_| |___|  
+</b>
+========================================
+<h2 id="getting-started"><a href="#getting-started"># getting started</a></h2>                  <a href="#top"># top</a>
+
+1. create %APPDATA%\hram\boot.lua
+2. type print('hello world!')
+3. start hram.exe to run your file
+
+  congratulations!
+  you ran your first hram program!
+
+typically you want to react to signals
+so you would define function signal()
+and check if the signal is a frame
+or mouse movement or key press etc
+
+to draw to screen, set screen bytes
+and toggle the blit interrupt flag
+so the system will blit next frame
+
+for extra speed, you can compile asm
+and call your asm functions from lua
+but this is optional and not needed
+and you can use hram without assembly
+
+for more information
+consult the manual below
+
+
+========================================
+<h2 id="memory-table"><a href="#memory-table"># memory table</a></h2>                     <a href="#top"># top</a>
+
+  base addr     :: <u>0x30000</u>
+  total memory  :: 16kb
+  page size     :: 4kb
+  core memory   :: 3 pages
+  free memory   :: 1 page
+
+  addr     size   purpose
+ ----------------------------------
+  <u>0x30000</u>     <i>2</i>   HRAM version
+  <u>0x30002</u>     <i>1</i>   signal id
+  <u>0x30003</u>     <i>1</i>   signal arg
+  <u>0x30004</u>     <i>1</i>   interrupt flag
+  <u>0x30005</u>     <i>1</i>   pressed modkeys
+  <u>0x30006</u>     <i>2</i>   caret (hi=col lo=row)
+  <u>0x30008</u>     <i>4</i>   clock (freq ~10-20ms)
+  <u>0x3000c</u>     <i>2</i>   last mouse pos
+  <u>0x3000e</u>     <i>2</i>   [reserved]
+  <u>0x30010</u>    <i>20</i>   scankeys pressed
+  <u>0x30030</u>    <i>d0</i>   c-addresses
+  <u>0x30100</u>  <i>2400</i>   screen (128x72)
+  <u>0x32500</u>   <i>900</i>   font (4x6 x 16x6)
+  <u>0x32e00</u>   <i>200</i>   [reserved]
+  <u>0x33000</u>  <i>1000</i>   free (unused) memory
+
+<i>c-addresses</i>
+  int aplusbtimes2(int a, int b)
+  void togglefullscreen()
+  void blitimmediately()
+  [rest reserved]
+
+<i>interrupt flag bits</i>
+  1  blit next frame
+     [rest reserved]
+
+<i>extra memory</i>
+  if you need more than 4kb
+  you can use screen memory
+  as a temporary memory buffer
+  then draw over it when done
+
+<i>third party licenses</i>
+  are available at <u>0x33000</u>
+
+========================================
+<h2 id="signal-table"><a href="#signal-table"># signal table</a></h2>                     <a href="#top"># top</a>
+
+  name        id   argument
+ ------------------------------
+  frame        <u>0</u>   <i>delta</i>
+  mousemove    <u>1</u>   n/a
+  mousewheel   <u>2</u>   <i>delta</i>
+  mousedown    <u>3</u>   <i>button</i>
+  mouseup      <u>4</u>   <i>button</i>
+  keydown      <u>5</u>   <i>keycode</i>
+  keyup        <u>6</u>   <i>keycode</i>
+  keychar      <u>7</u>   <i>ascii code</i>
+
+
+========================================
+<h2 id="api-reference"><a href="#api-reference"># api reference</a></h2>                    <a href="#top"># top</a>
+
+<i>int</i><b>[</b>i<b>]</b>    ::  <b>*</b>((<u>u8*</u>)<i>int</i> + i)
+<i>int</i><b>[</b>i<b>]=</b>n  ::  <b>*</b>((<u>u8*</u>)<i>int</i> + i)<b>=</b>n<i></i>
+<i>int</i><b>(</b><i>...</i><b>)</b>  ::  <b>exec</b>(<i>int</i>, <i>...</i>)
+<b>#</b><i>int</i>      ::  <b>*</b>(<u>u64*</u>)<i>int</i>
+  language extensions to integer type
+  <b>[]</b> gets or sets byte at addr+offset
+  <b>()</b> calls the asm or c fn at address
+  <b>#</b> returns uint64 at addr (for ptrs)
+
+<b>signal</b>()
+  define as global to handle signals
+
+<b>printf</b>(<i>str, ...</i>)
+  draws <i>str</i>:<b>format</b>(<i>...)</i>
+  uses font sheet in user memory
+
+<b>memcpy</b>(<i>dst</i>, <i>src</i>, <i>len</i>)
+<b>memcpy</b>(<i>dst</i>, <i>src</i>)
+  copy <i>len</i> bytes from <i>src</i> into <i>dst</i>
+  in second form <i>src</i> is a lua string
+
+<b>memset</b>(<i>addr</i>, <i>val</i>, <i>len</i>)
+  fill <i>addr</i> with <i>val</i> up to <i>len</i>
+
+<b>strdup</b>(<i>addr</i>) -&gt; <i>str</i>
+  return lua string at <i>addr</i> to \0
+
+<b>strndup</b>(<i>addr</i>, <i>len</i>) -&gt; <i>str</i>
+  return lua string at <i>addr</i> to <i>len</i>
+
+<b>asm</b>(<i>addr</i>,<i>len</i>,<i>...instrs</i>)-&gt;<i>int</i>|<i>[nil,str]</i>
+  writes <i>&lt;=len</i> assembly bytes to <i>addr</i>
+  returns byte after last one written
+  on err, returns <i>err</i>, writes nothing
+
+  <i>instrs</i> = (<i>opcode</i>, <i>...operands</i>)+
+  <i>operands</i> are each tables as follows:
+    { <u>Reg</u>, val, <i>'is4'</i> }
+    { <u>Ptr</u>, <i>'segment'</i>, <i>'offset' </i>}
+    { <u>Imm</u>, val, <i>'signed'</i> }
+    { <u>Mmm</u>, <i>'base'</i>, <i>'index'</i>, <i>'scale',</i>
+           <i>'disp'</i>, <i>'bytes' </i>}
+    bare args = sequential keys
+    quot args = table keys, default=0
+
+  global constants:
+    <u>Reg</u>, <u>Mem</u>, <u>Ptr</u>, <u>Imm</u>
+    <b>MOV</b>, <b>NUL</b>, <b>AND</b>, <b>JNBE</b>, <b>RET</b>, <b>...</b>
+    <b>RAX</b>, <b>RSI</b>, <b>XMM0</b>, <b>EFLAGS</b>,   <b>...</b>
+
+<b>dasm</b>(<i>addr</i>, <i>len</i>) -&gt; <i>string</i>
+  disassemble code at <i>addr</i> up to <i>len</i>
+  returns human readable asm <i>string</i>
+
+<b>exec</b>(<i>addr</i>, <i>...</i>) -&gt; <i>int</i>
+  calls function at <i>addr</i>, passing args
+  NOTE: for now, only int args are valid
+  NOTE: for now, only accepts single arg
+
+<b>lpeg</b>
+  parsing expression grammars for lua
+  see <a href="https://www.inf.puc-rio.br/~roberto/lpeg/">official lpeg website</a> for docs
+
+
+========================================
+<h2 id="recipes"><a href="#recipes"># recipes</a></h2>                          <a href="#top"># top</a>
+
+to compile and run assembly
+
+  local <i>myfn</i> = <u>0x33000</u>
+  local <i>ok</i>, <i>err </i>= <b>asm</b>(<i>myfn</i>,100,
+    <i>MOV</i>, {Reg, <i>RAX</i>}, {Reg, <i>RCX</i>},
+    <i>INC</i>, {Reg, <i>RAX</i>},
+    <i>RET</i>
+  )
+
+  if not <i>ok </i>then
+    <b>print</b>(<i>err</i>)
+  else
+    <b>print</b>(<b>dasm</b>(<i>myfn</i>, <i>ok</i>-<i>myfn</i>))
+    <b>print</b>(<i>myfn(3)</i>)
+  end
+
+
+clear screen to color
+
+  <b>memset</b>(<u>0x30100</u>, 0x30, 128*72)
+
+
+draw dot at mouse
+
+  local <i>base</i> = <u>0x30000</u>
+  function <b>signal</b>()
+    if <i>base</i>[1] == 1 then
+      local x, y = <i>base</i>[<u>0xc</u>], <i>base</i>[<u>0xd</u>]
+      local off = y * 128 + x
+      <i>base</i>[<u>0x100</u> + off] = <u>0xff</u>
+      <i>base</i>[<u>4</u>] = 1
+    end
+  end
+
+
+print the time
+
+  local <i>base</i> = <u>0x30000</u>
+  <b>print</b>((<i>base</i>[<u>0xb</u>] <b>&lt;&lt;</b> 24)
+      <b>|</b> (<i>base</i>[<u>0xa</u>] <b>&lt;&lt;</b> 16)
+      <b>|</b> (<i>base</i>[<u>0x9</u>] <b>&lt;&lt;</b>  8)
+      <b>|</b> (<i>base</i>[<u>0x8</u>]))
+
+
+check if key is down
+
+  function <b>keydown</b>(i)
+    return (<u>0x30010</u>)[i//8]<b>&amp;</b>(1&lt;&lt;(i%8))<b>&gt;</b>0
+  end
+
+
+more coming soon
+
+
+
+
+  <i>====================================
+  copyright (c) novo cantico llc, 2025</i>
+
+</main>
