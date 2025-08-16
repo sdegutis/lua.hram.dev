@@ -1,0 +1,35 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: Build app
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2022
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSBuild.exe
+        uses: microsoft/setup-msbuild@v2
+      
+      - name: Build app
+        run: msbuild hram.sln /p:configuration=Release /p:platform=x64
+
+      - name: Put current date into a variable
+        run: |
+          $NOW=& Get-Date -format yyyy-MM-dd.HH-mm
+          echo "NOW=$NOW" >> $env:GITHUB_ENV
+
+      - uses: ncipollo/release-action@v1
+        with:
+          commit: main
+          tag: ${{env.NOW}}
+          artifacts: "x64/Release/hram.exe"
