@@ -2,12 +2,8 @@
 name: Build app
 
 on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -23,13 +19,12 @@ jobs:
       - name: Build app
         run: msbuild hram.sln /p:configuration=Release /p:platform=x64
 
-      - name: Put current date into a variable
-        run: |
-          $NOW=& Get-Date -format yyyy-MM-dd.HH-mm
-          echo "NOW=$NOW" >> $env:GITHUB_ENV
+      - name: Create zip file
+        run: Compress-Archive x64/Release/hram.exe hram.zip
 
-      - uses: ncipollo/release-action@v1
-        with:
-          commit: main
-          tag: ${{env.NOW}}
-          artifacts: "x64/Release/hram.exe"
+      - name: Upload Release Asset
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload ${{github.event.release.tag_name}} hram.zip
+          gh release upload ${{github.event.release.tag_name}} x64/Release/hram.exe
