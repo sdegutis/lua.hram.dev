@@ -20,11 +20,11 @@ jobs:
         run: msbuild hram.sln /p:configuration=Release /p:platform=x64
 
       - name: Create zip file
-        run: Compress-Archive x64/Release/hram.exe hram.zip
+        run: Compress-Archive x64/Release/hram-lua.exe hram-lua.zip
 
       - name: Upload Release Asset
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release upload ${{github.event.release.tag_name}} hram.zip
-          gh release upload ${{github.event.release.tag_name}} x64/Release/hram.exe
+          gh release upload ${{github.event.release.tag_name}} hram-lua.zip
+          gh release upload ${{github.event.release.tag_name}} x64/Release/hram-lua.exe
